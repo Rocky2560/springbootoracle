@@ -1,5 +1,8 @@
 package connection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,19 +26,22 @@ public class AcceptRequestController {
     @Value("${spring.datasource.password}")
     private String db_pwd;
 
+    private Logger log = LoggerFactory.getLogger(AcceptRequestController.class);
+
     public AcceptRequestController() {
     }
 
-    @RequestMapping("/show")
+//    @RequestMapping("/show")
+    @Autowired
     public void test() {
 
         Connection conn;
             try {
 //                System.out.println(db_url);
-
                 conn = DriverManager.getConnection(db_url, db_name, db_pwd);
 
                 if (conn != null) {
+//                    log.info("Connected!!!");
                     System.out.println("Connected to the database!");
 //                    Statement stmt=conn.createStatement();
 //                    ResultSet rs=stmt.executeQuery("select * from customers");
@@ -51,8 +57,8 @@ public class AcceptRequestController {
                 e.printStackTrace();
             }
         }
-
 }
+
 
 
 //    @Autowired
