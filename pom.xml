@@ -96,6 +96,12 @@
             <version>1.2.12</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.orcl</groupId>
+            <artifactId>orcl</artifactId>
+            <version>1.0</version>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>org.postgresql</groupId>-->
 <!--            <artifactId>postgresql</artifactId>-->
