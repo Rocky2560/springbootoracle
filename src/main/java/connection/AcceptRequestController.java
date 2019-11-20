@@ -1,5 +1,6 @@
 package connection;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class AcceptRequestController {
 
 //    @RequestMapping("/show")
     @Autowired
-    public void test() {
-
+    public void db_fetch() {
+        int initial_offset = 5;
         Connection conn;
             try {
 //                System.out.println(db_url);
@@ -42,13 +43,44 @@ public class AcceptRequestController {
 
                 if (conn != null) {
 //                    log.info("Connected!!!");
+                    String crow_query= "select count(*) from movies";
+
+
+
+                    String fetch_query = "select * from movies order by id offset "+ initial_offset +" rows fetch next 10 rows only";
+
                     System.out.println("Connected to the database!");
-//                    Statement stmt=conn.createStatement();
-//                    ResultSet rs=stmt.executeQuery("select * from customers");
+
+                    Statement stmt=conn.createStatement();
+//                    ResultSet count_rs = stmt.executeQuery(crow_query);
+//                    System.out.println("Count: \t" + count_rs.getInt(1));
 //
-//                    while(rs.next())
-//                        System.out.println("id: " + rs.getString(1) + "\t name: " + rs.getString(2) + "\t city: " + rs.getString(3));
-//                    conn.close();
+                    ResultSet rs=stmt.executeQuery(fetch_query);
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int num_col = rsmd.getColumnCount();
+
+//                    System.out.println(num_col);
+                    int count = 0;
+                    while(rs.next()) {
+                        System.out.println("id: " + rs.getString(1) + "\t genre: " + rs.getString(2) + "\t movie_info: " + rs.getString(3) + "\n");
+                        //                    Json
+//
+//                        JSONObject obj = new JSONObject();
+//                        for (int i = 1; i <= num_col; i++) {
+//                            obj.put(rsmd.getColumnName(i), rs.getObject(i));
+//                            System.out.println("\n"+obj);
+//                        }
+                        count++;
+
+                    }
+                    System.out.println(count);
+                    conn.close();
+
+
+
+
+
+
                 } else {
                     System.out.println("Failed to make connection!");
                 }
