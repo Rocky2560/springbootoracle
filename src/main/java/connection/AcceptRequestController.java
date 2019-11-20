@@ -62,8 +62,8 @@ public class AcceptRequestController {
 //                    System.out.println("Count: \t" + count_rs.getInt(1));
 //
                     ResultSet rs=stmt.executeQuery(fetch_query);
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int num_col = rsmd.getColumnCount();
+//                    ResultSetMetaData rsmd = rs.getMetaData();
+//                    int num_col = rsmd.getColumnCount();
 
 //                    System.out.println(num_col);
                     int count = 0;
@@ -96,13 +96,9 @@ public class AcceptRequestController {
 //                            System.out.println("\n"+jo);
 //                        }
                         count++;
-
                     }
                     System.out.println(count);
                     conn.close();
-
-
-
 
 
 
