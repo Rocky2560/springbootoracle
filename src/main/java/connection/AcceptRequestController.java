@@ -53,7 +53,7 @@ public class AcceptRequestController {
 
 
 
-                    String fetch_query = "select * from "+ table_name +" order by id offset "+ initial_offset +" rows fetch next "+ range_count +" rows only";
+                    String fetch_query = "select * from "+ table_name +" offset "+ initial_offset +" rows fetch next "+ range_count +" rows only";
 
 
 
