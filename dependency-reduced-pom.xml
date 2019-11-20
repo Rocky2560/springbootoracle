@@ -4,6 +4,7 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
     <version>2.1.1.RELEASE</version>
+    <relativePath>../pom.xml/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ekbana.api.rdbms</groupId>
@@ -83,6 +84,24 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.12</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.orcl</groupId>
+      <artifactId>orcl</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.21</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20180813</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

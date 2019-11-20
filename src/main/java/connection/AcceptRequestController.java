@@ -1,5 +1,6 @@
 package connection;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 
@@ -36,6 +39,8 @@ public class AcceptRequestController {
     @Autowired
     public void db_fetch() {
         int initial_offset = 5;
+        String table_name = "movies";
+        int range_count = 10;
         Connection conn;
             try {
 //                System.out.println(db_url);
@@ -47,7 +52,7 @@ public class AcceptRequestController {
 
 
 
-                    String fetch_query = "select * from movies order by id offset "+ initial_offset +" rows fetch next 10 rows only";
+                    String fetch_query = "select * from "+ table_name +" order by id offset "+ initial_offset +" rows fetch next "+ range_count +" rows only";
 
                     System.out.println("Connected to the database!");
 
@@ -62,13 +67,32 @@ public class AcceptRequestController {
 //                    System.out.println(num_col);
                     int count = 0;
                     while(rs.next()) {
-                        System.out.println("id: " + rs.getString(1) + "\t genre: " + rs.getString(2) + "\t movie_info: " + rs.getString(3) + "\n");
+//                        System.out.println("id: " + rs.getString(1) + "\t genre: " + rs.getString(2) + "\t movie_info: " + rs.getString(3) + "\n");
                         //                    Json
 //
-//                        JSONObject obj = new JSONObject();
+//                        JSONObject jo = new JSONObject();
+////                        JSONObject jo2 = new JSONObject();
+//
+//                        JSONArray ja = new JSONArray();
+//
 //                        for (int i = 1; i <= num_col; i++) {
-//                            obj.put(rsmd.getColumnName(i), rs.getObject(i));
-//                            System.out.println("\n"+obj);
+//                            jo.put("table-name",table_name);
+//                            jo.put("count",range_count);
+//
+//                            Map m = new LinkedHashMap(5);
+//
+//                            m.put("id", rs.getObject(i));
+//
+////                            ja.add(m);
+//
+//
+//
+//                            jo.put("columns", ja);
+//
+//
+//
+////                            obj.put(rsmd.getColumnName(i), rs.getObject(i));
+//                            System.out.println("\n"+jo);
 //                        }
                         count++;
 
