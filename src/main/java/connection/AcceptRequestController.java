@@ -1,16 +1,16 @@
 package connection;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -35,14 +35,24 @@ public class AcceptRequestController {
     public AcceptRequestController() {
     }
 
-//    @RequestMapping("/show")
-    @Autowired
-    public void db_fetch() {
+//    @PostMapping("/show")
+    @RequestMapping(value = "/json", produces="application/json", consumes="application/json", method = RequestMethod.POST)
+//    @Autowired
+    public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
+//        System.out.println(requestData.getUsername());
+//        System.out.println(requestData.getPassword());
+//        System.out.println(requestData.getOffset());
+        int offset_value = requestData.getOffset();
+        System.out.println(offset_value);
+        int result_offset;
         int initial_offset = 5;
-        String table_name = "mmpl.V_EKB_CUST";
-        int range_count = 10;
+        String table_name = "movies";
+        int range_count = 1000;
         Connection conn;
-            try {
+//        JSONObject jo = new JSONObject();
+        Map<String, Object> jo = new HashMap<>();
+
+        try {
 //                System.out.println(db_url);
                 conn = DriverManager.getConnection(db_url, db_name, db_pwd);
 
@@ -51,57 +61,34 @@ public class AcceptRequestController {
                     System.out.println("Connected to the database!");
 //                    String crow_query= "select count(*) from movies";
 
-
-
-                    String fetch_query = "select * from "+ table_name +" offset "+ initial_offset +" rows fetch next "+ range_count +" rows only";
-
-
+                    String fetch_query = "select * from "+ table_name +" offset "+ offset_value +" rows fetch next "+ range_count +" rows only";
 
                     Statement stmt=conn.createStatement();
-//                    ResultSet count_rs = stmt.executeQuery(crow_query);
-//                    System.out.println("Count: \t" + count_rs.getInt(1));
-//
                     ResultSet rs=stmt.executeQuery(fetch_query);
-//                    ResultSetMetaData rsmd = rs.getMetaData();
-//                    int num_col = rsmd.getColumnCount();
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int num_col = rsmd.getColumnCount();
 
-//                    System.out.println(num_col);
-                    int count = 0;
+                    jo.put("table-name",table_name);
+                    jo.put("count",range_count);
+                    ArrayList<Map<String, Object>> ja = new ArrayList<>();
                     while(rs.next()) {
-                        System.out.println("col1: " + rs.getString(1) + "\t col2: " + rs.getString(2) + "\t col3: " + rs.getString(3) + "\t col4:" +rs.getString(4) + "\t col5:" + rs.getString(5) + "\t col6:" + rs.getString(6) + "\n");
-                        //                    Json
-//
-//                        JSONObject jo = new JSONObject();
-////                        JSONObject jo2 = new JSONObject();
-//
-//                        JSONArray ja = new JSONArray();
-//
-//                        for (int i = 1; i <= num_col; i++) {
-//                            jo.put("table-name",table_name);
-//                            jo.put("count",range_count);
-//
-//                            Map m = new LinkedHashMap(5);
-//
-//                            m.put("id", rs.getObject(i));
-//
-////                            ja.add(m);
-//
-//
-//
-//                            jo.put("columns", ja);
-//
-//
-//
-////                            obj.put(rsmd.getColumnName(i), rs.getObject(i));
-//                            System.out.println("\n"+jo);
-//                        }
-                        count++;
+                        Map<String, Object> jo2 = new HashMap<>();
+                        for (int i = 1; i <= num_col; i++) {
+
+                            Map<String, Object> m = new HashMap<>();
+                            m.put("value", rs.getObject(i));
+                            m.put("type", rsmd.getColumnTypeName(i));
+
+                            jo2.put(rsmd.getColumnName(i), m);
+                        }
+
+                        ja.add(jo2);
                     }
-                    System.out.println(count);
+                    jo.put("columns", ja);
+
+                    result_offset = offset_value + 1000;
+                    jo.put("offset",result_offset);
                     conn.close();
-
-
-
                 } else {
                     System.out.println("Failed to make connection!");
                 }
@@ -109,28 +96,10 @@ public class AcceptRequestController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        System.out.println(jo);
+        return jo;
+    }
 }
-
-
-
-//    @Autowired
-//    private MyRepo repository;
-//
-//    @Autowired
-//    private List<DailyTask> dailyt;
-//
-//    public AcceptRequestController(MyRepo repository,
-//        List<DailyTask> dailyt){
-//        super();
-//        this.repository = repository;
-//        this.dailyt = dailyt;
-//    }
-//
-//    @GetMapping("/dailytask")
-//    public Iterable<DailyTask> getAllDailyTask(){
-//        return repository.findAll();
-//    }
 
 //    private static final Logger logger = Logger.getLogger(AcceptRequestController.class);
 
