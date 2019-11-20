@@ -39,7 +39,7 @@ public class AcceptRequestController {
     @Autowired
     public void db_fetch() {
         int initial_offset = 5;
-        String table_name = "movies";
+        String table_name = "mmpl.V_EKB_CUST";
         int range_count = 10;
         Connection conn;
             try {
@@ -48,13 +48,14 @@ public class AcceptRequestController {
 
                 if (conn != null) {
 //                    log.info("Connected!!!");
-                    String crow_query= "select count(*) from movies";
+                    System.out.println("Connected to the database!");
+//                    String crow_query= "select count(*) from movies";
 
 
 
                     String fetch_query = "select * from "+ table_name +" order by id offset "+ initial_offset +" rows fetch next "+ range_count +" rows only";
 
-                    System.out.println("Connected to the database!");
+
 
                     Statement stmt=conn.createStatement();
 //                    ResultSet count_rs = stmt.executeQuery(crow_query);
@@ -67,7 +68,7 @@ public class AcceptRequestController {
 //                    System.out.println(num_col);
                     int count = 0;
                     while(rs.next()) {
-//                        System.out.println("id: " + rs.getString(1) + "\t genre: " + rs.getString(2) + "\t movie_info: " + rs.getString(3) + "\n");
+                        System.out.println("col1: " + rs.getString(1) + "\t col2: " + rs.getString(2) + "\t col3: " + rs.getString(3) + "\t col4:" +rs.getString(4) + "\t col5:" + rs.getString(5) + "\t col6:" + rs.getString(6) + "\n");
                         //                    Json
 //
 //                        JSONObject jo = new JSONObject();
