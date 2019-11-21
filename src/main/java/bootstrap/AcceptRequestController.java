@@ -1,6 +1,5 @@
 package bootstrap;
 
-import configuration.DBConfiguration;
 import misc.Queries;
 import oracle.jdbc.driver.OracleDriver;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import java.util.Objects;
 
 
 @RestController
-@PropertySource("file:/home/tchiring/IdeaProjects/spring-boot-oracle/src/main/resources/db_config.properties")
+@PropertySource("file:/etc/bigmart_data_fetch/dbconfig.properties")
 public class AcceptRequestController {
 
     @Autowired
@@ -32,7 +31,6 @@ public class AcceptRequestController {
 
     private Logger log = LoggerFactory.getLogger(AcceptRequestController.class);
     private Connection conn;
-    private DBConfiguration configuration = new DBConfiguration();
     private Queries queries = new Queries();
     private String table_name = "";
     private int offset_value = -1;
