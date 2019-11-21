@@ -61,10 +61,13 @@
             <version>1.2.12</version>
         </dependency>
 
+
         <dependency>
-            <groupId>org.orcl</groupId>
-            <artifactId>orcl</artifactId>
-            <version>1.0</version>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc</artifactId>
+            <version>8</version>
+            <scope>system</scope>
+            <systemPath>/home/tchiring/Downloads/ojdbc8.jar</systemPath>
         </dependency>
 
         <dependency>

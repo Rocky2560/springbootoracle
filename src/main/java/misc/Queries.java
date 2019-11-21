@@ -1,0 +1,11 @@
+package misc;
+
+public class Queries {
+    public String getCountQuery(String table_name){
+        return "select count(*) from " + table_name + "";
+    }
+
+    public String getFetchQuery(String table_name,int offset_value,int range_count){
+        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
+    }
+}
