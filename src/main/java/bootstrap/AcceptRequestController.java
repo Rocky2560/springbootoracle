@@ -18,6 +18,7 @@ import java.util.Objects;
 
 @RestController
 @PropertySource("file:/etc/bigmart_data_fetch/dbconfig.properties")
+@PropertySource("file:/etc/bigmart_data_fetch/application.properties")
 public class AcceptRequestController {
 
     @Autowired
