@@ -37,7 +37,7 @@ public class AcceptRequestController {
     private int offset_value = -1;
 
     int sent_count = 0;
-    int range_count = 1000;
+    int range_count = 20000;
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
@@ -46,7 +46,7 @@ public class AcceptRequestController {
 
         Map<String, Object> jo = new HashMap<>();
         try {
-            if (conn != null) {
+            if (conn != null ) {
                 jo = fetchData(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));

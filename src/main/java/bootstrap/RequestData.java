@@ -6,6 +6,7 @@ public class RequestData {
     private int offset;
     private String table_name;
 
+
     public String getTable_name() {
         return table_name;
     }
@@ -37,4 +38,7 @@ public class RequestData {
     public void setOffset(int offset) {
         this.offset = offset;
     }
+
+
+
 }

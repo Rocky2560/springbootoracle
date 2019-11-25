@@ -16,6 +16,7 @@
     <build>
         <plugins>
 
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -26,11 +27,7 @@
                         </goals>
                     </execution>
                 </executions>
-
-
             </plugin>
-
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -40,6 +37,49 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>/var/lib/bigmart/</outputDirectory>
+<!--                                        <archive>-->
+<!--                                            <manifest>-->
+<!--                                                <mainClass></mainClass>-->
+<!--                                            </manifest>-->
+<!--                                        </archive>-->
+                </configuration>
+                <!--                <configuration>-->
+                <!--                    -->
+                <!--                </configuration>-->
+            </plugin>
+
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
 
         </plugins>
     </build>
