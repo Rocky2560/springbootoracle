@@ -89,7 +89,7 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value == total_count) {
+            if (offset_value == 35000) {
                 status = "done";
                 conn.close();
             } else {
