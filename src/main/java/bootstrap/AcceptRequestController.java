@@ -107,7 +107,7 @@ public class AcceptRequestController {
                         m.put("value", rs.getObject(i));
                         m.put("type", rsmd.getColumnTypeName(i));
 
-                        jo2.put(rsmd.getColumnName(i), m);
+                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
                     }
                     ja.add(jo2);
                     sent_count++;
