@@ -89,9 +89,9 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value == 5) {
+            if (offset_value == 3) {
                 status = "done";
-//                conn.close();
+                conn.close();
             } else {
                 status = "running";
                 result_offset = offset_value + range_count;
