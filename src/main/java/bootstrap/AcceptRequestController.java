@@ -44,6 +44,8 @@ public class AcceptRequestController {
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
         System.out.println("REQUEST AYOOO!!!");
+        System.out.println("table name = "+table_name);
+        System.out.println("offset = "+offset_value);
         this.offset_value = requestData.getOffset();
         this.table_name = requestData.getTable_name();
 //        env.getProperty("range_count");
@@ -67,6 +69,8 @@ public class AcceptRequestController {
         String crow_query = queries.getCountQuery(table_name);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
         String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
+        System.out.println("fetch query = "+fetch_query);
+
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
