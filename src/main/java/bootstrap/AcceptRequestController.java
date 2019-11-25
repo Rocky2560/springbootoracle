@@ -37,7 +37,7 @@ public class AcceptRequestController {
     private int offset_value = -1;
 
 
-    int range_count = 20000;
+    int range_count = 15000;
 //    int range_count = 1000;
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
