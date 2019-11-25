@@ -92,7 +92,8 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value == Integer.parseInt(env.getProperty("offset_value"))) {
+            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+//            if (offset_value >= total_count) {
                 status = "done";
                 conn.close();
             } else {
