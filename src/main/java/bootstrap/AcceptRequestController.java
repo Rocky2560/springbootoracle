@@ -38,11 +38,13 @@ public class AcceptRequestController {
 
 
 
-    int range_count = 1000;
 //    int range_count = 1000;
+//    int range_count = 1000;
+    int range_count = Integer.parseInt(env.getProperty("range_count"));
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
+
         System.out.println("REQUEST AYOOO!!!");
         System.out.println("table name = "+table_name);
         System.out.println("offset = "+offset_value);
@@ -89,7 +91,7 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value == 2000) {
+            if (offset_value == Integer.parseInt(env.getProperty("offset_value"))) {
                 status = "done";
                 conn.close();
             } else {
