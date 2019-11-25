@@ -68,8 +68,8 @@ public class AcceptRequestController {
 
     private Map<String, Object> fetchData(Connection conn) {
         String crow_query = queries.getCountQuery(table_name);
-//        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
-        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
+        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
+//        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
         System.out.println("fetch query = "+fetch_query);
 
         Map<String, Object> jo = new HashMap<>();
