@@ -9,4 +9,8 @@ public class Queries {
         return "select LPCARDNO from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
 //        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
+
+    public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
+        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
+    }
 }

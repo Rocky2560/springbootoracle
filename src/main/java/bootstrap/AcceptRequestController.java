@@ -37,6 +37,7 @@ public class AcceptRequestController {
     private int offset_value = -1;
 
 
+
     int range_count = 15000;
 //    int range_count = 1000;
 
@@ -44,6 +45,8 @@ public class AcceptRequestController {
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
         this.offset_value = requestData.getOffset();
         this.table_name = requestData.getTable_name();
+//        env.getProperty("range_count");
+
 
         Map<String, Object> jo = new HashMap<>();
         try {
@@ -61,8 +64,8 @@ public class AcceptRequestController {
 
     private Map<String, Object> fetchData(Connection conn) {
         String crow_query = queries.getCountQuery(table_name);
-        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
-
+//        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
+        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
