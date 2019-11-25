@@ -38,22 +38,22 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <outputDirectory>/var/lib/bigmart/</outputDirectory>
-<!--                                        <archive>-->
-<!--                                            <manifest>-->
-<!--                                                <mainClass></mainClass>-->
-<!--                                            </manifest>-->
-<!--                                        </archive>-->
-                </configuration>
-                <!--                <configuration>-->
-                <!--                    -->
-                <!--                </configuration>-->
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>2.3.1</version>-->
+<!--                <configuration>-->
+<!--                    <outputDirectory>/var/lib/bigmart/</outputDirectory>-->
+<!--&lt;!&ndash;                                        <archive>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <manifest>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <mainClass></mainClass>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </manifest>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </archive>&ndash;&gt;-->
+<!--                </configuration>-->
+<!--                &lt;!&ndash;                <configuration>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    &ndash;&gt;-->
+<!--                &lt;!&ndash;                </configuration>&ndash;&gt;-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
