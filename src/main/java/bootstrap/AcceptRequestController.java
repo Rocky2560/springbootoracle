@@ -43,6 +43,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
+        System.out.println("REQUEST AYOOO!!!");
         this.offset_value = requestData.getOffset();
         this.table_name = requestData.getTable_name();
 //        env.getProperty("range_count");
