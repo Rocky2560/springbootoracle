@@ -36,8 +36,9 @@ public class AcceptRequestController {
     private String table_name = "";
     private int offset_value = -1;
 
-    int sent_count = 0;
+
     int range_count = 20000;
+//    int range_count = 1000;
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
@@ -97,7 +98,7 @@ public class AcceptRequestController {
 
                 jo.put("table_name", table_name);
                 ArrayList<Map<String, Object>> ja = new ArrayList<>();
-
+                int sent_count = 0;
                 while (rs.next()) {
                     Map<String, Object> jo2 = new HashMap<>();
                     for (int i = 1; i <= num_col; i++) {
@@ -111,7 +112,7 @@ public class AcceptRequestController {
                     ja.add(jo2);
                     sent_count++;
                 }
-
+                System.out.println(sent_count);
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
 
