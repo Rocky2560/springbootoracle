@@ -38,7 +38,7 @@ public class AcceptRequestController {
 
 
 
-    int range_count = 15000;
+    int range_count = 10000;
 //    int range_count = 1000;
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
@@ -89,7 +89,7 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value == 45000) {
+            if (offset_value == 20000) {
                 status = "done";
                 conn.close();
             } else {
