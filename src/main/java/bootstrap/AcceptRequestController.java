@@ -112,7 +112,7 @@ public class AcceptRequestController {
                     ja.add(jo2);
                     sent_count++;
                 }
-                System.out.println(sent_count);
+//                System.out.println(sent_count);
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
 
