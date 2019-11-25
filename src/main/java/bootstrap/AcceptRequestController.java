@@ -40,7 +40,7 @@ public class AcceptRequestController {
 
 //    int range_count = 1000;
 //    int range_count = 1000;
-    int range_count = Integer.parseInt(env.getProperty("range_count"));
+    int range_count = 1000;
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
@@ -51,6 +51,7 @@ public class AcceptRequestController {
         this.offset_value = requestData.getOffset();
         this.table_name = requestData.getTable_name();
 //        env.getProperty("range_count");
+        this.range_count = Integer.parseInt(env.getProperty("range_count"));
 
 
         Map<String, Object> jo = new HashMap<>();
