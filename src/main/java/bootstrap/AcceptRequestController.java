@@ -91,7 +91,7 @@ public class AcceptRequestController {
 
             if (offset_value == 35000) {
                 status = "done";
-                conn.close();
+//                conn.close();
             } else {
                 status = "running";
                 result_offset = offset_value + range_count;
