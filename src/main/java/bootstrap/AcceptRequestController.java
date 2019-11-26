@@ -135,23 +135,27 @@ public class AcceptRequestController {
 
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             while (rs.next()) {
-                Map<String, Object> jo2 = new HashMap<>();
-                for (int i = 1; i <= num_col; i++) {
-
-                    Map<String, Object> m = new HashMap<>();
-                    m.put("value", rs.getObject(i));
-                    m.put("type", rsmd.getColumnTypeName(i));
-
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-                }
-                ja.add(jo2);
+//                Map<String, Object> jo2 = new HashMap<>();
+//                for (int i = 1; i <= num_col; i++) {
+//
+//                    Map<String, Object> m = new HashMap<>();
+//                    m.put("value", rs.getObject(i));
+//                    m.put("type", rsmd.getColumnTypeName(i));
+//
+//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+//                }
+//                ja.add(jo2);
             }
-            jo.put("columns", ja);
+            jo.put("columns", rs.getObject(1));
+            System.out.println(jo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         jo.put("status", status);
+
         return jo;
+
     }
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
