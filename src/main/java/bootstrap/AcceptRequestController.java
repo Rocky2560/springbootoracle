@@ -77,6 +77,7 @@ public class AcceptRequestController {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
+            System.out.println("printing rs");
             while (rs.next()) {
                 System.out.println(rs.getObject(1));
             }
