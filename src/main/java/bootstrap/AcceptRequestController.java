@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+import requestdata.CustomerValidation;
+import requestdata.FetchByDate;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,7 +27,13 @@ public class AcceptRequestController {
     private Environment env;
 
     public AcceptRequestController() {
+
     }
+
+
+    String start_date = "";
+    String end_date = "";
+
 
     private int result_offset;
     private Map<String, String> table_info = new HashMap<>();
@@ -37,17 +45,77 @@ public class AcceptRequestController {
     private int offset_value = -1;
 
 
-
-//    int range_count = 1000;
+    //    int range_count = 1000;
 //    int range_count = 1000;
     int range_count = 1000;
+
+    @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public void validate(@RequestBody CustomerValidation customerValidation) {
+
+    }
+
+    @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public Map<String, Object> tchiring(@RequestBody FetchByDate fetchByDate) {
+        this.start_date = fetchByDate.getStart_date();
+        this.end_date = fetchByDate.getEnd_date();
+        Map<String, Object> jo = new HashMap<>();
+        try {
+            if (conn != null) {
+                jo = fetchByDate(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchByDate(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(jo);
+        return jo;
+
+    }
+
+    private Map<String, Object> fetchByDate(Connection conn) {
+        Map<String, Object> jo = new HashMap<>();
+        int total_count = 0;
+        String status = "";
+        String fetch_query = queries.fetchByDate(start_date, end_date);
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            ArrayList<Map<String, Object>> ja = new ArrayList<>();
+            int sent_count = 0;
+            while (rs.next()) {
+                System.out.println(rs.getObject(1));
+//                Map<String, Object> jo2 = new HashMap<>();
+//                for (int i = 1; i <= num_col; i++) {
+//
+//                    Map<String, Object> m = new HashMap<>();
+//                    m.put("value", rs.getObject(i));
+//                    m.put("type", rsmd.getColumnTypeName(i));
+//
+//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+//                }
+//                ja.add(jo2);
+            }
+            jo.put("columns", ja);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        jo.put("status", status);
+        return jo;
+    }
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
 
         System.out.println("REQUEST AYOOO!!!");
-        System.out.println("table name = "+table_name);
-        System.out.println("offset = "+offset_value);
+        System.out.println("table name = " + table_name);
+        System.out.println("offset = " + offset_value);
         this.offset_value = requestData.getOffset();
         this.table_name = requestData.getTable_name();
 //        env.getProperty("range_count");
@@ -56,7 +124,7 @@ public class AcceptRequestController {
 
         Map<String, Object> jo = new HashMap<>();
         try {
-            if (conn != null ) {
+            if (conn != null) {
                 jo = fetchData(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
@@ -72,8 +140,9 @@ public class AcceptRequestController {
     private Map<String, Object> fetchData(Connection conn) {
         String crow_query = queries.getCountQuery(table_name);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
-        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
-        System.out.println("fetch query = "+fetch_query);
+//        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
+        String fetch_query = queries.fetchByDate(start_date, end_date);
+        System.out.println("fetch query = " + fetch_query);
 
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
@@ -95,7 +164,7 @@ public class AcceptRequestController {
             if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
                 status = "done";
-                conn.close();
+//                conn.close();
             } else {
                 status = "running";
                 result_offset = offset_value + range_count;

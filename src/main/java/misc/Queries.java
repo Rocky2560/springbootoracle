@@ -13,4 +13,12 @@ public class Queries {
     public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
         return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
+
+    public String fetchByDate (String start_date, String end_date){
+        return "select * from mmpl.V_EKB_CUST_SALE where BILLDATE > '" + start_date + "' and BILLDATE < '" + end_date + "'";
+    }
+
+    public String fetchMobileRecord (String mobile_no){
+        return "select * from mmpl.V_EKB_CUST where MOBILE ='"+mobile_no+"'";
+    }
 }

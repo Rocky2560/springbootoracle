@@ -7,6 +7,7 @@ public class RequestData {
     private String table_name;
 
 
+
     public String getTable_name() {
         return table_name;
     }
