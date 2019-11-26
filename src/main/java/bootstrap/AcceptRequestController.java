@@ -147,7 +147,7 @@ public class AcceptRequestController {
                     jo.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
                 ja.add(jo);
-                System.out.println(ja);
+//                System.out.println(ja);
             }
         } catch (SQLException e) {
             e.printStackTrace();
