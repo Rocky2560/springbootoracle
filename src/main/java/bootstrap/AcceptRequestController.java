@@ -82,6 +82,7 @@ public class AcceptRequestController {
             num_col = rsmd.getColumnCount();
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             System.out.println("printing rs");
+            System.out.println(rs.next());
             if (rs.next()) {
                 jo.put("columns", ja);
                 System.out.println("YES RS!!!!!!");
