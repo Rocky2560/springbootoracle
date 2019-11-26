@@ -82,15 +82,15 @@ public class AcceptRequestController {
             num_col = rsmd.getColumnCount();
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             System.out.println("printing rs");
-            if (num_col > 0) {
-                rs.next();
-                jo.put("columns", ja);
-                System.out.println("YES RS!!!!!!");
-                System.out.println(rs.getObject(0));
-                System.out.println(rsmd.getColumnTypeName(0));
-            }
-            else {
-                System.out.println("NO RS!!!!");
+            while (rs.next()) {
+                if (num_col > 0) {
+                    jo.put("columns", ja);
+                    System.out.println("YES RS!!!!!!");
+                    System.out.println(rs.getObject(1));
+                    System.out.println(rsmd.getColumnTypeName(1));
+                } else {
+                    System.out.println("NO RS!!!!");
+                }
             }
 
         } catch (SQLException e) {
