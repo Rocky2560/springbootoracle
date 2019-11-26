@@ -83,6 +83,7 @@ public class AcceptRequestController {
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             System.out.println("printing rs");
             System.out.println(rs.next());
+            System.out.println(fetch_query);
             if (rs.next()) {
                 jo.put("columns", ja);
                 System.out.println("YES RS!!!!!!");
