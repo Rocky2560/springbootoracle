@@ -85,6 +85,8 @@ public class AcceptRequestController {
             if (num_col > 0) {
                 jo.put("columns", ja);
                 System.out.println("YES RS!!!!!!");
+                System.out.println(rs.getObject(1));
+                System.out.println(rsmd.getColumnTypeName(1));
             }
             else {
                 System.out.println("NO RS!!!!");
