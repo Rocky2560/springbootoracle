@@ -76,12 +76,20 @@ public class AcceptRequestController {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             System.out.println("printing rs");
-            while (rs.next()) {
-                System.out.println(rs.getObject(1));
+            if (num_col > 0) {
+                jo.put("columns", ja);
+                System.out.println("YES RS!!!!!!");
             }
-            jo.put("columns", ja);
+            else {
+                System.out.println("NO RS!!!!");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
