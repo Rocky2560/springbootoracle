@@ -33,6 +33,7 @@ public class AcceptRequestController {
 
     String start_date = "";
     String end_date = "";
+    String mobile = "";
 
 
     private int result_offset;
@@ -50,8 +51,41 @@ public class AcceptRequestController {
     int range_count = 1000;
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public void validate(@RequestBody CustomerValidation customerValidation) {
+    public Map<String, Object> validate(@RequestBody CustomerValidation customerValidation) {
+        this.start_date = customerValidation.getMobile_no();
+        Map<String, Object> jo = new HashMap<>();
+        try {
+            if (conn != null) {
+                jo = validate(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = validate(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(jo);
+        return jo;
 
+    }
+
+    private Map<String, Object> validate(Connection conn){
+        Map<String, Object> jo = new HashMap<>();
+        String status = "";
+        String fetch_query = queries.fetchMobileRecord(mobile);
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ArrayList<Map<String, Object>> ja = new ArrayList<>();
+            while (rs.next()) {
+                System.out.println(rs.getObject(1));
+            }
+            jo.put("columns", ja);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        jo.put("status", status);
+        return jo;
     }
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
@@ -88,19 +122,17 @@ public class AcceptRequestController {
             num_col = rsmd.getColumnCount();
 
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
-            int sent_count = 0;
             while (rs.next()) {
-                System.out.println(rs.getObject(1));
-//                Map<String, Object> jo2 = new HashMap<>();
-//                for (int i = 1; i <= num_col; i++) {
-//
-//                    Map<String, Object> m = new HashMap<>();
-//                    m.put("value", rs.getObject(i));
-//                    m.put("type", rsmd.getColumnTypeName(i));
-//
-//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-//                }
-//                ja.add(jo2);
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("value", rs.getObject(i));
+                    m.put("type", rsmd.getColumnTypeName(i));
+
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+                }
+                ja.add(jo2);
             }
             jo.put("columns", ja);
         } catch (SQLException e) {
