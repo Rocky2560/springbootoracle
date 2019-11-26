@@ -101,10 +101,10 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map<String, Object> tchiring(@RequestBody FetchByDate fetchByDate) {
+    public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
-        Map<String, Object> jo = new HashMap<>();
+        ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
                 jo = fetchByDate(conn);
@@ -120,11 +120,12 @@ public class AcceptRequestController {
 
     }
 
-    private Map<String, Object> fetchByDate(Connection conn) {
+    private ArrayList fetchByDate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
         String fetch_query = queries.fetchByDate(start_date, end_date);
+        ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -133,20 +134,19 @@ public class AcceptRequestController {
             int num_col = 0;
             num_col = rsmd.getColumnCount();
 
-            ArrayList<Map<String, Object>> ja = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
-//
+
 //                    Map<String, Object> m = new HashMap<>();
 //                    m.put("value", rs.getObject(i));
 //                    m.put("type", rsmd.getColumnTypeName(i));
-//
+
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                }
-                    jo.put(rsmd.getColumnName(i), rs.getObject(i));
+                    jo2.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
-                ja.add(jo);
+                ja.add(jo2);
 //                System.out.println(ja);
             }
         } catch (SQLException e) {
@@ -155,7 +155,7 @@ public class AcceptRequestController {
 
 //        jo.put("status", status);
 
-        return jo;
+        return ja;
 
     }
 
