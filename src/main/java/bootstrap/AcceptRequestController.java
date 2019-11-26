@@ -52,7 +52,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> validate(@RequestBody CustomerValidation customerValidation) {
-        this.start_date = customerValidation.getMobile_no();
+        this.mobile = customerValidation.getMobile_no();
         Map<String, Object> jo = new HashMap<>();
         try {
             if (conn != null) {
