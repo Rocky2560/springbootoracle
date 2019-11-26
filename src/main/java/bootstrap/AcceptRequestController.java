@@ -1,6 +1,7 @@
 package bootstrap;
 
 import misc.Queries;
+import misc.Status;
 import oracle.jdbc.driver.OracleDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,52 +52,40 @@ public class AcceptRequestController {
     int range_count = 1000;
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map<String, Object> validate(@RequestBody CustomerValidation customerValidation) {
+    public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
         this.mobile = customerValidation.getMobile_no();
-        Map<String, Object> jo = new HashMap<>();
+        ArrayList<Map<String,Object>> jo = new ArrayList<Map<String,Object>>();
         try {
             if (conn != null) {
-                jo = validate(conn);
+                jo.add(validate(conn));
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = validate(conn);
+                jo.add(validate(conn));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(jo);
         return jo;
 
     }
 
     private Map<String, Object> validate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
-        String status = "";
         String fetch_query = queries.fetchMobileRecord(mobile);
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
-            ResultSetMetaData rsmd = null;
-            rsmd = rs.getMetaData();
-            int num_col = 0;
-            num_col = rsmd.getColumnCount();
-            ArrayList<Map<String, Object>> ja = new ArrayList<>();
-            System.out.println("printing rs");
-            System.out.println(rs.next());
-            System.out.println(fetch_query);
             if (rs.next()) {
-                jo.put("columns", ja);
-                System.out.println("YES RS!!!!!!");
-                System.out.println(rs.getObject(1));
-                System.out.println(rsmd.getColumnTypeName(1));
+                jo.put("status", true);
+                jo.put("code", Status.OK_QUERY);
             } else {
-                System.out.println("NO RS!!!!");
+                jo.put("status", false);
+                jo.put("code", Status.CUSTOMER_NOT_FOUND);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        jo.put("status", status);
         return jo;
     }
 
