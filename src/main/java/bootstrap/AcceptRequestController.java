@@ -144,15 +144,15 @@ public class AcceptRequestController {
 //
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                }
-            }
-            jo.put("columns", rs.getObject(1));
+                jo.put("columns", rs.getObject(1));
                 ja.add(jo);
-            System.out.println(ja);
+                System.out.println(ja);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        jo.put("status", status);
+//        jo.put("status", status);
 
         return jo;
 
