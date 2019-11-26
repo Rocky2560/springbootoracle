@@ -19,6 +19,6 @@ public class Queries {
     }
 
     public String fetchMobileRecord (String mobile_no){
-        return "select * from mmpl.V_EKB_CUST where MOBILE ='"+mobile_no+"'";
+        return "select * from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'";
     }
 }

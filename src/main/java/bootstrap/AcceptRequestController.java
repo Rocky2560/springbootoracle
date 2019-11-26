@@ -69,7 +69,7 @@ public class AcceptRequestController {
 
     }
 
-    private Map<String, Object> validate(Connection conn){
+    private Map<String, Object> validate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         String status = "";
         String fetch_query = queries.fetchMobileRecord(mobile);
@@ -82,15 +82,13 @@ public class AcceptRequestController {
             num_col = rsmd.getColumnCount();
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             System.out.println("printing rs");
-            while (rs.next()) {
-                if (num_col > 0) {
-                    jo.put("columns", ja);
-                    System.out.println("YES RS!!!!!!");
-                    System.out.println(rs.getObject(1));
-                    System.out.println(rsmd.getColumnTypeName(1));
-                } else {
-                    System.out.println("NO RS!!!!");
-                }
+            if (rs.next()) {
+                jo.put("columns", ja);
+                System.out.println("YES RS!!!!!!");
+                System.out.println(rs.getObject(1));
+                System.out.println(rsmd.getColumnTypeName(1));
+            } else {
+                System.out.println("NO RS!!!!");
             }
 
         } catch (SQLException e) {
