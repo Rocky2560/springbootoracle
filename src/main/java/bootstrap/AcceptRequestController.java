@@ -135,8 +135,8 @@ public class AcceptRequestController {
 
             ArrayList<Map<String, Object>> ja = new ArrayList<>();
             while (rs.next()) {
-//                Map<String, Object> jo2 = new HashMap<>();
-//                for (int i = 1; i <= num_col; i++) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
 //
 //                    Map<String, Object> m = new HashMap<>();
 //                    m.put("value", rs.getObject(i));
@@ -144,7 +144,8 @@ public class AcceptRequestController {
 //
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                }
-                jo.put("columns", rs.getObject(1));
+                    jo.put(rsmd.getColumnName(i), rs.getObject(i));
+                }
                 ja.add(jo);
                 System.out.println(ja);
             }
