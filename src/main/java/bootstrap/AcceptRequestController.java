@@ -133,7 +133,7 @@ public class AcceptRequestController {
 
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                }
-                    jo2.put(rsmd.getColumnName(i), rs.getObject(i));
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.add(jo2);
 //                System.out.println(ja);
@@ -141,11 +141,8 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 //        jo.put("status", status);
-
         return ja;
-
     }
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
