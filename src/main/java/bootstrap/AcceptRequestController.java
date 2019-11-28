@@ -91,6 +91,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
+        this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
         ArrayList jo = new ArrayList<>();
@@ -113,7 +114,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchByDate(start_date, end_date);
+        String fetch_query = queries.fetchByDate(table_name, start_date, end_date);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -126,7 +127,6 @@ public class AcceptRequestController {
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
-
 //                    Map<String, Object> m = new HashMap<>();
 //                    m.put("value", rs.getObject(i));
 //                    m.put("type", rsmd.getColumnTypeName(i));
@@ -150,7 +150,6 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
-
         System.out.println("REQUEST AYOOO!!!");
         System.out.println("table name = " + table_name);
         System.out.println("offset = " + offset_value);
@@ -178,8 +177,8 @@ public class AcceptRequestController {
     private Map<String, Object> fetchData(Connection conn) {
         String crow_query = queries.getCountQuery(table_name);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
-//        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
-        String fetch_query = queries.fetchByDate(start_date, end_date);
+        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
+//        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         System.out.println("fetch query = " + fetch_query);
 
         Map<String, Object> jo = new HashMap<>();

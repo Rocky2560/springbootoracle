@@ -14,8 +14,9 @@ public class Queries {
         return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
-    public String fetchByDate (String start_date, String end_date){
-        return "select * from mmpl.V_EKB_CUST_SALE where BILLDATE > '" + start_date + "' and BILLDATE < '" + end_date + "'";
+
+    public String fetchByDate (String table_name, String start_date, String end_date){
+        return "select * from " + table_name +" where BILLDATE > '" + start_date + "' and BILLDATE < '" + end_date + "'";
     }
 
     public String fetchMobileRecord (String mobile_no){
