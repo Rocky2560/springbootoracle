@@ -2,7 +2,6 @@ package bootstrap;
 
 import misc.Queries;
 import misc.Status;
-import oracle.jdbc.driver.OracleDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import requestdata.CustomerValidation;
 import requestdata.FetchByDate;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +68,6 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
         return jo;
-
     }
 
     private Map<String, Object> validate(Connection conn) {
@@ -89,6 +90,8 @@ public class AcceptRequestController {
         return jo;
     }
 
+
+
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
@@ -105,6 +108,15 @@ public class AcceptRequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
+            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(jo.size());
 //        System.out.println(jo);
         return jo;
 
@@ -132,7 +144,7 @@ public class AcceptRequestController {
 //                    m.put("type", rsmd.getColumnTypeName(i));
 
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-//                }
+//                };
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.add(jo2);
