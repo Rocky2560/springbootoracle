@@ -24,7 +24,7 @@ public class Queries {
     }
 
     public String fetchItem (String table_name){
-        return "select * from "+ table_name + "";
+        return "select * from " + table_name + "";
     }
 
 

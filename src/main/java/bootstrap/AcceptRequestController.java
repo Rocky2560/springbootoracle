@@ -121,10 +121,6 @@ public class AcceptRequestController {
         return jo;
     }
 
-
-
-
-
     private ArrayList fetchByDate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
@@ -161,15 +157,15 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList itemFetch(@RequestBody FetchByDate fetchByDate) {
-        this.table_name = fetchByDate.getTable_name();
+    public ArrayList itemFetch(@RequestBody FetchByDate fetchItem) {
+        this.table_name = fetchItem.getTable_name();
         ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
-                jo = fetchByDate(conn);
+                jo = fetchItem(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = fetchByDate(conn);
+                jo = fetchItem(conn);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,15 +219,15 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/store", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList storeFetch(@RequestBody FetchByDate fetchByDate) {
-        this.table_name = fetchByDate.getTable_name();
+    public ArrayList storeFetch(@RequestBody FetchByDate fetchStore) {
+        this.table_name = fetchStore.getTable_name();
         ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
-                jo = fetchByDate(conn);
+                jo = fetchStore(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = fetchByDate(conn);
+                jo = fetchStore(conn);
             }
         } catch (Exception e) {
             e.printStackTrace();
