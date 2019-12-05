@@ -27,5 +27,9 @@ public class Queries {
         return "select * from " + table_name + "";
     }
 
+    public String fetchStore (String table_name){
+        return "select * from " + table_name + "";
+    }
+
 
 }

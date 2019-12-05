@@ -10,6 +10,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import requestdata.CustomerValidation;
 import requestdata.FetchByDate;
+import requestdata.FetchItem;
+import requestdata.FetchStore;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -157,7 +159,7 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList itemFetch(@RequestBody FetchByDate fetchItem) {
+    public ArrayList itemFetch(@RequestBody FetchItem fetchItem) {
         this.table_name = fetchItem.getTable_name();
         ArrayList jo = new ArrayList<>();
         try {
@@ -219,7 +221,7 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/store", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList storeFetch(@RequestBody FetchByDate fetchStore) {
+    public ArrayList storeFetch(@RequestBody FetchStore fetchStore) {
         this.table_name = fetchStore.getTable_name();
         ArrayList jo = new ArrayList<>();
         try {
@@ -249,7 +251,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchItem(table_name);
+        String fetch_query = queries.fetchStore(table_name);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
