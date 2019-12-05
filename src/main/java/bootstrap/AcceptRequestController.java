@@ -98,11 +98,12 @@ public class AcceptRequestController {
 
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
+    public String tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
-        ArrayList jo = new ArrayList<>();
+//        ArrayList jo = new ArrayList<>();
+        String jo;
         try {
             if (conn != null) {
                 jo = fetchByDate(conn);
@@ -121,12 +122,13 @@ public class AcceptRequestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(jo.size());
-        System.out.println(jo);
+//        System.out.println(jo.size());
+//        System.out.println(jo);
         return jo;
     }
 
-    private ArrayList fetchByDate(Connection conn) {
+    private String fetchByDate(Connection conn) {
+        StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> jo = new HashMap<>();
         String key = env.getProperty("key");
         int total_count = 0;
@@ -150,17 +152,18 @@ public class AcceptRequestController {
 
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                };
-
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), AES.encrypt(String.valueOf(rs.getObject(i)), key));
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.add(jo2);
 //                System.out.println(ja);
+//                new StringBuilder(jo2.toString());
             }
+//            stringBuilder.append(ja.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 //        jo.put("status", status);
-        return ja;
+        return AES.encrypt(ja.toString(), key);
     }
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
