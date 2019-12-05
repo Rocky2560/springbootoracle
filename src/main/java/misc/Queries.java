@@ -16,8 +16,8 @@ public class Queries {
 
 
     public String fetchByDate (String table_name, String start_date, String end_date){
-//        return "select * from " + table_name +" where BILLDATE > '" + start_date + "' and BILLDATE < '" + end_date + "'";
-        return "select * from " + table_name + " offset 1 rows fetch next 2 rows only";
+        return "select * from " + table_name +" where BILLDATE > '" + start_date + "' and BILLDATE < '" + end_date + "'";
+//        return "select * from " + table_name + " offset 1 rows fetch next 2 rows only";
     }
 
     public String fetchMobileRecord (String mobile_no){
