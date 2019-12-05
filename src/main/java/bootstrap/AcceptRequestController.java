@@ -98,12 +98,12 @@ public class AcceptRequestController {
 
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public String tchiring(@RequestBody FetchByDate fetchByDate) {
+    public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
-//        ArrayList jo = new ArrayList<>();
-        String jo = "";
+        ArrayList jo = new ArrayList<>();
+//        String jo = "";
         try {
             if (conn != null) {
                 jo = fetchByDate(conn);
@@ -120,7 +120,7 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private String fetchByDate(Connection conn) {
+    private ArrayList fetchByDate(Connection conn) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> jo = new HashMap<>();
         String key = env.getProperty("key");
@@ -163,7 +163,8 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 //        jo.put("status", status);
-        return AES.encrypt(ja.toString(), key);
+//        return AES.encrypt(ja.toString(), key);
+        return ja;
     }
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
