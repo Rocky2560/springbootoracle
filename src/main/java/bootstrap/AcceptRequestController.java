@@ -48,7 +48,7 @@ public class AcceptRequestController {
     private Connection conn;
     private Queries queries = new Queries();
     private String table_name = "";
-    private int offset_value = -1;
+    int offset_value = -1;
 
 
     //    int range_count = 1000;
@@ -161,6 +161,9 @@ public class AcceptRequestController {
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList itemFetch(@RequestBody FetchItem fetchItem) {
         this.table_name = fetchItem.getTable_name();
+        this.offset_value = fetchItem.getOffset_value();
+        this.range_count = fetchItem.getRange_count();
+
         ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
@@ -174,8 +177,8 @@ public class AcceptRequestController {
         }
 
 //        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
-//            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
+//            bf.write("{\"count\":"+ jo.size() +"}\n");
 //            bf.close();
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -189,7 +192,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchItem(table_name);
+        String fetch_query = queries.fetchItem(table_name, offset_value, range_count);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -236,8 +239,8 @@ public class AcceptRequestController {
         }
 
 //        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
-//            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
+//            bf.write("{\"count\":"+ jo.size() +"}\n");
 //            bf.close();
 //        } catch (IOException e) {
 //            e.printStackTrace();

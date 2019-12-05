@@ -23,8 +23,8 @@ public class Queries {
         return "select * from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'";
     }
 
-    public String fetchItem (String table_name){
-        return "select * from " + table_name + "";
+    public String fetchItem (String table_name, Integer offset_value, Integer range_count){
+        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
     public String fetchStore (String table_name){
