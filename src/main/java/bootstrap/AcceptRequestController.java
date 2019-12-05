@@ -119,7 +119,7 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
         System.out.println(jo.size());
-//        System.out.println(jo);
+        System.out.println(jo);
         return jo;
     }
 
