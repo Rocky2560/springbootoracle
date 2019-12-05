@@ -23,5 +23,9 @@ public class Queries {
         return "select * from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'";
     }
 
+    public String fetchItem (String table_name){
+        return "select * from "+ table_name + "";
+    }
+
 
 }

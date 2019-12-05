@@ -119,14 +119,141 @@ public class AcceptRequestController {
         System.out.println(jo.size());
 //        System.out.println(jo);
         return jo;
-
     }
+
+
+
+
 
     private ArrayList fetchByDate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date);
+        ArrayList<Map<String, Object>> ja = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+//                    Map<String, Object> m = new HashMap<>();
+//                    m.put("value", rs.getObject(i));
+//                    m.put("type", rsmd.getColumnTypeName(i));
+
+//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+//                };
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                }
+                ja.add(jo2);
+//                System.out.println(ja);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        jo.put("status", status);
+        return ja;
+    }
+
+    @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public ArrayList itemFetch(@RequestBody FetchByDate fetchByDate) {
+        this.table_name = fetchByDate.getTable_name();
+        ArrayList jo = new ArrayList<>();
+        try {
+            if (conn != null) {
+                jo = fetchByDate(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchByDate(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
+//            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println(jo.size());
+//        System.out.println(jo);
+        return jo;
+    }
+
+    private ArrayList fetchItem(Connection conn) {
+        Map<String, Object> jo = new HashMap<>();
+        int total_count = 0;
+        String status = "";
+        String fetch_query = queries.fetchItem(table_name);
+        ArrayList<Map<String, Object>> ja = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+//                    Map<String, Object> m = new HashMap<>();
+//                    m.put("value", rs.getObject(i));
+//                    m.put("type", rsmd.getColumnTypeName(i));
+
+//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+//                };
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                }
+                ja.add(jo2);
+//                System.out.println(ja);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        jo.put("status", status);
+        return ja;
+    }
+
+    @RequestMapping(value = "/store", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public ArrayList storeFetch(@RequestBody FetchByDate fetchByDate) {
+        this.table_name = fetchByDate.getTable_name();
+        ArrayList jo = new ArrayList<>();
+        try {
+            if (conn != null) {
+                jo = fetchByDate(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchByDate(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
+//            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println(jo.size());
+//        System.out.println(jo);
+        return jo;
+    }
+
+    private ArrayList fetchStore(Connection conn) {
+        Map<String, Object> jo = new HashMap<>();
+        int total_count = 0;
+        String status = "";
+        String fetch_query = queries.fetchItem(table_name);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
