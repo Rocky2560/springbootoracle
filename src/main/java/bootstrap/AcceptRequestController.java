@@ -223,7 +223,7 @@ public class AcceptRequestController {
         return ja;
     }
 
-    @RequestMapping(value = "/store", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/site", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList storeFetch(@RequestBody FetchStore fetchStore) {
         this.table_name = fetchStore.getTable_name();
         ArrayList jo = new ArrayList<>();
