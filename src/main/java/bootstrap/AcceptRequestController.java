@@ -151,7 +151,7 @@ public class AcceptRequestController {
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                };
 
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), AES.encrypt((String) rs.getObject(i), key));
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), AES.encrypt(String.valueOf(rs.getObject(i)), key));
                 }
                 ja.add(jo2);
 //                System.out.println(ja);
