@@ -40,7 +40,8 @@ public class AcceptRequestController {
     String start_date = "";
     String end_date = "";
     String mobile = "";
-    String key = env.getProperty("key");
+    String key = "";
+
 
 
     private int result_offset;
@@ -56,7 +57,6 @@ public class AcceptRequestController {
     //    int range_count = 1000;
 //    int range_count = 1000;
     int range_count = 1000;
-
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
         this.mobile = customerValidation.getMobile_no();
@@ -96,6 +96,7 @@ public class AcceptRequestController {
 
 
 
+
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
@@ -127,6 +128,7 @@ public class AcceptRequestController {
 
     private ArrayList fetchByDate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
+        String key = env.getProperty("key");
         int total_count = 0;
         String status = "";
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date);
