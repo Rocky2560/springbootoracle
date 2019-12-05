@@ -179,6 +179,7 @@ public class AcceptRequestController {
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
             bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
             bf.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -241,6 +242,7 @@ public class AcceptRequestController {
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
             bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
             bf.close();
         } catch (IOException e) {
             e.printStackTrace();
