@@ -176,14 +176,14 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 
-//        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
-//            bf.write("{\"count\":"+ jo.size() +"}\n");
-//            bf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        System.out.println(jo.size());
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
+            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(jo.size());
 //        System.out.println(jo);
         return jo;
     }
@@ -192,7 +192,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchItem(table_name, offset_value, range_count);
+        String fetch_query = queries.fetchItem(table_name);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -238,14 +238,14 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 
-//        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
-//            bf.write("{\"count\":"+ jo.size() +"}\n");
-//            bf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        System.out.println(jo.size());
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
+            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(jo.size());
 //        System.out.println(jo);
         return jo;
     }
