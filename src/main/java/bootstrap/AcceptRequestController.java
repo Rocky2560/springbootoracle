@@ -1,5 +1,6 @@
 package bootstrap;
 
+import encryption.AES;
 import misc.Queries;
 import misc.Status;
 import org.slf4j.Logger;
@@ -39,6 +40,7 @@ public class AcceptRequestController {
     String start_date = "";
     String end_date = "";
     String mobile = "";
+    String key = env.getProperty("key");
 
 
     private int result_offset;
@@ -146,7 +148,8 @@ public class AcceptRequestController {
 
 //                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
 //                };
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), AES.encrypt((String) rs.getObject(i), key));
                 }
                 ja.add(jo2);
 //                System.out.println(ja);
