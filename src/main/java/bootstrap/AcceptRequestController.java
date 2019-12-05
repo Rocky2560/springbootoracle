@@ -239,6 +239,8 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 
+        System.out.println(env.getProperty("count_file_store"));
+
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
             bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
