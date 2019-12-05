@@ -94,9 +94,6 @@ public class AcceptRequestController {
         return jo;
     }
 
-
-
-
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
@@ -166,6 +163,32 @@ public class AcceptRequestController {
 //        return AES.encrypt(ja.toString(), key);
         return ja;
     }
+
+    @RequestMapping(value = "/enc", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public String aesEnc(@RequestBody FetchByDate fetchByDate){
+        String key = env.getProperty("key");
+        this.table_name = fetchByDate.getTable_name();
+        this.start_date = fetchByDate.getStart_date();
+        this.end_date = fetchByDate.getEnd_date();
+
+        ArrayList jo = new ArrayList<>();
+//        String jo = "";
+        try {
+            if (conn != null) {
+                jo = fetchByDate(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchByDate(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        System.out.println(jo.size());
+//        System.out.println(jo);
+        return AES.encrypt(jo.toString(), key);
+    }
+
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList itemFetch(@RequestBody FetchItem fetchItem) {
