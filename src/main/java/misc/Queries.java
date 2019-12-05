@@ -26,9 +26,9 @@ public class Queries {
 
 //    public String fetchItem (String table_name, Integer offset_value, Integer range_count){
     public String fetchItem (String table_name){
-        return "select * from " + table_name + "";
+//        return "select * from " + table_name + "";
 //        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only where lev1grpname = 'DAIRY'";
-//        return "select * from " + table_name + " where lev1grpname = 'DAIRY'";
+        return "select * from " + table_name + " where lev1grpname = 'DAIRY'";
 //        return "select * from " + table_name + " where lev1grpname = 'FMCG FOOD' and lev2grpname = 'NOODLES & SOUP' and icode = 'BM7211'";
     }
 
