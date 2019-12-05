@@ -103,7 +103,7 @@ public class AcceptRequestController {
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
 //        ArrayList jo = new ArrayList<>();
-        String jo;
+        String jo = "";
         try {
             if (conn != null) {
                 jo = fetchByDate(conn);
@@ -115,13 +115,6 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
-            bf.write("{\"count\":"+ jo.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 //        System.out.println(jo.size());
 //        System.out.println(jo);
         return jo;
@@ -160,6 +153,13 @@ public class AcceptRequestController {
             }
 //            stringBuilder.append(ja.toString());
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
+            bf.write("{\"count\":"+ ja.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+            bf.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 //        jo.put("status", status);
