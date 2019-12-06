@@ -228,9 +228,9 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    count++;
                 }
                 ja.add(jo2);
+                count++;
             }
             off_map.put("offset", count);
             off_map.put("value", AES.encrypt(ja.toString(), key));
