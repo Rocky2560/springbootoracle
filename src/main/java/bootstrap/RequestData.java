@@ -1,12 +1,14 @@
 package bootstrap;
 
 public class RequestData {
-    private String username;
-    private String password;
-    private int offset;
-    private String table_name;
+    int offset;
+    String table_name;
+    int offset_value;
 
 
+    public int getOffset_value() {return offset_value;}
+
+    public void setOffset_value(int offset_value) {this.offset_value = offset_value;}
 
     public String getTable_name() {
         return table_name;
@@ -14,22 +16,6 @@ public class RequestData {
 
     public void setTable_name(String table_name) {
         this.table_name = table_name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getOffset() {

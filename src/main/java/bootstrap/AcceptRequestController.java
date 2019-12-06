@@ -41,6 +41,7 @@ public class AcceptRequestController {
     String end_date = "";
     String mobile = "";
     String key = "";
+    String date_column = "";
 
 
 
@@ -99,6 +100,7 @@ public class AcceptRequestController {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
+        this.date_column = fetchByDate.getDate_column();
         ArrayList jo = new ArrayList<>();
 //        String jo = "";
         try {
@@ -123,7 +125,7 @@ public class AcceptRequestController {
         String key = env.getProperty("key");
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchByDate(table_name, start_date, end_date);
+        String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -164,12 +166,13 @@ public class AcceptRequestController {
         return ja;
     }
 
-    @RequestMapping(value = "/enc", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public String aesEnc(@RequestBody FetchByDate fetchByDate){
+    @RequestMapping(value = "/enc_date_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public String aesEncDateTable(@RequestBody FetchByDate fetchByDate){
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
+        this.date_column = fetchByDate.getDate_column();
 
         ArrayList jo = new ArrayList<>();
 //        String jo = "";
@@ -183,10 +186,63 @@ public class AcceptRequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        System.out.println(jo.size());
-//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
+    }
+
+    @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public ArrayList aesEncTable(@RequestBody RequestData requestData) {
+
+        String key = env.getProperty("key");
+        this.table_name = requestData.getTable_name();
+        this.offset_value = requestData.getOffset();
+        ArrayList jo = new ArrayList<>();
+        try {
+            if (conn != null) {
+                jo = fetchTable(conn);
+
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchTable(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jo;
+    }
+
+
+    private ArrayList fetchTable(Connection conn) {
+        Map<String, Object> jo = new HashMap<>();
+        ArrayList<Map<String, Object>> off_arr = new ArrayList<>();
+        Map<String, Object> off_map = new HashMap<>();
+        int count = 0;
+        int total_count = 0;
+        String status = "";
+        String fetch_query = queries.fetchTable(table_name, offset_value);
+        ArrayList<Map<String, Object>> ja = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                    total_count = count++;
+                }
+                ja.add(jo2);
+            }
+            off_map.put("offset", total_count);
+            off_map.put("value", AES.encrypt(ja.toString(), key));
+            off_arr.add(off_map);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return off_arr;
     }
 
 
@@ -257,15 +313,16 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/site", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList storeFetch(@RequestBody FetchStore fetchStore) {
-        this.table_name = fetchStore.getTable_name();
+    public ArrayList storeFetch(@RequestBody RequestData requestData) {
+        this.table_name = requestData.getTable_name();
+        this.offset_value = requestData.getOffset();
         ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
-                jo = fetchStore(conn);
+                jo = fetchTable(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = fetchStore(conn);
+                jo = fetchTable(conn);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -286,40 +343,7 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private ArrayList fetchStore(Connection conn) {
-        Map<String, Object> jo = new HashMap<>();
-        int total_count = 0;
-        String status = "";
-        String fetch_query = queries.fetchStore(table_name);
-        ArrayList<Map<String, Object>> ja = new ArrayList<>();
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(fetch_query);
-            ResultSetMetaData rsmd = null;
-            rsmd = rs.getMetaData();
-            int num_col = 0;
-            num_col = rsmd.getColumnCount();
 
-            while (rs.next()) {
-                Map<String, Object> jo2 = new HashMap<>();
-                for (int i = 1; i <= num_col; i++) {
-//                    Map<String, Object> m = new HashMap<>();
-//                    m.put("value", rs.getObject(i));
-//                    m.put("type", rsmd.getColumnTypeName(i));
-
-//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-//                };
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                }
-                ja.add(jo2);
-//                System.out.println(ja);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-//        jo.put("status", status);
-        return ja;
-    }
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {

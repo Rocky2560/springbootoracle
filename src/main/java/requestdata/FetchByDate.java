@@ -4,6 +4,11 @@ public class FetchByDate {
     String start_date;
     String end_date;
     String table_name;
+    String date_column;
+
+    public String getDate_column() {return date_column;}
+
+    public void setDate_column(String date_column) {this.date_column = date_column;}
 
     public String getTable_name() {
         return table_name;
