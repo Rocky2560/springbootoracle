@@ -53,11 +53,8 @@ public class AcceptRequestController {
     private Queries queries = new Queries();
     private String table_name = "";
     int offset_value = -1;
-
-
-    //    int range_count = 1000;
-//    int range_count = 1000;
     int range_count = 1000;
+
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
         this.mobile = customerValidation.getMobile_no();
@@ -216,7 +213,6 @@ public class AcceptRequestController {
         ArrayList<Map<String, Object>> off_arr = new ArrayList<>();
         Map<String, Object> off_map = new HashMap<>();
         int count = 0;
-        int total_count = 0;
         String status = "";
         String fetch_query = queries.fetchTable(table_name, offset_value);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
@@ -232,11 +228,11 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    total_count = count++;
+                    count++;
                 }
                 ja.add(jo2);
             }
-            off_map.put("offset", total_count);
+            off_map.put("offset", count);
             off_map.put("value", AES.encrypt(ja.toString(), key));
             off_arr.add(off_map);
         } catch (SQLException e) {

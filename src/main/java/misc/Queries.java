@@ -16,7 +16,7 @@ public class Queries {
 
 
     public String fetchByDate (String table_name, String start_date, String end_date, String date_column){
-        return "select * from " + table_name +" where "+ date_column + " > '" + start_date + "' and "+ date_column + " < '" + end_date + "'";
+        return "select * from " + table_name +" where " + date_column + " > '" + start_date + "' and " + date_column + " < '" + end_date + "'";
 //        return "select * from " + table_name + " offset 1 rows fetch next 2 rows only";
     }
 
