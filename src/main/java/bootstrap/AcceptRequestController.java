@@ -218,7 +218,7 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            off_map.put("offset", count);
+            off_map.put("offset_value", count);
             off_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -230,7 +230,7 @@ public class AcceptRequestController {
 
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
+    public Map itemFetch(@RequestBody FetchItem fetchItem) {
         this.table_name = fetchItem.getTable_name();
         this.offset_value = fetchItem.getOffset_value();
         this.range_count = fetchItem.getRange_count();
@@ -260,13 +260,13 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private Map<String, Object> fetchItem(Connection conn) {
+    private Map fetchItem(Connection conn) {
         String key = env.getProperty("key");
-        Map<String, Object> off_map = new TreeMap<>();
+        Map off_map = new TreeMap();
         int count = 0;
         String status = "";
         String fetch_query = queries.fetchTable(table_name, offset_value);
-        ArrayList<Map<String, Object>> ja = new ArrayList();
+        JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -280,12 +280,11 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
-                ja.add(jo2);
+                ja.put(jo2);
                 count++;
             }
             off_map.put("offset", count);
-            off_map.put("value", ja);
-            System.out.println(ja);
+            off_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
             e.printStackTrace();
         }
