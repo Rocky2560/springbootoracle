@@ -3,6 +3,8 @@ package bootstrap;
 import encryption.AES;
 import misc.Queries;
 import misc.Status;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,11 +186,11 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map aesEncTable(@RequestBody RequestData requestData) {
+    public JSONObject aesEncTable(@RequestBody RequestData requestData) {
 
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset();
-        Map jo = new TreeMap();
+        JSONObject jo = new JSONObject();
         try {
             if (conn != null) {
                 jo = fetchTable(conn);
@@ -204,11 +206,9 @@ public class AcceptRequestController {
     }
 
 
-    private Map<String, Object> fetchTable(Connection conn) {
+    private JSONObject fetchTable(Connection conn) {
         String key = env.getProperty("key");
-        Map<String, Object> jo = new HashMap<>();
-        ArrayList<Map<String, Object>> off_arr = new ArrayList<>();
-        Map<String, Object> off_map = new HashMap<>();
+        JSONObject off_map = new JSONObject();
         int count = 0;
         String status = "";
         String fetch_query = queries.fetchTable(table_name, offset_value);
@@ -231,7 +231,6 @@ public class AcceptRequestController {
             }
             off_map.put("offset", count);
             off_map.put("value", AES.encrypt(ja.toString(), key));
-            off_arr.add(off_map);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -305,36 +304,36 @@ public class AcceptRequestController {
         return ja;
     }
 
-    @RequestMapping(value = "/site", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList storeFetch(@RequestBody RequestData requestData) {
-        this.table_name = requestData.getTable_name();
-        this.offset_value = requestData.getOffset();
-        ArrayList jo = new ArrayList<>();
-        try {
-            if (conn != null) {
-                jo = (ArrayList) fetchTable(conn);
-            } else {
-                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = (ArrayList) fetchTable(conn);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(env.getProperty("count_file_store"));
-
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
-            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-            bf.flush();
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        System.out.println(jo.size());
-//        System.out.println(jo);
-        return jo;
-    }
+//    @RequestMapping(value = "/site", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+//    public ArrayList storeFetch(@RequestBody RequestData requestData) {
+//        this.table_name = requestData.getTable_name();
+//        this.offset_value = requestData.getOffset();
+//        ArrayList jo = new ArrayList<>();
+//        try {
+//            if (conn != null) {
+//                jo = () fetchTable(conn);
+//            } else {
+//                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+//                jo = (ArrayList) fetchTable(conn);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(env.getProperty("count_file_store"));
+//
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
+//            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+//            bf.flush();
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+////        System.out.println(jo.size());
+////        System.out.println(jo);
+//        return jo;
+//    }
 
 
 
