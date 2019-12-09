@@ -117,7 +117,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchByDate(Connection conn) {
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
-        System.out.println(fetch_query);
+//        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
@@ -130,19 +130,10 @@ public class AcceptRequestController {
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
-//                    Map<String, Object> m = new HashMap<>();
-//                    m.put("value", rs.getObject(i));
-//                    m.put("type", rsmd.getColumnTypeName(i));
-
-//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-//                };
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.put(jo2);
-//                System.out.println(ja);
-//                new StringBuilder(jo2.toString());
             }
-//            stringBuilder.append(ja.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -203,7 +194,6 @@ public class AcceptRequestController {
         }
         return jo;
     }
-
 
     private Map fetchTable(Connection conn) {
         String key = env.getProperty("key");
