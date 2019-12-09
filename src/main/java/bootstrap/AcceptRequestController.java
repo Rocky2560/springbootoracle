@@ -312,10 +312,10 @@ public class AcceptRequestController {
         ArrayList jo = new ArrayList<>();
         try {
             if (conn != null) {
-                jo = fetchTable(conn);
+                jo = (ArrayList) fetchTable(conn);
             } else {
                 conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = fetchTable(conn);
+                jo = (ArrayList) fetchTable(conn);
             }
         } catch (Exception e) {
             e.printStackTrace();
