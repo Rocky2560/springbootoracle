@@ -163,7 +163,7 @@ public class AcceptRequestController {
         return ja;
     }
 
-    @RequestMapping(value = "/enc_date_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesEncDateTable(@RequestBody FetchByDate fetchByDate){
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
