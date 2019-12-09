@@ -262,7 +262,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
-        String fetch_query = queries.fetchItem(table_name);
+        String fetch_query = queries.fetchTable(table_name, offset_value);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -275,12 +275,6 @@ public class AcceptRequestController {
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
-//                    Map<String, Object> m = new HashMap<>();
-//                    m.put("value", rs.getObject(i));
-//                    m.put("type", rsmd.getColumnTypeName(i));
-
-//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-//                };
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.add(jo2);
