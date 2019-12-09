@@ -238,7 +238,7 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return off_arr;
+        return (ArrayList) off_map;
     }
 
 
