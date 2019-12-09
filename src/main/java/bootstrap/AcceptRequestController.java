@@ -92,12 +92,12 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList tchiring(@RequestBody FetchByDate fetchByDate) {
+    public JSONArray tchiring(@RequestBody FetchByDate fetchByDate) {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
         this.date_column = fetchByDate.getDate_column();
-        ArrayList jo = new ArrayList<>();
+        JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
             if (conn != null) {
@@ -115,7 +115,7 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private ArrayList fetchByDate(Connection conn) {
+    private JSONArray fetchByDate(Connection conn) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> jo = new HashMap<>();
         String key = env.getProperty("key");
@@ -123,7 +123,7 @@ public class AcceptRequestController {
         String status = "";
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
         System.out.println(fetch_query);
-        ArrayList<Map<String, Object>> ja = new ArrayList<>();
+        JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -143,7 +143,7 @@ public class AcceptRequestController {
 //                };
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
-                ja.add(jo2);
+                ja.put(jo2);
 //                System.out.println(ja);
 //                new StringBuilder(jo2.toString());
             }
@@ -151,13 +151,13 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
-            bf.write("{\"count\":"+ ja.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
+//            bf.write("{\"count\":"+ ja.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        jo.put("status", status);
 //        return AES.encrypt(ja.toString(), key);
         return ja;
@@ -171,7 +171,7 @@ public class AcceptRequestController {
         this.end_date = fetchByDate.getEnd_date();
         this.date_column = fetchByDate.getDate_column();
 
-        ArrayList jo = new ArrayList<>();
+        JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
             if (conn != null) {
