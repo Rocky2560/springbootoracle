@@ -266,7 +266,7 @@ public class AcceptRequestController {
         int count = 0;
         String status = "";
         String fetch_query = queries.fetchTable(table_name, offset_value);
-        ArrayList ja = new ArrayList();
+        ArrayList<Map<String, Object>> ja = new ArrayList();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
