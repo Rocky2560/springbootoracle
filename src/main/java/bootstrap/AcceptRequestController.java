@@ -183,6 +183,8 @@ public class AcceptRequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(jo);
+        System.out.println(AES.encrypt(jo.toString(), key));
         return AES.encrypt(jo.toString(), key);
     }
 
