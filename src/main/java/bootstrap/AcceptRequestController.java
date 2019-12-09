@@ -186,7 +186,6 @@ public class AcceptRequestController {
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map aesEncTable(@RequestBody RequestData requestData) {
 
-        String key = env.getProperty("key");
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset();
         Map jo = new TreeMap();
@@ -206,6 +205,7 @@ public class AcceptRequestController {
 
 
     private Map<String, Object> fetchTable(Connection conn) {
+        String key = env.getProperty("key");
         Map<String, Object> jo = new HashMap<>();
         ArrayList<Map<String, Object>> off_arr = new ArrayList<>();
         Map<String, Object> off_map = new HashMap<>();
