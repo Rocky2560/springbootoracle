@@ -18,10 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 @RestController
@@ -187,12 +184,12 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public ArrayList aesEncTable(@RequestBody RequestData requestData) {
+    public Map aesEncTable(@RequestBody RequestData requestData) {
 
         String key = env.getProperty("key");
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset();
-        ArrayList jo = new ArrayList<>();
+        Map jo = new TreeMap();
         try {
             if (conn != null) {
                 jo = fetchTable(conn);
@@ -208,7 +205,7 @@ public class AcceptRequestController {
     }
 
 
-    private ArrayList fetchTable(Connection conn) {
+    private Map<String, Object> fetchTable(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         ArrayList<Map<String, Object>> off_arr = new ArrayList<>();
         Map<String, Object> off_map = new HashMap<>();
@@ -238,7 +235,7 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return (ArrayList) off_map;
+        return off_map;
     }
 
 
