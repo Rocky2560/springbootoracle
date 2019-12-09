@@ -230,12 +230,10 @@ public class AcceptRequestController {
 
 
     @RequestMapping(value = "/item", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
-    public Map itemFetch(@RequestBody FetchItem fetchItem) {
+    public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
         this.table_name = fetchItem.getTable_name();
         this.offset_value = fetchItem.getOffset_value();
-        this.range_count = fetchItem.getRange_count();
-
-        Map jo = new HashMap();
+        Map<String, Object> jo = new TreeMap<>();
         try {
             if (conn != null) {
                 jo = fetchItem(conn);
@@ -260,12 +258,12 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private Map fetchItem(Connection conn) {
+    private Map<String, Object> fetchItem(Connection conn) {
         String key = env.getProperty("key");
-        Map off_map = new TreeMap();
+        Map<String, Object> of_map = new TreeMap<>();
         int count = 0;
         String status = "";
-        String fetch_query = queries.fetchTable(table_name, offset_value);
+        String fetch_query = queries.fetchItemTable(table_name, offset_value);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
@@ -283,12 +281,12 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            off_map.put("offset", count);
-            off_map.put("value", AES.encrypt(ja.toString(), key));
+            of_map.put("offset", count);
+            of_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return off_map;
+        return of_map;
     }
 
 //    private ArrayList fetchItem(Connection conn) {
