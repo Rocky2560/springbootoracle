@@ -146,7 +146,7 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        System.out.println(ja);
+        System.out.println(ja);
 //        try {
 //            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
 //            bf.write("{\"count\":"+ ja.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
