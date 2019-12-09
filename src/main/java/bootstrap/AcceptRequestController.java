@@ -122,6 +122,7 @@ public class AcceptRequestController {
         int total_count = 0;
         String status = "";
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
+        System.out.println(fetch_query);
         ArrayList<Map<String, Object>> ja = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
