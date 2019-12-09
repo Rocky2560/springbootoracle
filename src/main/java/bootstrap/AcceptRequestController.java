@@ -116,11 +116,6 @@ public class AcceptRequestController {
     }
 
     private JSONArray fetchByDate(Connection conn) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Map<String, Object> jo = new HashMap<>();
-        String key = env.getProperty("key");
-        int total_count = 0;
-        String status = "";
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
         System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
@@ -151,6 +146,7 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(ja);
 //        try {
 //            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
 //            bf.write("{\"count\":"+ ja.size() +",\"start_date\":\""+ start_date +"\",\"end_date\":\""+ end_date +"\"}\n");
