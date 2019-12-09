@@ -186,11 +186,11 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public JSONObject aesEncTable(@RequestBody RequestData requestData) {
+    public Map aesEncTable(@RequestBody RequestData requestData) {
 
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset();
-        JSONObject jo = new JSONObject();
+        Map jo = new TreeMap();
         try {
             if (conn != null) {
                 jo = fetchTable(conn);
@@ -206,13 +206,13 @@ public class AcceptRequestController {
     }
 
 
-    private JSONObject fetchTable(Connection conn) {
+    private Map fetchTable(Connection conn) {
         String key = env.getProperty("key");
-        JSONObject off_map = new JSONObject();
+        Map off_map = new TreeMap();
         int count = 0;
         String status = "";
         String fetch_query = queries.fetchTable(table_name, offset_value);
-        ArrayList<Map<String, Object>> ja = new ArrayList<>();
+        JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -226,7 +226,7 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
-                ja.add(jo2);
+                ja.put(jo2);
                 count++;
             }
             off_map.put("offset", count);
