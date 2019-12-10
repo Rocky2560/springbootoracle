@@ -281,7 +281,7 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            of_map.put("offset", count);
+            of_map.put("offset_value", count);
             of_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
             e.printStackTrace();
