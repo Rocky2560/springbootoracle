@@ -25,7 +25,7 @@ public class Queries {
 
 //    public String fetchItem (String table_name, Integer offset_value, Integer range_count){
     public String fetchItemTable (int offset_value){
-        return "select site_code, address, contact_person, ctname, email1, email2, latitude, longitude, mobile, oph1, oph2, oph3, shrtname, site_name from mmpl.V_ITEM offset " + offset_value + " rows";
+        return "select LEV1GRPNAME, LEV2GRPNAME, GRPNAME, CNAME1, CNAME2, CNAME3, CNAME4, CNAME5, CNAME6, ICODE from mmpl.V_ITEM offset " + offset_value + " rows";
 //        return "select * from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only where lev1grpname = 'DAIRY'";
 //        return "select * from " + table_name + " where lev1grpname = 'DAIRY'";
 //        return "select * from " + table_name + " where lev1grpname = 'FMCG FOOD' and lev2grpname = 'NOODLES & SOUP' and icode = 'BM7211'";
