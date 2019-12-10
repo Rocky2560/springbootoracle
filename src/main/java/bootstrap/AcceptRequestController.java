@@ -229,7 +229,7 @@ public class AcceptRequestController {
 
 
 
-    @RequestMapping(value = "/item", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
         this.table_name = fetchItem.getTable_name();
         this.offset_value = fetchItem.getOffset_value();
