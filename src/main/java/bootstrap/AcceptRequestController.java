@@ -263,7 +263,7 @@ public class AcceptRequestController {
         Map<String, Object> of_map = new TreeMap<>();
         int count = 0;
         String status = "";
-        String fetch_query = queries.fetchItemTable(table_name, offset_value);
+        String fetch_query = queries.fetchItemTable(offset_value);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
