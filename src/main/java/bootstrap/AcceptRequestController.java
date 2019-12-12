@@ -206,16 +206,16 @@ public class AcceptRequestController {
         String fetch_query = queries.fetchTable(table_name,offset_value);
         JSONArray ja = new JSONArray();
         int total_count = 0;
-        try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(crow_query);
-            resultSet.next();
-            total_count = resultSet.getInt(1);
-//            System.out.println(total_count);
-            if (offset_value >= total_count){
-                off_map.put("status", "check offset");
-            }
-            else {
+//        try {
+//            Statement statement = conn.createStatement();
+//            ResultSet resultSet = statement.executeQuery(crow_query);
+//            resultSet.next();
+//            total_count = resultSet.getInt(1);
+////            System.out.println(total_count);
+//            if (offset_value >= total_count){
+//                off_map.put("status", "check offset");
+//            }
+//            else {
                 try {
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(fetch_query);
@@ -238,10 +238,10 @@ public class AcceptRequestController {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return off_map;
         }
 
@@ -284,16 +284,16 @@ public class AcceptRequestController {
         String fetch_query = queries.fetchItemTable(offset_value);
         JSONArray ja = new JSONArray();
         int total_count = 0;
-        try {
-            Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery(crow_query);
-                resultSet.next();
-                total_count = resultSet.getInt(1);
-//            System.out.println(total_count);
-                if (offset_value >= total_count){
-                    of_map.put("status", "check offset");
-                }
-                else {
+//        try {
+//            Statement statement = conn.createStatement();
+//                ResultSet resultSet = statement.executeQuery(crow_query);
+//                resultSet.next();
+//                total_count = resultSet.getInt(1);
+////            System.out.println(total_count);
+//                if (offset_value >= total_count){
+//                    of_map.put("status", "check offset");
+//                }
+//                else {
                     try {
                         Statement stmt = conn.createStatement();
                         ResultSet rs = stmt.executeQuery(fetch_query);
@@ -316,10 +316,10 @@ public class AcceptRequestController {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
         return of_map;
     }
 
