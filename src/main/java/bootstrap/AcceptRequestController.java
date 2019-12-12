@@ -218,13 +218,14 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            if (count < offset_value){
+            if (count >= offset_value){
+                off_map.put("status", "Done");
+            }
+            else {
                 count = count + offset_value;
                 off_map.put("offset_value", count);
                 off_map.put("value", AES.encrypt(ja.toString(), key));
-            }
-            else {
-                off_map.put("status", "Done");
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -285,13 +286,13 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            if (count < offset_value){
+            if (count >= offset_value){
+                of_map.put("status", "Done");
+            }
+            else {
                 count = count + offset_value;
                 of_map.put("offset_value", count);
                 of_map.put("value", AES.encrypt(ja.toString(), key));
-            }
-            else {
-                of_map.put("status", "Done");
             }
         } catch (SQLException e) {
             e.printStackTrace();
