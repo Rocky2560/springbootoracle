@@ -218,6 +218,7 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
+            count = count + offset_value;
             off_map.put("offset_value", count);
             off_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
@@ -279,6 +280,7 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
+            count = count + offset_value;
             of_map.put("offset_value", count);
             of_map.put("value", AES.encrypt(ja.toString(), key));
         } catch (SQLException e) {
