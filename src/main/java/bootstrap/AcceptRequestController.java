@@ -266,9 +266,9 @@ public class AcceptRequestController {
 
     private Map<String, Object> fetchItem(Connection conn) {
         String key = env.getProperty("key");
-        int count = 0;
+        int off_count = 0;
         Map<String, Object> of_map = new TreeMap<>();
-        String status = "";
+//        String status = "";
         String crow_query = queries.getCountQuery(table_name);
         String fetch_query = queries.fetchItemTable(offset_value);
         JSONArray ja = new JSONArray();
@@ -279,8 +279,8 @@ public class AcceptRequestController {
                 resultSet.next();
                 total_count = resultSet.getInt(1);
             System.out.println(total_count);
-                if (total_count >= offset_value){
-                    status = "done";
+                if (total_count > offset_value){
+                    of_map.put("status", "check offset");
                 }
                 else {
                     try {
@@ -297,9 +297,9 @@ public class AcceptRequestController {
                                 jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                             }
                             ja.put(jo2);
-                            count++;
+                            off_count++;
                         }
-                        of_map.put("offset_value", count);
+                        of_map.put("offset_value", off_count);
                         of_map.put("value", AES.encrypt(ja.toString(), key));
                     } catch (SQLException e) {
                         e.printStackTrace();
