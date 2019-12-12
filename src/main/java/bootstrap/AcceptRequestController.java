@@ -195,7 +195,7 @@ public class AcceptRequestController {
         return jo;
     }
 
-    private Map fetchTable(Connection conn) {
+    private Map<String, Object> fetchTable(Connection conn) {
         String key = env.getProperty("key");
         Map off_map = new TreeMap();
         int count = 0;
@@ -218,9 +218,14 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            count = count + offset_value;
-            off_map.put("offset_value", count);
-            off_map.put("value", AES.encrypt(ja.toString(), key));
+            if (count < offset_value){
+                count = count + offset_value;
+                off_map.put("offset_value", count);
+                off_map.put("value", AES.encrypt(ja.toString(), key));
+            }
+            else {
+                off_map.put("status", "Done");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -280,9 +285,14 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 count++;
             }
-            count = count + offset_value;
-            of_map.put("offset_value", count);
-            of_map.put("value", AES.encrypt(ja.toString(), key));
+            if (count < offset_value){
+                count = count + offset_value;
+                of_map.put("offset_value", count);
+                of_map.put("value", AES.encrypt(ja.toString(), key));
+            }
+            else {
+                of_map.put("status", "Done");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
