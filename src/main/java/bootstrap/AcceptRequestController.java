@@ -211,7 +211,7 @@ public class AcceptRequestController {
             ResultSet resultSet = statement.executeQuery(crow_query);
             resultSet.next();
             total_count = resultSet.getInt(1);
-            System.out.println(total_count);
+//            System.out.println(total_count);
             if (offset_value >= total_count){
                 off_map.put("status", "check offset");
             }
@@ -289,7 +289,7 @@ public class AcceptRequestController {
                 ResultSet resultSet = statement.executeQuery(crow_query);
                 resultSet.next();
                 total_count = resultSet.getInt(1);
-            System.out.println(total_count);
+//            System.out.println(total_count);
                 if (offset_value >= total_count){
                     of_map.put("status", "check offset");
                 }
