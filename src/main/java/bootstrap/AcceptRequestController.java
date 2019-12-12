@@ -179,7 +179,7 @@ public class AcceptRequestController {
     public Map aesEncTable(@RequestBody RequestData requestData) {
 
         this.table_name = requestData.getTable_name();
-        this.offset_value = requestData.getOffset();
+        this.offset_value = requestData.getOffset_value();
         Map jo = new TreeMap();
         try {
             if (conn != null) {
@@ -253,8 +253,6 @@ public class AcceptRequestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        System.out.println(jo.size());
-//        System.out.println(jo);
         return jo;
     }
 
@@ -289,76 +287,13 @@ public class AcceptRequestController {
         return of_map;
     }
 
-//    private ArrayList fetchItem(Connection conn) {
-//        Map<String, Object> jo = new HashMap<>();
-//        int total_count = 0;
-//        String status = "";
-//        String fetch_query = queries.fetchTable(table_name, offset_value);
-//        ArrayList<Map<String, Object>> ja = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(fetch_query);
-//            ResultSetMetaData rsmd = null;
-//            rsmd = rs.getMetaData();
-//            int num_col = 0;
-//            num_col = rsmd.getColumnCount();
-//
-//            while (rs.next()) {
-//                Map<String, Object> jo2 = new HashMap<>();
-//                for (int i = 1; i <= num_col; i++) {
-//                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-//                }
-//                ja.add(jo2);
-////                System.out.println(ja);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-////        jo.put("status", status);
-//        return ja;
-//    }
-
-//    @RequestMapping(value = "/site", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-//    public ArrayList storeFetch(@RequestBody RequestData requestData) {
-//        this.table_name = requestData.getTable_name();
-//        this.offset_value = requestData.getOffset();
-//        ArrayList jo = new ArrayList<>();
-//        try {
-//            if (conn != null) {
-//                jo = () fetchTable(conn);
-//            } else {
-//                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-//                jo = (ArrayList) fetchTable(conn);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println(env.getProperty("count_file_store"));
-//
-//        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_store"),true));
-//            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-//            bf.flush();
-//            bf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        System.out.println(jo.size());
-////        System.out.println(jo);
-//        return jo;
-//    }
-
-
-
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
         System.out.println("REQUEST AYOOO!!!");
         System.out.println("table name = " + table_name);
         System.out.println("offset = " + offset_value);
-        this.offset_value = requestData.getOffset();
+        this.offset_value = requestData.getOffset_value();
         this.table_name = requestData.getTable_name();
-//        env.getProperty("range_count");
         this.range_count = Integer.parseInt(env.getProperty("range_count"));
 
 

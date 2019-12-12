@@ -1,7 +1,6 @@
 package bootstrap;
 
 public class RequestData {
-    int offset;
     String table_name;
     int offset_value;
 
@@ -17,15 +16,5 @@ public class RequestData {
     public void setTable_name(String table_name) {
         this.table_name = table_name;
     }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-
 
 }
