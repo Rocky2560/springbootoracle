@@ -16,6 +16,7 @@ import requestdata.FetchByDate;
 import requestdata.FetchItem;
 import requestdata.FetchStore;
 
+import javax.swing.plaf.nimbus.State;
 import javax.xml.transform.Result;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -198,41 +199,51 @@ public class AcceptRequestController {
 
     private Map<String, Object> fetchTable(Connection conn) {
         String key = env.getProperty("key");
-        Map off_map = new TreeMap();
-        int count = 0;
-        String status = "";
-        String fetch_query = queries.fetchTable(table_name, offset_value);
+        int off_count = 0;
+        Map<String, Object> off_map = new TreeMap<>();
+//        String status = "";
+        String crow_query = queries.getCountQuery(table_name);
+        String fetch_query = queries.fetchTable(table_name,offset_value);
         JSONArray ja = new JSONArray();
+        int total_count = 0;
         try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(fetch_query);
-            ResultSetMetaData rsmd = null;
-            rsmd = rs.getMetaData();
-            int num_col = 0;
-            num_col = rsmd.getColumnCount();
-
-            while (rs.next()) {
-                Map<String, Object> jo2 = new HashMap<>();
-                for (int i = 1; i <= num_col; i++) {
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                }
-                ja.put(jo2);
-                count++;
-            }
-            if (count >= offset_value){
-                off_map.put("status", "Done");
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(crow_query);
+            resultSet.next();
+            total_count = resultSet.getInt(1);
+            System.out.println(total_count);
+            if (offset_value >= total_count){
+                off_map.put("status", "check offset");
             }
             else {
-                count = count + offset_value;
-                off_map.put("offset_value", count);
-                off_map.put("value", AES.encrypt(ja.toString(), key));
+                try {
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(fetch_query);
+                    ResultSetMetaData rsmd = null;
+                    rsmd = rs.getMetaData();
+                    int num_col = 0;
+                    num_col = rsmd.getColumnCount();
 
+                    while (rs.next()) {
+                        Map<String, Object> jo2 = new HashMap<>();
+                        for (int i = 1; i <= num_col; i++) {
+                            jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                        }
+                        ja.put(jo2);
+                        off_count++;
+                    }
+                    off_count = off_count + offset_value;
+                    off_map.put("offset_value", off_count);
+                    off_map.put("value", AES.encrypt(ja.toString(), key));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return off_map;
-    }
+        }
 
 
 
