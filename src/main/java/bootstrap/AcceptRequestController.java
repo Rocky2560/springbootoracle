@@ -279,7 +279,7 @@ public class AcceptRequestController {
                 resultSet.next();
                 total_count = resultSet.getInt(1);
             System.out.println(total_count);
-                if (total_count > offset_value){
+                if (offset_value >= total_count){
                     of_map.put("status", "check offset");
                 }
                 else {
