@@ -299,6 +299,7 @@ public class AcceptRequestController {
                             ja.put(jo2);
                             off_count++;
                         }
+                        off_count = off_count + total_count;
                         of_map.put("offset_value", off_count);
                         of_map.put("value", AES.encrypt(ja.toString(), key));
                     } catch (SQLException e) {
