@@ -280,7 +280,7 @@ public class AcceptRequestController {
                 total_count = resultSet.getInt(1);
             System.out.println(total_count);
                 if (total_count >= offset_value){
-                    of_map.put("status", "done");
+                    status = "done";
                 }
                 else {
                     try {
