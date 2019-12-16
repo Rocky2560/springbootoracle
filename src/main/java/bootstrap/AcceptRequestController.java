@@ -233,6 +233,7 @@ public class AcceptRequestController {
                         off_count++;
                     }
                     off_count = off_count + offset_value;
+                    System.out.println(off_count);
                     off_map.put("offset_value", off_count);
                     off_map.put("value", AES.encrypt(ja.toString(), key));
                 } catch (SQLException e) {
@@ -244,9 +245,6 @@ public class AcceptRequestController {
 //        }
         return off_map;
         }
-
-
-
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
