@@ -233,7 +233,7 @@ public class AcceptRequestController {
                         off_count++;
                     }
                     off_count = off_count + offset_value;
-                    System.out.println(off_count);
+//                    System.out.println(off_count);
                     off_map.put("offset_value", off_count);
                     off_map.put("value", AES.encrypt(ja.toString(), key));
                 } catch (SQLException e) {
