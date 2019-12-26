@@ -81,9 +81,11 @@ public class AcceptRequestController {
             ResultSet rs = stmt.executeQuery(fetch_query);
             if (rs.next()) {
                 jo.put("status", true);
+                jo.put("lpcardno", rs.getObject(1));
                 jo.put("code", Status.OK_QUERY);
             } else {
                 jo.put("status", false);
+                jo.put("lpcardno", "null");
                 jo.put("code", Status.CUSTOMER_NOT_FOUND);
             }
 
