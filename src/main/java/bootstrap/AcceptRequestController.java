@@ -83,17 +83,13 @@ public class AcceptRequestController {
             if (rs.next()) {
                 lp.add(rs.getObject(1));
                 System.out.println(lp);
-                jo.put("status", true);
-                jo.put("lpcardno", lp);
-                jo.put("code", Status.OK_QUERY);
-            } else {
-//                jo.put("status", false);
-//                jo.put("lpcardno", "null");
-//                jo.put("code", Status.CUSTOMER_NOT_FOUND);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        jo.put("lpcardno", lp);
+        jo.put("code", Status.OK_QUERY);
+        jo.put("status", true);
         return jo;
     }
 
