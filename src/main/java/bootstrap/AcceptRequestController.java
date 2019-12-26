@@ -77,6 +77,7 @@ public class AcceptRequestController {
         Map<String, Object> jo = new HashMap<>();
         String fetch_query = queries.fetchMobileRecord(mobile);
         boolean status = false;
+        int code = Status.CUSTOMER_NOT_FOUND;
         ArrayList lp = new ArrayList();
         try {
             Statement stmt = conn.createStatement();
@@ -84,13 +85,14 @@ public class AcceptRequestController {
             while (rs.next()) {
                 lp.add(rs.getObject(1));
                 status = true;
+                code = Status.OK_QUERY;
                 System.out.println(lp);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         jo.put("lpcardno", lp);
-        jo.put("code", Status.OK_QUERY);
+        jo.put("code", code);
         jo.put("status", status);
         return jo;
     }
