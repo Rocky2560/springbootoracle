@@ -1,0 +1,7 @@
+.idea
+.idea/*
+*.iml
+src/target
+target/*
+spark-warehouse
+.env
