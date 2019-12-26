@@ -86,7 +86,7 @@ public class AcceptRequestController {
                 lp.add(rs.getObject(1));
                 status = true;
                 code = Status.OK_QUERY;
-                System.out.println(lp);
+//                System.out.println(lp);
             }
         } catch (SQLException e) {
             e.printStackTrace();
