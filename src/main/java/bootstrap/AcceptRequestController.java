@@ -76,12 +76,14 @@ public class AcceptRequestController {
     private Map<String, Object> validate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         String fetch_query = queries.fetchMobileRecord(mobile);
+        ArrayList <String> lp = new ArrayList<String>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
             if (rs.next()) {
+
                 jo.put("status", true);
-                jo.put("lpcardno", rs.getObject(1));
+                jo.put("lpcardno", lp.add((String) rs.getObject(1)));
                 jo.put("code", Status.OK_QUERY);
             } else {
                 jo.put("status", false);
