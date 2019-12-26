@@ -87,12 +87,13 @@ public class AcceptRequestController {
                 jo.put("lpcardno", lp);
                 jo.put("code", Status.OK_QUERY);
             } else {
+
                 lp.add(null);
 //                jo.put("status", false);
 //                jo.put("lpcardno", "null");
 //                jo.put("code", Status.CUSTOMER_NOT_FOUND);
-            }
 
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
