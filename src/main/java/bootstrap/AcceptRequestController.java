@@ -80,7 +80,7 @@ public class AcceptRequestController {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
-            if (rs.next()) {
+            while (rs.next()) {
                 lp.add(rs.getObject(1));
                 System.out.println(lp);
             }
