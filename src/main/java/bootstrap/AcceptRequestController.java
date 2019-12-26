@@ -76,12 +76,14 @@ public class AcceptRequestController {
     private Map<String, Object> validate(Connection conn) {
         Map<String, Object> jo = new HashMap<>();
         String fetch_query = queries.fetchMobileRecord(mobile);
+        boolean status = false;
         ArrayList lp = new ArrayList();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
             while (rs.next()) {
                 lp.add(rs.getObject(1));
+                status = true;
                 System.out.println(lp);
             }
         } catch (SQLException e) {
@@ -89,7 +91,7 @@ public class AcceptRequestController {
         }
         jo.put("lpcardno", lp);
         jo.put("code", Status.OK_QUERY);
-        jo.put("status", true);
+        jo.put("status", status);
         return jo;
     }
 
