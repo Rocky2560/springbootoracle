@@ -97,34 +97,36 @@ public class AcceptRequestController {
         return jo;
     }
 
-    @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public JSONArray tchiring(@RequestBody FetchByDate fetchByDate) {
-        this.table_name = fetchByDate.getTable_name();
-        this.start_date = fetchByDate.getStart_date();
-        this.end_date = fetchByDate.getEnd_date();
-        this.date_column = fetchByDate.getDate_column();
-        JSONArray jo = new JSONArray();
-//        String jo = "";
-        try {
-            if (conn != null) {
-                jo = fetchByDate(conn);
-            } else {
-                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
-                jo = fetchByDate(conn);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        System.out.println(jo.size());
-//        System.out.println(jo);
-        return jo;
-    }
+//    @RequestMapping(value = "/csv", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+//    public JSONArray tchiring(@RequestBody FetchByDate fetchByDate) {
+//        this.table_name = fetchByDate.getTable_name();
+//        this.start_date = fetchByDate.getStart_date();
+//        this.end_date = fetchByDate.getEnd_date();
+//        this.date_column = fetchByDate.getDate_column();
+//        JSONArray jo = new JSONArray();
+////        String jo = "";
+//        try {
+//            if (conn != null) {
+//                jo = fetchByDate(conn);
+//            } else {
+//                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+//                jo = fetchByDate(conn);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+////        System.out.println(jo.size());
+////        System.out.println(jo);
+//        return jo;
+//    }
 
     private JSONArray fetchByDate(Connection conn) {
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
+        int off_count = 0;
+
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -139,10 +141,21 @@ public class AcceptRequestController {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.put(jo2);
+                off_count++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"),true));
+            bf.write("{\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 //        System.out.println(ja);
 //        try {
 //            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file"),true));
@@ -243,6 +256,27 @@ public class AcceptRequestController {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                if (table_name.toUpperCase() == "V_EKB_CUST") {
+                    try {
+                        BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("cust_count"), true));
+                        bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                        bf.flush();
+                        bf.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (table_name.toUpperCase() == "V_EKB_SITE"){
+                    try {
+                        BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("site_count"), true));
+                        bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                        bf.flush();
+                        bf.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();
@@ -266,14 +300,14 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
 
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
-            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-            bf.flush();
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
+//            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+//            bf.flush();
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return jo;
     }
 
@@ -318,6 +352,14 @@ public class AcceptRequestController {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("item_count"),true));
+            bf.write("{\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //                }
 //            } catch (SQLException e) {
 //                e.printStackTrace();
