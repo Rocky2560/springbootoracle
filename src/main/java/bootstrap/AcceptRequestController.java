@@ -256,7 +256,7 @@ public class AcceptRequestController {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                if (table_name.toLowerCase() == "mmpl.v_ekb_cust") {
+                if (table_name.toLowerCase().equals("mmpl.v_ekb_cust")) {
                     try {
                         BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("cust_count"), true));
                         bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
@@ -266,7 +266,7 @@ public class AcceptRequestController {
                         e.printStackTrace();
                     }
                 }
-                else if (table_name.toLowerCase() == "mmpl.v_ekb_site"){
+                else if (table_name.toLowerCase().equals("mmpl.v_ekb_site")){
                     try {
                         BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("site_count"), true));
                         bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
