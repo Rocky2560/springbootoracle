@@ -6,7 +6,7 @@ public class Queries {
     }
 
     public String getFetchQuery(String table_name,int offset_value,int range_count){
-        return "select LPCARDNO from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
+        return "select LPCARDNO, NAME from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
     public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
@@ -18,7 +18,7 @@ public class Queries {
     }
 
     public String fetchMobileRecord (String mobile_no){
-        return "select LPCARDNO from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'";
+        return "select LPCARDNO, NAME from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'" + "ORDER BY NAME offset 0 rows fetch next 1 rows only";
     }
 
     public String fetchItemTable (int offset_value){

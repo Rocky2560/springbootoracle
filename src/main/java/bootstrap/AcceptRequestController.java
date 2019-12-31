@@ -82,8 +82,12 @@ public class AcceptRequestController {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData resultSetMetaData = null;
+            resultSetMetaData = rs.getMetaData();
+            int col_num = resultSetMetaData.getColumnCount();
             while (rs.next()) {
                 lp.add(rs.getObject(1));
+                jo.put("name", rs.getObject(2));
                 status = true;
                 code = Status.OK_QUERY;
 //                System.out.println(lp);
@@ -91,6 +95,7 @@ public class AcceptRequestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         jo.put("lpcardno", lp);
         jo.put("code", code);
         jo.put("status", status);
