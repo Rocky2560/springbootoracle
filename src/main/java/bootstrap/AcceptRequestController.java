@@ -87,7 +87,7 @@ public class AcceptRequestController {
             int col_num = resultSetMetaData.getColumnCount();
             while (rs.next()) {
                 lp.add(rs.getObject(1));
-                jo.put("name", rs.getObject(2));
+                jo.put(resultSetMetaData.getColumnName(2).toLowerCase(), rs.getObject(2));
                 status = true;
                 code = Status.OK_QUERY;
 //                System.out.println(lp);
