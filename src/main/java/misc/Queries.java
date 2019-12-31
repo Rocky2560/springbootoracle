@@ -18,7 +18,7 @@ public class Queries {
     }
 
     public String fetchMobileRecord (String mobile_no){
-        return "select LPCARDNO, NAME from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'" + "ORDER BY NAME offset 0 rows";
+        return "select LPCARDNO, NAME from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'" + "ORDER BY NAME DESC offset 0 rows";
     }
 
     public String fetchItemTable (int offset_value){
