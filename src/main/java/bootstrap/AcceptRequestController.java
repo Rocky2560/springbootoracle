@@ -58,8 +58,8 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
-        log.info("INFO VALIDATE");
-        log.error("CHECK VALIDATE");
+        log.info("Fetching lpcardno of mobile number");
+//        log.error("CHECK VALIDATE");
         this.mobile = customerValidation.getMobile_no();
         ArrayList<Map<String,Object>> jo = new ArrayList<Map<String,Object>>();
         try {
@@ -178,8 +178,8 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesEncDateTable(@RequestBody FetchByDate fetchByDate){
-        log.info("INFO ENC_DATE_TABLE");
-        log.error("CHECK ENC_DATE_TABLE");
+        log.info("INFO Fetching table with respect to date");
+//        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
@@ -206,7 +206,7 @@ public class AcceptRequestController {
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map aesEncTable(@RequestBody RequestData requestData) {
         log.info("INFO ENC_TABLE");
-        log.error("CHECK ENC_TABLE");
+//        log.error("CHECK ENC_TABLE");
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset_value();
         Map jo = new TreeMap();
@@ -296,8 +296,8 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
-        log.info("INFO ITEM");
-        log.error("CHECK ITEM");
+        log.info("Fetching item table");
+//        log.error("CHECK ITEM");
         this.table_name = fetchItem.getTable_name();
         this.offset_value = fetchItem.getOffset_value();
         Map<String, Object> jo = new TreeMap<>();
