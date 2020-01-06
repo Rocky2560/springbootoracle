@@ -57,8 +57,6 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
-        log.info("Fetching lpcardno of mobile number");
-//        log.error("CHECK VALIDATE");
         this.mobile = customerValidation.getMobile_no();
         ArrayList<Map<String,Object>> jo = new ArrayList<Map<String,Object>>();
         try {
@@ -70,11 +68,13 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("Validate: ", e);
         }
         return jo;
     }
 
     private Map<String, Object> validate(Connection conn) {
+        log.info("Fetching lpcardno of mobile number:" + mobile);
         Map<String, Object> jo = new HashMap<>();
         String fetch_query = queries.fetchMobileRecord(mobile);
         boolean status = false;
@@ -95,6 +95,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            log.error("Validate: ", e);
         }
 
         jo.put("lpcardno", lp);
@@ -128,6 +129,7 @@ public class AcceptRequestController {
 //    }
 
     private JSONArray fetchByDate(Connection conn) {
+        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchByDate(table_name, start_date, end_date, date_column);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
@@ -151,6 +153,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            log.error("enc_date_table: ", e);
         }
 
         try {
@@ -177,7 +180,6 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesEncDateTable(@RequestBody FetchByDate fetchByDate){
-        log.info("INFO Fetching table with respect to date");
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
@@ -196,6 +198,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("enc_date_table: ", e);
         }
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
@@ -219,11 +222,13 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("enc_table: ", e);
         }
         return jo;
     }
 
     private Map<String, Object> fetchTable(Connection conn) {
+        log.info("INFO Fetching table: " + table_name  + " " + "offset_value:" + offset_value + "\n");
         String key = env.getProperty("key");
         int off_count = 0;
         Map<String, Object> off_map = new TreeMap<>();
@@ -264,6 +269,7 @@ public class AcceptRequestController {
                     off_map.put("value", AES.encrypt(ja.toString(), key));
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    log.error("enc_table: ", e);
                 }
                 if (table_name.toLowerCase().equals("mmpl.v_ekb_cust")) {
                     try {
@@ -309,6 +315,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("Item: ", e);
         }
 
 //        try {
@@ -323,6 +330,7 @@ public class AcceptRequestController {
     }
 
     private Map<String, Object> fetchItem(Connection conn) {
+        log.info("INFO Fetching table: " + table_name  + " " + "offset_value:" + offset_value + "\n");
         String key = env.getProperty("key");
         int off_count = 0;
         Map<String, Object> of_map = new TreeMap<>();
@@ -362,6 +370,7 @@ public class AcceptRequestController {
                         of_map.put("value", AES.encrypt(ja.toString(), key));
                     } catch (SQLException e) {
                         e.printStackTrace();
+                        log.error("Item: ", e);
                     }
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("item_count"),true));
