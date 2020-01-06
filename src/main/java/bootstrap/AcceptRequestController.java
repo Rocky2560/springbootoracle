@@ -58,6 +58,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
+        log.error("Validate");
         this.mobile = customerValidation.getMobile_no();
         ArrayList<Map<String,Object>> jo = new ArrayList<Map<String,Object>>();
         try {
@@ -176,6 +177,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesEncDateTable(@RequestBody FetchByDate fetchByDate){
+        log.error("enc_date_table");
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
@@ -201,7 +203,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map aesEncTable(@RequestBody RequestData requestData) {
-
+        log.error("enc_table");
         this.table_name = requestData.getTable_name();
         this.offset_value = requestData.getOffset_value();
         Map jo = new TreeMap();
@@ -291,6 +293,7 @@ public class AcceptRequestController {
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
+        log.error("item");
         this.table_name = fetchItem.getTable_name();
         this.offset_value = fetchItem.getOffset_value();
         Map<String, Object> jo = new TreeMap<>();
