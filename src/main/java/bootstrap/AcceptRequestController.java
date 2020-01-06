@@ -3,10 +3,9 @@ package bootstrap;
 import encryption.AES;
 import misc.Queries;
 import misc.Status;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -49,7 +48,7 @@ public class AcceptRequestController {
     private int result_offset;
     private Map<String, String> table_info = new HashMap<>();
 
-    private Logger log = LoggerFactory.getLogger(AcceptRequestController.class);
+    private Logger log = Logger.getLogger(AcceptRequestController.class);
     private Connection conn;
     private Queries queries = new Queries();
     private String table_name = "";
