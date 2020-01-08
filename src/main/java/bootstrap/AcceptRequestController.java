@@ -212,6 +212,7 @@ public class AcceptRequestController {
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
+        ArrayList<String> temp_site = site_code;
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         int off_count = 0;
@@ -227,15 +228,12 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && site_code.contains(rs.getObject(i))) {
-                        site_code.remove(rs.getObject(i).toString());
-                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                        System.out.println(site_code);
-                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && temp_site.contains(rs.getObject(i))) {
+                        temp_site.remove(rs.getObject(i).toString());
                         }
                 }
                 ja.put(jo2);
-                ja.put(site_code);
+                ja.put(temp_site);
                 off_count++;
             }
         } catch (SQLException e) {
