@@ -223,16 +223,13 @@ public class AcceptRequestController {
             rsmd = rs.getMetaData();
             int num_col = 0;
             num_col = rsmd.getColumnCount();
-            ArrayList<String> site_miss = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && !site_code.contains(rs.getObject(i))) {
-                        site_code.remove(rs.getObject(i).toString());
-//                            site_miss.add((String) rs.getObject(i));
+                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && site_code.contains(rs.getObject(i))) {
+                        site_code.remove(rs.getObject(i));
                         }
-//                    jo2.put("site_miss", site_miss);
                 }
                 ja.put(jo2);
                 ja.put(site_code);
