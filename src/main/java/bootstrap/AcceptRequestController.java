@@ -3,6 +3,7 @@ package bootstrap;
 import encryption.AES;
 import misc.Queries;
 import misc.Status;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -183,6 +184,7 @@ public class AcceptRequestController {
         this.start_date = fetchSale.getStart_date();
         this.end_date = fetchSale.getEnd_date();
         this.site_code = fetchSale.getSite_code();
+
 //        System.out.println("123123123");
 //        System.out.println(site_code);
 //        System.out.println("123123123");
@@ -227,7 +229,7 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && !site_code.contains(rs.getObject(i))) {
-                        site_code.remove(rs.getObject(i));
+                        site_code.remove(rs.getObject(i).toString());
 //                            site_miss.add((String) rs.getObject(i));
                         }
 //                    jo2.put("site_miss", site_miss);
