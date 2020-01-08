@@ -208,9 +208,6 @@ public class AcceptRequestController {
     }
 
     private JSONArray fetchSale(Connection conn) {
-        FetchSale fetchSale = new FetchSale();
-        this.site_code = fetchSale.getSite_code();
-        ArrayList site = this.site_code;
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
 //        System.out.println(fetch_query);
@@ -229,7 +226,7 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") & site.contains(rs.getObject(i))) {
+                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") & site_code.contains(rs.getObject(i))) {
                             site_miss.add((String) rs.getObject(i));
                         }
 //                    jo2.put("site_miss", site_miss);
