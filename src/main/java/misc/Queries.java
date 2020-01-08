@@ -14,9 +14,8 @@ public class Queries {
         return "select LPCARDNO, NAME from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
-    public String fetchSale (String start_date, String end_date, ArrayList site_code){
-        String temp = StringUtils.join(site_code, ',');
-        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= "+ start_date +" and billdate < "+ end_date + " and admsite_code in (" + temp.toString() + ")";
+    public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){
+        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= "+ start_date +" and billdate < "+ end_date + " and admsite_code in (" + StringUtils.join(site_code, ',') + ")";
     }
 
     public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
