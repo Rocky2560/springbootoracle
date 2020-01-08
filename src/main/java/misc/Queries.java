@@ -15,7 +15,8 @@ public class Queries {
     }
 
     public String fetchSale (String start_date, String end_date, ArrayList site_code){
-        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= "+ start_date +" and billdate < "+ end_date + " and admsite_code in ("+ StringUtils.join(site_code, ',')+")";
+        String temp =StringUtils.join(site_code, ',');
+        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= "+ start_date +" and billdate < "+ end_date + " and admsite_code in (" + temp + ")";
     }
 
     public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
