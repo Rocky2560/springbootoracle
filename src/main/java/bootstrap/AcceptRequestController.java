@@ -233,7 +233,7 @@ public class AcceptRequestController {
 //                    jo2.put("site_miss", site_miss);
                 }
                 ja.put(jo2);
-                ja.put(site_miss);
+                ja.put(site_code);
                 off_count++;
             }
         } catch (SQLException e) {
