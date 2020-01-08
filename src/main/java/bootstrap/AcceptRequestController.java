@@ -183,6 +183,9 @@ public class AcceptRequestController {
         this.start_date = fetchSale.getStart_date();
         this.end_date = fetchSale.getEnd_date();
         this.site_code = fetchSale.getSite_code();
+        System.out.println("123123123");
+        System.out.println(site_code);
+        System.out.println("123123123");
 
         JSONArray jo = new JSONArray();
 //        String jo = "";

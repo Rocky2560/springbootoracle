@@ -6,13 +6,13 @@ import java.util.ArrayList;
 public class FetchSale {
     String start_date;
     String end_date;
-    ArrayList site_code;
+    ArrayList<String> site_code;
 
     public ArrayList getSite_code() {
         return site_code;
     }
 
-    public void setSite_code(ArrayList site_code) {
+    public void setSite_code(ArrayList site_code){
         this.site_code = site_code;
     }
 
