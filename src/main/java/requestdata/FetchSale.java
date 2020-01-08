@@ -8,7 +8,7 @@ public class FetchSale {
     String end_date;
     ArrayList<String> site_code;
 
-    public ArrayList getSite_code() {
+    public ArrayList<String> getSite_code() {
         return site_code;
     }
 
