@@ -228,9 +228,11 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && temp_site.contains(rs.getObject(i))) {
-                        temp_site.remove(rs.getObject(i).toString());
+                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code")){
+                        if (temp_site.contains(rs.getObject(i))) {
+                            temp_site.remove(rs.getObject(i).toString());
                         }
+                    }
                 }
                 ja.put(jo2);
                 ja.put(temp_site);
