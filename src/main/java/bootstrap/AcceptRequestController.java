@@ -183,9 +183,9 @@ public class AcceptRequestController {
         this.start_date = fetchSale.getStart_date();
         this.end_date = fetchSale.getEnd_date();
         this.site_code = fetchSale.getSite_code();
-        System.out.println("123123123");
-        System.out.println(site_code);
-        System.out.println("123123123");
+//        System.out.println("123123123");
+//        System.out.println(site_code);
+//        System.out.println("123123123");
 
         JSONArray jo = new JSONArray();
 //        String jo = "";
@@ -203,13 +203,13 @@ public class AcceptRequestController {
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
 //        return AES.encrypt(jo.toString(), key);
-        System.out.println(jo);
+//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
     }
 
     private JSONArray fetchSale(Connection conn) {
         FetchSale fetchSale = new FetchSale();
-//        ArrayList site = this.site_code = fetchSale.getSite_code();
+        ArrayList site = fetchSale.getSite_code();
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
 //        System.out.println(fetch_query);
@@ -223,13 +223,18 @@ public class AcceptRequestController {
             rsmd = rs.getMetaData();
             int num_col = 0;
             num_col = rsmd.getColumnCount();
-
+            ArrayList<String> site_miss = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> jo2 = new HashMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                    if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") & site.contains(rs.getObject(i))) {
+                            site_miss.add((String) rs.getObject(i));
+                        }
+//                    jo2.put("site_miss", site_miss);
                 }
                 ja.put(jo2);
+                ja.put(site_miss);
                 off_count++;
             }
         } catch (SQLException e) {
