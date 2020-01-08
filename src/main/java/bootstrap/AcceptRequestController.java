@@ -209,7 +209,8 @@ public class AcceptRequestController {
 
     private JSONArray fetchSale(Connection conn) {
         FetchSale fetchSale = new FetchSale();
-        ArrayList site = fetchSale.getSite_code();
+        this.site_code = fetchSale.getSite_code();
+        ArrayList site = this.site_code;
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
 //        System.out.println(fetch_query);
