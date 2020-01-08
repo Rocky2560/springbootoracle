@@ -13,8 +13,8 @@ public class Queries {
     }
 
     public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){
-        String temp = StringUtils.join(site_code, "\", \"");
-        String temp2 = StringUtils.wrap(temp, "\"");
+        String temp = StringUtils.join(site_code, "\', \'");
+        String temp2 = StringUtils.wrap(temp, "\'");
         return "select * from mmpl.V_EKB_CUST_SALE where billdate >= '"+ start_date +"' and billdate < '"+ end_date + "' and admsite_code in (" + temp2 + ")";
     }
 
