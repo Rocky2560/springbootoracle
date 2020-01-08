@@ -1,9 +1,7 @@
 package misc;
 
-import org.apache.tomcat.util.buf.StringUtils;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
 
 public class Queries {
     public String getCountQuery(String table_name){
@@ -15,9 +13,9 @@ public class Queries {
     }
 
     public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){
-        String temp = StringUtils.join(site_code, ',');
-        System.out.println(temp);
-        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= '"+ start_date +"' and billdate < '"+ end_date + "' and admsite_code in (" + StringUtils.join(site_code, ',') + ")";
+        String temp = StringUtils.join(site_code, "\", \"");
+        String temp2 = StringUtils.wrap(temp, "\"");
+        return "select * from mmpl.V_EKB_CUST_SALE where billdate >= '"+ start_date +"' and billdate < '"+ end_date + "' and admsite_code in (" + temp2 + ")";
     }
 
     public String fetchTransactionRecord (String table_name,int offset_value,int range_count){
