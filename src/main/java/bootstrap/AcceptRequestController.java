@@ -229,6 +229,9 @@ public class AcceptRequestController {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code") && site_code.contains(rs.getObject(i))) {
                         site_code.remove(rs.getObject(i).toString());
+                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                        System.out.println(site_code);
+                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         }
                 }
                 ja.put(jo2);
