@@ -211,9 +211,10 @@ public class AcceptRequestController {
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
-        ArrayList<String> temp_site = new ArrayList<>();
+        ArrayList<String> temp_site = site_code;
         ArrayList<String> temp_site2 = site_code;
-        System.out.println(temp_site2);
+        System.out.println(temp_site.hashCode());
+        System.out.println(temp_site2.hashCode());
 //        System.out.println(temp_site);
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
@@ -229,12 +230,12 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code")){
-                        temp_site.add(rs.getObject(i).toString());
+                        temp_site.remove(rs.getObject(i).toString());
                     }
                 }
                 ja.put(jo2);
             }
-            System.out.println(temp_site);
+//            System.out.println(temp_site2);
 //            try {
 //                Thread.sleep(5000);
 //            } catch (InterruptedException e) {
