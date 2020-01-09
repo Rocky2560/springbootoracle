@@ -234,6 +234,11 @@ public class AcceptRequestController {
                 ja.put(jo2);
             }
             System.out.println(temp_site2);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             temp_site2.remove(temp_site);
             System.out.println(temp_site2);
             System.out.println(temp_site);
