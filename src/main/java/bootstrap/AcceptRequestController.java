@@ -211,10 +211,13 @@ public class AcceptRequestController {
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
-        ArrayList temp_site = new ArrayList(site_code);
-        ArrayList temp_site2 = new ArrayList(site_code);
-        System.out.println(temp_site.hashCode());
-        System.out.println(temp_site2.hashCode());
+//        ArrayList<String> temp_site = site_code;
+//        ArrayList temp_site2 = new ArrayList(site_code);
+
+        Set<String> final_site_code = new HashSet<>();
+
+//        System.out.println(temp_site.hashCode());
+//        System.out.println(temp_site2.hashCode());
 //        System.out.println(temp_site);
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
@@ -230,7 +233,7 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code")){
-                        temp_site.remove(rs.getObject(i).toString());
+                        final_site_code.add(rs.getObject(i).toString());
                     }
                 }
                 ja.put(jo2);
@@ -241,9 +244,9 @@ public class AcceptRequestController {
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-            temp_site2.remove(temp_site);
+//            temp_site2.remove(temp_site);
 //            temp_site2.removeAll(temp_site);
-            System.out.println(temp_site2);
+            System.out.println(final_site_code);
             site_map.put("site_miss", site_code);
             ja.put(site_map);
         } catch (SQLException e) {
