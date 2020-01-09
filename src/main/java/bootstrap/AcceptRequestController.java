@@ -211,14 +211,8 @@ public class AcceptRequestController {
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
-//        ArrayList<String> temp_site = site_code;
-//        ArrayList temp_site2 = new ArrayList(site_code);
 
         Set<String> final_site_code = new HashSet<>();
-
-//        System.out.println(temp_site.hashCode());
-//        System.out.println(temp_site2.hashCode());
-//        System.out.println(temp_site);
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
         try {
@@ -238,16 +232,8 @@ public class AcceptRequestController {
                 }
                 ja.put(jo2);
             }
-//            System.out.println(temp_site2);
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            temp_site2.remove(temp_site);
-//            temp_site2.removeAll(temp_site);
             System.out.println(final_site_code);
-            site_map.put("site_miss", site_code);
+            site_map.put("site_exist", final_site_code);
             ja.put(site_map);
         } catch (SQLException e) {
             e.printStackTrace();
