@@ -336,7 +336,6 @@ public class AcceptRequestController {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.put(jo2);
-                off_count++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
