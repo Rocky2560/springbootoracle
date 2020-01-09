@@ -213,6 +213,7 @@ public class AcceptRequestController {
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
         ArrayList<String> temp_site = site_code;
         ArrayList<String> temp_site2 = site_code;
+        System.out.println(temp_site2);
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
         try {
