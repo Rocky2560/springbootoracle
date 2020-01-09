@@ -232,6 +232,7 @@ public class AcceptRequestController {
                 }
                 ja.put(jo2);
             }
+            System.out.println(temp_site2);
             temp_site2.remove(temp_site);
             System.out.println(temp_site2);
             System.out.println(temp_site);
