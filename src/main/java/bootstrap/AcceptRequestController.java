@@ -214,6 +214,7 @@ public class AcceptRequestController {
         ArrayList<String> temp_site = site_code;
         ArrayList<String> temp_site2 = site_code;
         System.out.println(temp_site2);
+        System.out.println(temp_site);
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
         try {
@@ -233,15 +234,15 @@ public class AcceptRequestController {
                 }
                 ja.put(jo2);
             }
+//            System.out.println(temp_site2);
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            temp_site2.remove(temp_site);
+            temp_site2.removeAll(temp_site);
             System.out.println(temp_site2);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            temp_site2.remove(temp_site);
-            System.out.println(temp_site2);
-            System.out.println(temp_site);
             site_map.put("site_miss", site_code);
             ja.put(site_map);
         } catch (SQLException e) {
