@@ -204,7 +204,7 @@ public class AcceptRequestController {
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
 //        return AES.encrypt(jo.toString(), key);
-        System.out.println(jo);
+//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
     }
 
@@ -231,6 +231,7 @@ public class AcceptRequestController {
                 }
                 ja.put(jo2);
             }
+            System.out.println(site_code);
             site_code.remove(temp_site);
             System.out.println(temp_site);
             System.out.println(site_code);
