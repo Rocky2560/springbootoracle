@@ -232,6 +232,8 @@ public class AcceptRequestController {
                 ja.put(jo2);
             }
             site_code.remove(temp_site);
+            System.out.println(temp_site);
+            System.out.println(site_code);
             site_map.put("site_miss", site_code);
             ja.put(site_map);
         } catch (SQLException e) {
