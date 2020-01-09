@@ -203,7 +203,7 @@ public class AcceptRequestController {
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
 //        return AES.encrypt(jo.toString(), key);
-//        System.out.println(jo);
+        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
     }
 
@@ -211,10 +211,7 @@ public class AcceptRequestController {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
         ArrayList<String> temp_site = site_code;
-//        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
-        int off_count = 0;
-
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -230,15 +227,14 @@ public class AcceptRequestController {
                         temp_site.remove(rs.getObject(i).toString());
                     }
                 }
+                jo2.put("site_miss", temp_site);
                 ja.put(jo2);
                 ja.put(temp_site);
-                off_count++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
 //            log.error("enc_date_table: ", e);
         }
-
 //        try {
 //            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"),true));
 //            bf.write("{\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
