@@ -1,5 +1,6 @@
 package bootstrap;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import encryption.AES;
 import misc.Queries;
 import misc.Status;
@@ -212,6 +213,7 @@ public class AcceptRequestController {
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
         ArrayList<String> temp_site = site_code;
         JSONArray ja = new JSONArray();
+        Map<String,Object> site_map = new HashMap<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -227,9 +229,9 @@ public class AcceptRequestController {
                         temp_site.remove(rs.getObject(i).toString());
                     }
                 }
-                jo2.put("site_miss", temp_site);
+                site_map.put("site_miss", temp_site);
                 ja.put(jo2);
-                ja.put(temp_site);
+                ja.put(site_map);
             }
         } catch (SQLException e) {
             e.printStackTrace();
