@@ -229,10 +229,10 @@ public class AcceptRequestController {
                         temp_site.remove(rs.getObject(i).toString());
                     }
                 }
-                site_map.put("site_miss", temp_site);
                 ja.put(jo2);
-                ja.put(site_map);
             }
+            site_map.put("site_miss", temp_site);
+            ja.put(site_map);
         } catch (SQLException e) {
             e.printStackTrace();
 //            log.error("enc_date_table: ", e);
