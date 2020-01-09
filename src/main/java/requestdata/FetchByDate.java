@@ -5,6 +5,15 @@ public class FetchByDate {
     String end_date;
     String table_name;
     String date_column;
+    int limit;
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
 
     public String getDate_column() {return date_column;}
 

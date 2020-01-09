@@ -27,6 +27,10 @@ public class Queries {
         return "select * from " + table_name +" where " + date_column + " > '" + start_date + "' and " + date_column + " < '" + end_date + "'";
     }
 
+    public String fetchForMongo (String table_name, String start_date, String end_date, String date_column, int limit){
+        return "select * from " + table_name +" where " + date_column + " > '" + start_date + "' and " + date_column + " < '" + end_date + "' offset 0 rows fetch next " + limit + " rows only";
+    }
+
     public String fetchMobileRecord (String mobile_no){
         return "select LPCARDNO, NAME from mmpl.V_EKB_CUST where MOBILE ='" + mobile_no + "'" + "ORDER BY NAME DESC offset 0 rows";
     }

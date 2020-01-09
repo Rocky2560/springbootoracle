@@ -40,6 +40,7 @@ public class AcceptRequestController {
     String mobile = "";
     String key = "";
     String date_column = "";
+    private  int limit = 1;
 
 
 
@@ -286,6 +287,71 @@ public class AcceptRequestController {
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
         return AES.encrypt(jo.toString(), key);
+    }
+
+    @RequestMapping(value = "/fetch_mongo", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
+    public String test_fetch(@RequestBody FetchByDate fetchByDate){
+//        log.error("CHECK ENC_DATE_TABLE");
+        String key = env.getProperty("key");
+        this.table_name = fetchByDate.getTable_name();
+        this.start_date = fetchByDate.getStart_date();
+        this.end_date = fetchByDate.getEnd_date();
+        this.date_column = fetchByDate.getDate_column();
+        this.limit = fetchByDate.getLimit();
+
+        JSONArray jo = new JSONArray();
+//        String jo = "";
+        try {
+            if (conn != null) {
+                jo = fetchForMongo(conn);
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo = fetchForMongo(conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("enc_date_table: ", e);
+        }
+//        System.out.println(jo);
+//        System.out.println(AES.encrypt(jo.toString(), key));
+        return AES.encrypt(jo.toString(), key);
+    }
+
+    private JSONArray fetchForMongo(Connection conn) {
+//        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
+        String fetch_query = queries.fetchForMongo(table_name, start_date, end_date, date_column, limit);
+//        System.out.println(fetch_query);
+        JSONArray ja = new JSONArray();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                }
+                ja.put(jo2);
+                off_count++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("enc_date_table: ", e);
+        }
+
+//        try {
+//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"), true));
+//            bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+//            bf.flush();
+//            bf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return ja;
     }
 
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
