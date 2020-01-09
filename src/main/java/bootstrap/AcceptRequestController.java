@@ -289,7 +289,7 @@ public class AcceptRequestController {
         return AES.encrypt(jo.toString(), key);
     }
 
-    @RequestMapping(value = "/fetch", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/mongo", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String test_fetch(@RequestBody FetchByDate fetchByDate){
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
