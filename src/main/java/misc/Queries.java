@@ -12,6 +12,11 @@ public class Queries {
         return "select LPCARDNO, NAME from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
+
+    public String fetchBillInfo(String start_date){
+        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE";
+    }
+
     public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){
 //        String temp = StringUtils.join(site_code, "\', \'");
 //        String temp2 = StringUtils.wrap(temp, "\'");
