@@ -13,8 +13,9 @@ public class Queries {
     }
 
 
-    public String fetchBillInfo(String start_date){
-        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE";
+    public String fetchBillInfo(String start_date, String end_date){
+        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
+
     }
 
     public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){

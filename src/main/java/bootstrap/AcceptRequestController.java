@@ -302,10 +302,6 @@ public class AcceptRequestController {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
-        this.date_column = fetchByDate.getDate_column();
-        this.limit = fetchByDate.getLimit();
-        this.encrypt = fetchByDate.isEncrypt();
-
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -330,7 +326,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_query = queries.fetchBillInfo(start_date);
+        String fetch_query = queries.fetchBillInfo(start_date,end_date);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
