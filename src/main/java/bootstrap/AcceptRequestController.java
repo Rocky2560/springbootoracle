@@ -238,6 +238,7 @@ public class AcceptRequestController {
             site_map.put("site_exist", final_site_code);
             ja.put(ja_in);
             ja.put(site_map);
+            System.out.println(ja);
         } catch (SQLException e) {
             e.printStackTrace();
 //            log.error("enc_date_table: ", e);
