@@ -338,7 +338,7 @@ public class AcceptRequestController {
             num_col = rsmd.getColumnCount();
 
             while (rs.next()) {
-                Map<String, Object> jo2 = new HashMap<>();
+                Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
