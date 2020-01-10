@@ -239,7 +239,7 @@ public class AcceptRequestController {
             main_map.put("site_code", final_site_code);
             main_map.put("result", ja);
             main_arr.put(main_map);
-            System.out.println(main_arr);
+//            System.out.println(main_arr);
 //            site_map.put("site_exist", final_site_code);
         } catch (SQLException e) {
             e.printStackTrace();
