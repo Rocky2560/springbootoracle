@@ -15,9 +15,15 @@ public class Queries {
 
     public String fetchBillInfo(String start_date, String end_date){
 //        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
-        return "select DISTINCT(BILLNO), BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
-
+//        return "select BILLNO, BILLDATE, SITE_CODE, NETSALES, LPCARDNO, NETSALES from mmpl.V_EKB_POSBILL where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
+        return "select BILLNO, BILLDATE, SITE_CODE, NETSALES, LPCARDNO, NETSALES from mmpl.V_EKB_POSBILL as bill FULL OUTER JOIN mmpl.V_EKB_CUST_SALE as sale ON bill.BILLNO=sale.BILLNO where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
     }
+    public String fetchProductInfo(String bill_no){
+//        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
+//        return "select DISTINCT(BILLNO), BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO,  from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
+        return "select CAT1, ICODE, SALEQTY from mmpl.V_EKB_POSBILL where billno = '"+bill_no+"'";
+    }
+
 
     public String fetchSale (String start_date, String end_date, ArrayList<String> site_code){
 //        String temp = StringUtils.join(site_code, "\', \'");

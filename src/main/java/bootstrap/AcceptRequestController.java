@@ -44,6 +44,7 @@ public class AcceptRequestController {
     String date_column = "";
     private int limit = 1;
     boolean encrypt = true;
+    String bill_no = "";
 
 
     private int result_offset;
@@ -326,12 +327,13 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_query = queries.fetchBillInfo(start_date,end_date);
+        String fetchbillinfo = queries.fetchBillInfo(start_date,end_date);
+        String fetchproductinfo = queries.fetchProductInfo(bill_no);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSet rs = stmt.executeQuery(fetchbillinfo);
             ResultSetMetaData rsmd = null;
             rsmd = rs.getMetaData();
             int num_col = 0;
