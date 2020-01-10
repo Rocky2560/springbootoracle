@@ -213,7 +213,7 @@ public class AcceptRequestController {
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
-
+        JSONArray ja_in = new JSONArray();
         Set<String> final_site_code = new HashSet<>();
         JSONArray ja = new JSONArray();
         Map<String,Object> site_map = new HashMap<>();
@@ -232,10 +232,11 @@ public class AcceptRequestController {
                         final_site_code.add(rs.getObject(i).toString());
                     }
                 }
-                ja.put(jo2);
+                ja_in.put(jo2);
             }
             System.out.println(final_site_code);
             site_map.put("site_exist", final_site_code);
+            ja.put(ja_in);
             ja.put(site_map);
         } catch (SQLException e) {
             e.printStackTrace();
