@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import requestdata.*;
 
 import javax.swing.plaf.nimbus.State;
+import javax.transaction.TransactionRequiredException;
 import javax.xml.transform.Result;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -212,11 +213,12 @@ public class AcceptRequestController {
 
     private JSONArray fetchSale(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name  + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
+        JSONArray main_arr = new JSONArray();
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
-        Map<String,Object> ja_in = new TreeMap<>();
+        Map<String,Object> main_map = new TreeMap<>();
         Set<String> final_site_code = new HashSet<>();
         JSONArray ja = new JSONArray();
-        Map<String,Object> site_map = new HashMap<>();
+//        Map<String,Object> site_map = new HashMap<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -232,13 +234,13 @@ public class AcceptRequestController {
                         final_site_code.add(rs.getObject(i).toString());
                     }
                 }
-                ja_in.put("result", jo2);
+                ja.put(jo2);
             }
-            System.out.println(final_site_code);
-            site_map.put("site_exist", final_site_code);
-            ja.put(site_map);
-            ja.put(ja_in);
-            System.out.println(ja);
+            main_map.put("site_code", final_site_code);
+            main_map.put("result", ja);
+            main_arr.put(main_map);
+            System.out.println(main_arr);
+//            site_map.put("site_exist", final_site_code);
         } catch (SQLException e) {
             e.printStackTrace();
 //            log.error("enc_date_table: ", e);
@@ -262,7 +264,8 @@ public class AcceptRequestController {
 //        }
 //        jo.put("status", status);
 //        return AES.encrypt(ja.toString(), key);
-        return ja;
+//        return ja;
+        return main_arr;
     }
 
     @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
