@@ -6,6 +6,15 @@ public class FetchByDate {
     String table_name;
     String date_column;
     int limit;
+    boolean encrypt;
+
+    public boolean isEncrypt() {
+        return encrypt;
+    }
+
+    public void setEncrypt(boolean encrypt) {
+        this.encrypt = encrypt;
+    }
 
     public int getLimit() {
         return limit;

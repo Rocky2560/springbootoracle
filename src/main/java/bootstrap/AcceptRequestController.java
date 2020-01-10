@@ -41,6 +41,7 @@ public class AcceptRequestController {
     String key = "";
     String date_column = "";
     private  int limit = 1;
+    boolean encrypt = true;
 
 
 
@@ -298,6 +299,7 @@ public class AcceptRequestController {
         this.end_date = fetchByDate.getEnd_date();
         this.date_column = fetchByDate.getDate_column();
         this.limit = fetchByDate.getLimit();
+        this.encrypt = fetchByDate.isEncrypt();
 
         JSONArray jo = new JSONArray();
 //        String jo = "";
@@ -314,7 +316,13 @@ public class AcceptRequestController {
         }
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
-        return AES.encrypt(jo.toString(), key);
+        if (!encrypt){
+            return String.valueOf(jo);
+        }
+        else {
+            return AES.encrypt(jo.toString(), key);
+
+        }
     }
 
     private JSONArray fetchForMongo(Connection conn) {
