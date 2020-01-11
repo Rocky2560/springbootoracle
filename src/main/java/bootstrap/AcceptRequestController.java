@@ -336,13 +336,13 @@ public class AcceptRequestController {
             rsmd = rs.getMetaData();
             int num_col = 0;
             num_col = rsmd.getColumnCount();
-            ArrayList items = new ArrayList();
+            String items = "";
 
             while (rs.next()) {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     if (rsmd.getColumnName(i).toLowerCase().equals("items")){
-                        items = (ArrayList) rs.getObject(i);
+                        items = (String) rs.getObject(i);
                         System.out.println(items);
                     }
                     else {
