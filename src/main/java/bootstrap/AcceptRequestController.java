@@ -344,8 +344,10 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                    System.out.println(rsmd.getColumnName(i));
                     if (rsmd.getColumnName(i).contains("BILLNO")){
                         bill_no = (String) rs.getObject(i);
+
                         ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
                         ResultSetMetaData rsmd_product = null;
                         rsmd_product = rs_product.getMetaData();
