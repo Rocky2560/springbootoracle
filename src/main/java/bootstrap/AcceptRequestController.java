@@ -345,7 +345,7 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
 //                    System.out.println(rsmd.getColumnName(i));
-                    if (rsmd.getColumnName(i).toLowerCase().equals("billno")){
+                    if (rsmd.getColumnName(i).equals("BILLNO")){
                         bill_no = (String) rs.getObject(i);
 
                         ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
