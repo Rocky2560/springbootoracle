@@ -344,7 +344,7 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    System.out.println(rsmd.getColumnName(i));
+                    System.out.println(rs.getObject(i));
                 }
                 ja.put(jo2);
             }
