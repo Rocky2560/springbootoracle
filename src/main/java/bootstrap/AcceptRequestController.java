@@ -338,6 +338,7 @@ public class AcceptRequestController {
             rsmd = rs.getMetaData();
             int num_col = 0;
             num_col = rsmd.getColumnCount();
+            Statement prd_stmt = conn.createStatement();
 
             while (rs.next()) {
                 Map<String, Object> jo2 = new TreeMap<>();
@@ -345,7 +346,7 @@ public class AcceptRequestController {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).contains("BILLNO")){
                         bill_no = (String) rs.getObject(i);
-                        ResultSet rs_product = stmt.executeQuery(fetch_product_info);
+                        ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
                         ResultSetMetaData rsmd_product = null;
                         int prod_num_col = 0;
                         num_col = rsmd_product.getColumnCount();
