@@ -330,6 +330,7 @@ public class AcceptRequestController {
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno);
+        System.out.println(fetch_bill_info);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
         JSONArray prod_array = new JSONArray();
