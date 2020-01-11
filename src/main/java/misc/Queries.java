@@ -21,7 +21,7 @@ public class Queries {
     public String fetchProductInfo(String bill_no){
 //        return "select BILLNO, BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO, CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
 //        return "select DISTINCT(BILLNO), BILLDATE, ADMSITE_CODE, TOATALDISCOUNTAMT, LPCARDNO,  from mmpl.V_EKB_CUST_SALE where billdate >='"+start_date+"' and billdate < '"+end_date+"'" ;
-        return "select CAT1, ICODE, SALEQTY from mmpl.V_EKB_POSBILL where billno = '"+bill_no+"'";
+        return "select CAT1, ICODE, SALEQTY from mmpl.V_EKB_CUST_SALE where billno = '"+bill_no+"'";
     }
 
 
