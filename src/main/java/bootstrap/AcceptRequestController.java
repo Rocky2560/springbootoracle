@@ -328,7 +328,7 @@ public class AcceptRequestController {
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
-        String fetch_product_info = queries.fetchProductInfo(bill_no);
+//        String fetch_product_info = queries.fetchProductInfo(bill_no);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
@@ -344,22 +344,7 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-//                    System.out.println(rsmd.getColumnName(i));
-                    if (rsmd.getColumnName(i).equals("BILLNO")){
-                        bill_no = (String) rs.getObject(i);
-
-                        ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
-                        ResultSetMetaData rsmd_product = null;
-                        rsmd_product = rs_product.getMetaData();
-                        int prod_num_col = 0;
-                        prod_num_col = rsmd_product.getColumnCount();
-                        while (rs_product.next()){
-                            for (int j = 1; j <= prod_num_col; j++){
-                                System.out.println(rs.getObject(j));
-                            }
-                        }
-
-                    }
+                    System.out.println(rsmd.getColumnName(i));
                 }
                 ja.put(jo2);
             }
