@@ -346,7 +346,7 @@ public class AcceptRequestController {
                         items = (String) rs.getObject(i);
                         String [] parts = items.split(";");
                         for (int j = 0 ; j <parts.length; j ++){
-                            String[] temp = parts[i].split(",");
+                            String[] temp = parts[j].split(",");
                             for (int k = 0; k < temp.length; k++){
                                 prod_map.put("prodcutname", temp[0]);
                                 prod_map.put("icode", temp[1]);
