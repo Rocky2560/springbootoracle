@@ -316,7 +316,7 @@ public class AcceptRequestController {
             e.printStackTrace();
             log.error("enc_date_table: ", e);
         }
-        System.out.println(jo);
+//        System.out.println(jo);
         if (!encrypt) {
             return String.valueOf(jo);
         } else {
@@ -327,13 +327,13 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetchbillinfo = queries.fetchBillInfo(start_date,end_date);
-        String fetchproductinfo = queries.fetchProductInfo(bill_no);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
+        String fetch_product_info = queries.fetchProductInfo(bill_no);
 //        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(fetchbillinfo);
+            ResultSet rs = stmt.executeQuery(fetch_bill_info);
             ResultSetMetaData rsmd = null;
             rsmd = rs.getMetaData();
             int num_col = 0;
@@ -343,6 +343,19 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                    if (rsmd.getColumnName(i).contains("BILLNO")){
+                        bill_no = rsmd.getColumnName(i);
+                        ResultSet rs_product = stmt.executeQuery(fetch_product_info);
+                        ResultSetMetaData rsmd_product = null;
+                        int prod_num_col = 0;
+                        num_col = rsmd_product.getColumnCount();
+                        while (rs_product.next()){
+                            for (int j = 1; j <= prod_num_col; j++){
+                                System.out.println(rs.getObject(j));
+                            }
+                        }
+
+                    }
                 }
                 ja.put(jo2);
             }
