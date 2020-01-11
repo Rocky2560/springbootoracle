@@ -307,7 +307,7 @@ public class AcceptRequestController {
         this.lpcardno = fetchByDate.getLpcardno();
         this.limit = fetchByDate.getLimit();
 
-        System.out.println(lpcardno);
+//        System.out.println(lpcardno);
 
         JSONArray jo = new JSONArray();
 //        String jo = "";
@@ -636,9 +636,9 @@ public class AcceptRequestController {
 //    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
     public String db_fetch(@RequestBody FetchByDate fetchByDate) {
         String key = env.getProperty("key");
-        System.out.println("REQUEST AYOOO!!!");
-        System.out.println("table name = " + table_name);
-        System.out.println("offset = " + offset_value);
+//        System.out.println("REQUEST AYOOO!!!");
+//        System.out.println("table name = " + table_name);
+//        System.out.println("offset = " + offset_value);
 
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
@@ -657,7 +657,7 @@ public class AcceptRequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(jo);
+//        System.out.println(jo);
 //        return jo;
         return AES.encrypt(jo.toString(), key);
     }
@@ -668,7 +668,7 @@ public class AcceptRequestController {
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
-        System.out.println("fetch query = " + fetch_bill_info);
+//        System.out.println("fetch query = " + fetch_bill_info);
 
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
