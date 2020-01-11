@@ -297,7 +297,7 @@ public class AcceptRequestController {
         return AES.encrypt(jo.toString(), key);
     }
 
-    @RequestMapping(value = "/sales_history", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/sale_history", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String salesHistory(@RequestBody FetchByDate fetchByDate) {
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
@@ -323,7 +323,8 @@ public class AcceptRequestController {
             log.error("enc_date_table: ", e);
         }
 //        System.out.println(jo);
-            return AES.encrypt(jo.toString(), key);
+
+        return AES.encrypt(jo.toString(), key);
     }
 
     private JSONArray fetchSalesHistory(Connection conn) {
@@ -631,8 +632,10 @@ public class AcceptRequestController {
         return of_map;
     }
 
-    @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
+    @RequestMapping(value = "/sales_history", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+//    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
+    public String db_fetch(@RequestBody FetchByDate fetchByDate) {
+        String key = env.getProperty("key");
         System.out.println("REQUEST AYOOO!!!");
         System.out.println("table name = " + table_name);
         System.out.println("offset = " + offset_value);
@@ -655,7 +658,8 @@ public class AcceptRequestController {
             e.printStackTrace();
         }
         System.out.println(jo);
-        return jo;
+//        return jo;
+        return AES.encrypt(jo.toString(), key);
     }
 
     private Map<String, Object> fetchData(Connection conn) {
@@ -720,7 +724,7 @@ public class AcceptRequestController {
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
 
-                jo.put("offset", result_offset);
+                jo.put("offset_value", result_offset);
             }
         } catch (SQLException e) {
             e.printStackTrace();
