@@ -45,7 +45,7 @@ public class AcceptRequestController {
     private int limit = 1;
     boolean encrypt = true;
     String bill_no = "";
-
+    ArrayList<String> lpcard_no;
 
     private int result_offset;
     private Map<String, String> table_info = new HashMap<>();
@@ -278,6 +278,7 @@ public class AcceptRequestController {
         this.end_date = fetchByDate.getEnd_date();
         this.date_column = fetchByDate.getDate_column();
 
+
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -303,6 +304,7 @@ public class AcceptRequestController {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
+        this.lpcard_no = fetchByDate.getLpcardno();
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -327,7 +329,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcard_no);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
         JSONArray prod_array = new JSONArray();
@@ -343,26 +345,26 @@ public class AcceptRequestController {
             while (rs.next()) {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
-                    if (rsmd.getColumnName(i).toLowerCase().equals("items")){
-                        items = (String) rs.getObject(i);
-                        String [] parts = items.split(";");
-                        for (int j = 0 ; j <parts.length; j ++){
-                            String[] temp = parts[j].split(",");
-                            for (int k = 0; k < temp.length; k++){
-                                prod_map.put("prodcutname", temp[0]);
-                                prod_map.put("icode", temp[1]);
-                                prod_map.put("netamt", temp[2]);
-                                prod_map.put("saleqty", temp[3]);
-                                prod_map.put("total", temp[4]);
-                                prod_array.put(prod_map);
-//                                System.out.println(prod_map);
-                            }
-                        }
-                    }
-                    else {
+//                    if (rsmd.getColumnName(i).toLowerCase().equals("items")){
+//                        items = (String) rs.getObject(i);
+//                        String [] parts = items.split(";");
+//                        for (int j = 0 ; j <parts.length; j ++){
+//                            String[] temp = parts[j].split(",");
+//                            for (int k = 0; k < temp.length; k++){
+//                                prod_map.put("prodcutname", temp[0]);
+//                                prod_map.put("icode", temp[1]);
+//                                prod_map.put("netamt", temp[2]);
+//                                prod_map.put("saleqty", temp[3]);
+//                                prod_map.put("total", temp[4]);
+//                                prod_array.put(prod_map);
+////                                System.out.println(prod_map);
+//                            }
+//                        }
+//                    }
+//                    else {
                         jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                        jo2.put("items", prod_array);
-                    }
+//                        jo2.put("items", prod_array);
+//                    }
                 }
                 ja.put(jo2);
             }

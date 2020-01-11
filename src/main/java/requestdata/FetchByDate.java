@@ -1,5 +1,7 @@
 package requestdata;
 
+import java.util.ArrayList;
+
 public class FetchByDate {
     String start_date;
     String end_date;
@@ -7,6 +9,15 @@ public class FetchByDate {
     String date_column;
     int limit;
     boolean encrypt;
+    ArrayList<String> lpcardno;
+
+    public ArrayList<String> getLpcardno() {
+        return lpcardno;
+    }
+
+    public void setLpcardno(ArrayList<String> lpcardno) {
+        this.lpcardno = lpcardno;
+    }
 
     public boolean isEncrypt() {
         return encrypt;
