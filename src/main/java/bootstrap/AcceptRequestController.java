@@ -45,7 +45,7 @@ public class AcceptRequestController {
     private int limit = 1;
     boolean encrypt = true;
     String bill_no = "";
-    ArrayList<String> lpcard_no;
+    ArrayList<String> lpcardno;
 
     private int result_offset;
     private Map<String, String> table_info = new HashMap<>();
@@ -304,7 +304,7 @@ public class AcceptRequestController {
         this.table_name = fetchByDate.getTable_name();
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
-        this.lpcard_no = fetchByDate.getLpcardno();
+        this.lpcardno = fetchByDate.getLpcardno();
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -329,7 +329,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcard_no);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
         JSONArray prod_array = new JSONArray();
