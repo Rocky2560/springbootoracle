@@ -328,8 +328,6 @@ public class AcceptRequestController {
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
-//        String fetch_product_info = queries.fetchProductInfo(bill_no);
-//        System.out.println(fetch_query);
         JSONArray ja = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
@@ -344,7 +342,6 @@ public class AcceptRequestController {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                    System.out.println(rs.getObject(i));
                 }
                 ja.put(jo2);
             }
@@ -352,6 +349,7 @@ public class AcceptRequestController {
             e.printStackTrace();
             log.error("enc_date_table: ", e);
         }
+        System.out.println(ja);
         return ja;
     }
 
