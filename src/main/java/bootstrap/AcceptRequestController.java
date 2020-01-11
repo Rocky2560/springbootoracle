@@ -305,6 +305,7 @@ public class AcceptRequestController {
         this.start_date = fetchByDate.getStart_date();
         this.end_date = fetchByDate.getEnd_date();
         this.lpcardno = fetchByDate.getLpcardno();
+        this.limit = fetchByDate.getLimit();
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -329,7 +330,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit);
         System.out.println(fetch_bill_info);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
