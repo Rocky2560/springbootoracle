@@ -330,6 +330,7 @@ public class AcceptRequestController {
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
+        JSONArray prod_array = new JSONArray();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_bill_info);
@@ -353,13 +354,14 @@ public class AcceptRequestController {
                                 prod_map.put("netamt", temp[2]);
                                 prod_map.put("saleqty", temp[3]);
                                 prod_map.put("total", temp[4]);
+                                prod_array.put(prod_map);
 //                                System.out.println(prod_map);
                             }
                         }
                     }
                     else {
                         jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                        jo2.put("items", prod_map);
+                        jo2.put("items", prod_array);
                     }
                 }
                 ja.put(jo2);
