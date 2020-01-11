@@ -349,7 +349,7 @@ public class AcceptRequestController {
                         ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
                         ResultSetMetaData rsmd_product = null;
                         int prod_num_col = 0;
-                        num_col = rsmd_product.getColumnCount();
+                        prod_num_col = rsmd_product.getColumnCount();
                         while (rs_product.next()){
                             for (int j = 1; j <= prod_num_col; j++){
                                 System.out.println(rs.getObject(j));
