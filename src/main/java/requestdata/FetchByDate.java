@@ -9,6 +9,15 @@ public class FetchByDate {
     String date_column;
     int limit;
     boolean encrypt;
+    int offset_value;
+
+    public int getOffset_value() {
+        return offset_value;
+    }
+
+    public void setOffset_value(int offset_value) {
+        this.offset_value = offset_value;
+    }
 
     String lpcardno;
 

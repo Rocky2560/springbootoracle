@@ -330,7 +330,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
         System.out.println(fetch_bill_info);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
@@ -634,14 +634,16 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/json", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
-    public Map<String, Object> db_fetch(@RequestBody RequestData requestData) {
+    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
         System.out.println("REQUEST AYOOO!!!");
         System.out.println("table name = " + table_name);
         System.out.println("offset = " + offset_value);
-        this.offset_value = requestData.getOffset_value();
-        this.table_name = requestData.getTable_name();
-        this.range_count = Integer.parseInt(env.getProperty("range_count"));
 
+        this.start_date = fetchByDate.getStart_date();
+        this.end_date = fetchByDate.getEnd_date();
+        this.limit = fetchByDate.getLimit();
+        this.offset_value = fetchByDate.getOffset_value();
+        this.lpcardno = fetchByDate.getLpcardno();
 
         Map<String, Object> jo = new HashMap<>();
         try {
@@ -659,26 +661,26 @@ public class AcceptRequestController {
     }
 
     private Map<String, Object> fetchData(Connection conn) {
-        String crow_query = queries.getCountQuery(table_name);
+        String crow_query = queries.getCountQuery("mmpl.V_EKB_CUST_SALE");
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
-        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
+//        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
-        System.out.println("fetch query = " + fetch_query);
+        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
+        System.out.println("fetch query = " + fetch_bill_info);
 
         Map<String, Object> jo = new HashMap<>();
         int total_count = 0;
         String status = "";
         try {
             Statement stmt = conn.createStatement();
-            if (table_info.containsKey(table_name)) {
-                total_count = Integer.parseInt(table_info.get(table_name));
+            if (table_info.containsKey("mmpl.V_EKB_CUST_SALE")) {
+                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
             } else {
                 ResultSet rss = null;
-
                 rss = stmt.executeQuery(crow_query);
                 rss.next();
                 total_count = rss.getInt(1);
-                table_info.put(table_name, String.valueOf(total_count));
+                table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
                 rss.close();
             }
 
@@ -693,13 +695,13 @@ public class AcceptRequestController {
                     result_offset = total_count;
                 }
 
-                ResultSet rs = stmt.executeQuery(fetch_query);
+                ResultSet rs = stmt.executeQuery(fetch_bill_info);
                 ResultSetMetaData rsmd = null;
                 rsmd = rs.getMetaData();
                 int num_col = 0;
                 num_col = rsmd.getColumnCount();
 
-                jo.put("table_name", table_name);
+                jo.put("table_name", "mmpl.V_EKB_CUST_SALE");
                 ArrayList<Map<String, Object>> ja = new ArrayList<>();
                 int sent_count = 0;
                 while (rs.next()) {
