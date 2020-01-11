@@ -320,12 +320,7 @@ public class AcceptRequestController {
             log.error("enc_date_table: ", e);
         }
 //        System.out.println(jo);
-        if (!encrypt) {
-            return String.valueOf(jo);
-        } else {
             return AES.encrypt(jo.toString(), key);
-
-        }
     }
 
     private JSONArray fetchSalesHistory(Connection conn) {
