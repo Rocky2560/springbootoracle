@@ -706,11 +706,12 @@ public class AcceptRequestController {
                     Map<String, Object> jo2 = new HashMap<>();
                     for (int i = 1; i <= num_col; i++) {
 
-                        Map<String, Object> m = new HashMap<>();
-                        m.put("value", rs.getObject(i));
-                        m.put("type", rsmd.getColumnTypeName(i));
+//                        Map<String, Object> m = new HashMap<>();
+//                        m.put("value", rs.getObject(i));
+//                        m.put("type", rsmd.getColumnTypeName(i));
 
-                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+//                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
+                        jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i) );
                     }
                     ja.add(jo2);
                     sent_count++;
