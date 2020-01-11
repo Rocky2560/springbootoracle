@@ -306,6 +306,9 @@ public class AcceptRequestController {
         this.end_date = fetchByDate.getEnd_date();
         this.lpcardno = fetchByDate.getLpcardno();
         this.limit = fetchByDate.getLimit();
+
+        System.out.println(lpcardno);
+
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
