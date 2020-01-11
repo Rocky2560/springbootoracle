@@ -45,7 +45,7 @@ public class AcceptRequestController {
     private int limit = 1;
     boolean encrypt = true;
     String bill_no = "";
-    ArrayList<String> lpcardno;
+    String lpcardno = "";
 
     private int result_offset;
     private Map<String, String> table_info = new HashMap<>();

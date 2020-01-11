@@ -9,13 +9,14 @@ public class FetchByDate {
     String date_column;
     int limit;
     boolean encrypt;
-    ArrayList<String> lpcardno;
 
-    public ArrayList<String> getLpcardno() {
+    String lpcardno;
+
+    public String getLpcardno() {
         return lpcardno;
     }
 
-    public void setLpcardno(ArrayList<String> lpcardno) {
+    public void setLpcardno(String lpcardno) {
         this.lpcardno = lpcardno;
     }
 

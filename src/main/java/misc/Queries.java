@@ -15,7 +15,7 @@ public class Queries {
     }
 
 
-    public String fetchBillInfo(String start_date, String end_date, ArrayList<String> lpcardno){
+    public String fetchBillInfo(String start_date, String end_date, String lpcardno){
         return "with temp as (select billno, admsite_code, listagg(cat1 || ',' || icode || ',' || netamt || ',' || saleqty || ',' || (saleqty*netamt), ';') within group (order by billno) \"ITEMS\" from mmpl.V_EKB_CUST_SALE where billdate>='"+ start_date +"' and billdate<'"+ end_date+"' and lpcardno IN "+lpcardno+" group by billno, admsite_code) select c.billno, c.admsite_code, b.lpcardno, b.billdate, b.netsales, c.items from mmpl.V_EKB_POSBILL b join temp c on c.billno=b.billno and c.admsite_code=b.site_code";
     }
     public String fetchProductInfo(String bill_no){
