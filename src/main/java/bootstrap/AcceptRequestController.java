@@ -329,6 +329,7 @@ public class AcceptRequestController {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date);
         JSONArray ja = new JSONArray();
+        Map<String, Object> prod_map = new TreeMap<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_bill_info);
@@ -343,10 +344,22 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     if (rsmd.getColumnName(i).toLowerCase().equals("items")){
                         items = (String) rs.getObject(i);
-                        System.out.println(items);
+                        String [] parts = items.split(";");
+                        for (int j = 0 ; j <parts.length; j ++){
+                            String[] temp = parts[i].split(",");
+                            for (int k = 0; k < temp.length; k++){
+                                prod_map.put("prodcutname", temp[0]);
+                                prod_map.put("icode", temp[1]);
+                                prod_map.put("netamt", temp[2]);
+                                prod_map.put("saleqty", temp[3]);
+                                prod_map.put("total", temp[4]);
+//                                System.out.println(prod_map);
+                            }
+                        }
                     }
                     else {
                         jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                        jo2.put("items", prod_map);
                     }
                 }
                 ja.put(jo2);
@@ -355,7 +368,7 @@ public class AcceptRequestController {
             e.printStackTrace();
             log.error("enc_date_table: ", e);
         }
-//        System.out.println(ja);
+        System.out.println(ja);
         return ja;
     }
 
