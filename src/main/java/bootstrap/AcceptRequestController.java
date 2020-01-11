@@ -348,6 +348,7 @@ public class AcceptRequestController {
                         bill_no = (String) rs.getObject(i);
                         ResultSet rs_product = prd_stmt.executeQuery(fetch_product_info);
                         ResultSetMetaData rsmd_product = null;
+                        rsmd_product = rs_product.getMetaData();
                         int prod_num_col = 0;
                         prod_num_col = rsmd_product.getColumnCount();
                         while (rs_product.next()){
