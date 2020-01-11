@@ -690,9 +690,9 @@ public class AcceptRequestController {
 //                conn.close();
             } else {
                 status = "running";
-                result_offset = offset_value + range_count;
-                if (result_offset >= total_count) {
-                    result_offset = total_count;
+                result_offset = offset_value + limit;
+                if (limit >= total_count) {
+                    limit = total_count;
                 }
 
                 ResultSet rs = stmt.executeQuery(fetch_bill_info);
