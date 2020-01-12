@@ -661,7 +661,8 @@ public class AcceptRequestController {
         }
 //        System.out.println(jo);
 //        return jo;
-        return AES.encrypt(jo.toString(), key);
+//        return AES.encrypt(jo.toString(), key);
+        return jo.toString();
     }
 
     private JSONObject fetchData(Connection conn) {
