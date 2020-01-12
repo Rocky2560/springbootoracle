@@ -646,7 +646,8 @@ public class AcceptRequestController {
         this.offset_value = fetchByDate.getOffset_value();
         this.lpcardno = fetchByDate.getLpcardno();
 
-        Map<String, Object> jo = new HashMap<>();
+//        Map<String, Object> jo = new HashMap<>();
+       JSONObject jo = new JSONObject();
         try {
             if (conn != null) {
                 jo = fetchData(conn);
@@ -656,13 +657,14 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            jo.put("status", Status.CONNECTION_EXCEPTION);
         }
 //        System.out.println(jo);
 //        return jo;
         return AES.encrypt(jo.toString(), key);
     }
 
-    private Map<String, Object> fetchData(Connection conn) {
+    private JSONObject fetchData(Connection conn) {
         String crow_query = queries.getCountQuery("mmpl.V_EKB_CUST_SALE");
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
@@ -670,7 +672,8 @@ public class AcceptRequestController {
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
 //        System.out.println("fetch query = " + fetch_bill_info);
 
-        Map<String, Object> jo = new HashMap<>();
+//        Map<String, Object> jo = new HashMap<>();
+        JSONObject jo = new JSONObject();
         int total_count = 0;
         String status = "";
         try {
@@ -704,7 +707,8 @@ public class AcceptRequestController {
                 num_col = rsmd.getColumnCount();
 
                 jo.put("table_name", "mmpl.V_EKB_CUST_SALE");
-                ArrayList<Map<String, Object>> ja = new ArrayList<>();
+//                ArrayList<Map<String, Object>> ja = new ArrayList<>();
+                JSONArray ja = new JSONArray();
                 int sent_count = 0;
                 while (rs.next()) {
                     Map<String, Object> jo2 = new HashMap<>();
@@ -717,7 +721,7 @@ public class AcceptRequestController {
 //                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
                         jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i) );
                     }
-                    ja.add(jo2);
+                    ja.put(jo2);
                     sent_count++;
                 }
 //                System.out.println(sent_count);
