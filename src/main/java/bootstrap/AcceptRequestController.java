@@ -71,7 +71,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("Validate: ", e);
+            log.error("Validate: " + e);
         }
         return jo;
     }
@@ -98,7 +98,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("Validate: ", e);
+            log.error("Validate: " + e);
         }
 
         jo.put("lpcardno", lp);
@@ -156,7 +156,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("enc_date_table: ", e);
+            log.error("enc_date_table: " + e);
         }
 
         try {
@@ -204,6 +204,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("fetch_sale: " + e);
 //            log.error("enc_date_table: ", e);
         }
 //        System.out.println(jo);
@@ -221,6 +222,7 @@ public class AcceptRequestController {
         Set<String> final_site_code = new HashSet<>();
         JSONArray ja = new JSONArray();
 //        Map<String,Object> site_map = new HashMap<>();
+        int off_count = 0;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
@@ -237,6 +239,7 @@ public class AcceptRequestController {
                     }
                 }
                 ja.put(jo2);
+                off_count++;
             }
             main_map.put("site_code", final_site_code);
             main_map.put("result", ja);
@@ -245,16 +248,16 @@ public class AcceptRequestController {
 //            site_map.put("site_exist", final_site_code);
         } catch (SQLException e) {
             e.printStackTrace();
-//            log.error("enc_date_table: ", e);
+            log.error("fetch_sale: " + e);
         }
-//        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"),true));
-//            bf.write("{\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-//            bf.flush();
-//            bf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_site_count"),true));
+            bf.write("{\"start_date\": "+start_date+",\"end_date\": "+end_date+",\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 //        System.out.println(ja);
 //        try {
@@ -291,7 +294,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enc_date_table: ", e);
+            log.error("enc_date_table: " + e);
         }
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
@@ -321,7 +324,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enc_date_table: ", e);
+            log.error("enc_date_table: " + e);
         }
 //        System.out.println(jo);
 
@@ -372,7 +375,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("enc_date_table: ", e);
+            log.error("enc_date_table: " + e);
         }
 //        System.out.println(ja);
         return ja;
@@ -435,7 +438,7 @@ public class AcceptRequestController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("enc_date_table: ", e);
+            log.error("enc_date_table: " + e);
         }
 
 //        try {
@@ -466,7 +469,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enc_table: ", e);
+            log.error("enc_table: " + e);
         }
         return jo;
     }
@@ -515,7 +518,7 @@ public class AcceptRequestController {
                     off_map.put("value", AES.encrypt(ja.toString(), key));
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    log.error("enc_table: ", e);
+                    log.error("enc_table: " + e);
                 }
                 if (table_name.toLowerCase().equals("mmpl.v_ekb_cust")) {
                     try {
@@ -561,7 +564,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("Item: ", e);
+            log.error("Item: " + e);
         }
 
 //        try {
@@ -616,7 +619,7 @@ public class AcceptRequestController {
                         of_map.put("value", AES.encrypt(ja.toString(), key));
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        log.error("Item: ", e);
+                        log.error("Item: " + e);
                     }
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("item_count"),true));
@@ -660,6 +663,7 @@ public class AcceptRequestController {
         } catch (Exception e) {
             e.printStackTrace();
             jo.put("status", Status.CONNECTION_EXCEPTION);
+            log.error("sales_history: " + e);
         }
 //        System.out.println(jo);
 //        return jo;
@@ -668,6 +672,7 @@ public class AcceptRequestController {
     }
 
     private JSONObject fetchData(Connection conn) {
+        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" +offset_value + ";" + "limit:" + limit + "\n");
         String crow_query = queries.fetchBillInfoCount(start_date,end_date,lpcardno);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
@@ -675,6 +680,7 @@ public class AcceptRequestController {
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
 //        System.out.println("fetch query = " + fetch_bill_info);
         int check_offset = 0;
+        int sent_count = 0;
         int total_count =0;
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
@@ -712,7 +718,6 @@ public class AcceptRequestController {
                 jo.put("table_name", "mmpl.V_EKB_CUST_SALE");
 //                ArrayList<Map<String, Object>> ja = new ArrayList<>();
                 JSONArray ja = new JSONArray();
-                int sent_count = 0;
                 while (rs.next()) {
                     Map<String, Object> jo2 = new HashMap<>();
                     for (int i = 1; i <= num_col; i++) {
@@ -749,8 +754,19 @@ public class AcceptRequestController {
 //            }
         } catch (SQLException e) {
             e.printStackTrace();
+            log.error("sales_history: " + e);
         }
         jo.put("status", status);
+
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sales_history_count"),true));
+            bf.write("{\"start_date\": "+start_date+",\"end_date\": "+end_date+",\"offset_value:\": "+offset_value+",\"limit\": "+limit+",\"count\":"+ sent_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
+            bf.flush();
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return jo;
     }
 }
