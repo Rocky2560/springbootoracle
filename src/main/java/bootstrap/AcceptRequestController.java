@@ -56,6 +56,7 @@ public class AcceptRequestController {
     private String table_name = "";
     int offset_value = -1;
     int range_count = 1000;
+    private int total_count = 0;
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
@@ -678,7 +679,6 @@ public class AcceptRequestController {
 
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
-        int total_count = 0;
         String status = "";
         try {
             Statement stmt = conn.createStatement();
@@ -692,6 +692,7 @@ public class AcceptRequestController {
                 System.out.println(total_count);
                 table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
                 rss.close();
+                conn.close();
             }
 
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
