@@ -690,16 +690,16 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
-//            if (offset_value >= total_count) {
-                status = "done";
-//                conn.close();
-            } else {
-                status = "running";
-                result_offset = offset_value + limit;
-                if (limit >= total_count) {
-                    limit = total_count;
-                }
+//            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+////            if (offset_value >= total_count) {
+//                status = "done";
+////                conn.close();
+//            } else {
+//                status = "running";
+//                result_offset = offset_value + limit;
+//                if (limit >= total_count) {
+//                    limit = total_count;
+//                }
 
                 ResultSet rs = stmt.executeQuery(fetch_bill_info);
                 ResultSetMetaData rsmd = null;
@@ -725,6 +725,19 @@ public class AcceptRequestController {
                     ja.put(jo2);
                     sent_count++;
                 }
+
+//                if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+//                if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+            if (offset_value >= total_count) {
+                    status = "done";
+//                conn.close();
+                } else {
+                    status = "running";
+                    result_offset = offset_value + limit;
+                    if (limit >= total_count) {
+                        limit = total_count;
+                    }
+
 //                System.out.println(sent_count);
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
