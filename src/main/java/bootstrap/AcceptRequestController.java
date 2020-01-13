@@ -690,7 +690,6 @@ public class AcceptRequestController {
                 System.out.println(total_count);
                 table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
                 rss.close();
-                conn.close();
 //            }
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
