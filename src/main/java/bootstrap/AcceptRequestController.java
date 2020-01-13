@@ -636,6 +636,7 @@ public class AcceptRequestController {
     @RequestMapping(value = "/sales_history", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
 //    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
     public String db_fetch(@RequestBody FetchByDate fetchByDate) {
+//    public String db_fetch(@RequestBody FetchByDate fetchByDate) {
         String key = env.getProperty("key");
 //        System.out.println("REQUEST AYOOO!!!");
 //        System.out.println("table name = " + table_name);
@@ -662,8 +663,8 @@ public class AcceptRequestController {
         }
 //        System.out.println(jo);
 //        return jo;
-//        return AES.encrypt(jo.toString(), key);
-        return jo.toString();
+        return AES.encrypt(jo.toString(), key);
+//        return jo.toString();
     }
 
     private JSONObject fetchData(Connection conn) {
@@ -736,9 +737,9 @@ public class AcceptRequestController {
                 result_offset = offset_value + sent_count;
                 status = "running";
             }
-            System.out.println("TOTAL_COUNT = " + total_count);
-            System.out.println("RESULT_OFFSET = "+ result_offset);
-            System.out.println("SENT_COUNT = "+ sent_count);
+//            System.out.println("TOTAL_COUNT = " + total_count);
+//            System.out.println("RESULT_OFFSET = "+ result_offset);
+//            System.out.println("SENT_COUNT = "+ sent_count);
 
 //                System.out.println(sent_count);
                 jo.put("count", sent_count);
