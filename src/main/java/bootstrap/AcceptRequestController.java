@@ -683,7 +683,7 @@ public class AcceptRequestController {
         try {
             Statement stmt = conn.createStatement();
             if (table_info.containsKey("mmpl.V_EKB_CUST_SALE")) {
-                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
+//                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
             } else {
                 ResultSet rss = null;
                 rss = stmt.executeQuery(crow_query);
