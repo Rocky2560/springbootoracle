@@ -729,7 +729,7 @@ public class AcceptRequestController {
 
                 check_offset = offset_value + limit;
             if ( check_offset >= total_count){
-                result_offset = sent_count;
+                result_offset = offset_value + sent_count;
                 status = "done";
             }
                 else {
