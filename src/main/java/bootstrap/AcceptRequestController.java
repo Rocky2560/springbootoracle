@@ -726,16 +726,13 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-//                /*if (limit != sent_count || limit == total_count){
-//
-//                */}
-                if (limit == sent_count){
-                    result_offset = offset_value + sent_count;
-                    status = "running";
-                }
-                else {
+                if (Integer.parseInt(env.getProperty("offset_value")) >= total_count){
                     result_offset = sent_count;
                     status = "done";
+                }
+                else {
+                    result_offset = offset_value + sent_count;
+                    status = "running";
                 }
 
 //                System.out.println(sent_count);
