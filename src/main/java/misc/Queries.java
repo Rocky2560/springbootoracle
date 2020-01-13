@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 public class Queries {
+
+
     public String getCountQuery(String table_name){
         return "select count(*) from " + table_name + "";
     }
@@ -14,6 +16,10 @@ public class Queries {
         return "select LPCARDNO, NAME from " + table_name + " offset " + offset_value + " rows fetch next " + range_count + " rows only";
     }
 
+
+    public String fetchBillInfoCount(String start_date, String end_date, String lpcardno,int  limit, int offset_value){
+        return "select count(*) from mmpl.V_EKB_CUST_SALE where billdate >= '"+ start_date +"' and billdate < '"+ end_date +"' and lpcardno IN "+lpcardno+"";
+    }
 
     public String fetchBillInfo(String start_date, String end_date, String lpcardno,int  limit, int offset_value){
         return "with temp as (select billno, admsite_code, listagg(cat1 || ':' || icode || ':' || netamt || ':' || saleqty || ':' || (saleqty*netamt), ';') within group (order by billno) \"ITEMS\" from mmpl.V_EKB_CUST_SALE where billdate>='"+ start_date +"' and billdate<'"+ end_date+"' and lpcardno IN "+lpcardno+" group by billno, admsite_code) select c.billno, c.admsite_code, b.lpcardno, b.billdate, b.netsales, c.items from mmpl.V_EKB_POSBILL b join temp c on c.billno=b.billno and c.admsite_code=b.site_code offset "+offset_value+" rows fetch next "+ limit +" rows only";

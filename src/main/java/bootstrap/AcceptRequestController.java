@@ -666,7 +666,7 @@ public class AcceptRequestController {
     }
 
     private JSONObject fetchData(Connection conn) {
-        String crow_query = queries.getCountQuery("mmpl.V_EKB_CUST_SALE");
+        String crow_query = queries.fetchBillInfoCount(start_date,end_date,lpcardno, limit, offset_value);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
@@ -726,12 +726,16 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-                if (limit != sent_count || limit == total_count){
+//                /*if (limit != sent_count || limit == total_count){
+//
+//                */}
+                if (limit == sent_count){
+                    result_offset = offset_value + sent_count;
+                    status = "running";
+                }
+                else {
                     result_offset = sent_count;
                     status = "done";
-                }
-                else if (limit == sent_count){
-                    status = "running";
                 }
 
 //                System.out.println(sent_count);
