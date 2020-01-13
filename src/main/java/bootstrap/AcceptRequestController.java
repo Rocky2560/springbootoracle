@@ -673,6 +673,8 @@ public class AcceptRequestController {
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
 //        System.out.println("fetch query = " + fetch_bill_info);
 
+        int check_offset = 0;
+
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
         int total_count = 0;
@@ -690,11 +692,11 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+//            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
-                status = "done";
+//                status = "done";
 //                conn.close();
-            } else {
+//            } else {
 //                status = "running";
 //                result_offset = offset_value + limit;
 //                if (limit >= total_count) {
@@ -726,21 +728,25 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-                if ( offset_value >= total_count){
-                    result_offset = sent_count;
-                    status = "done";
-                }
+                check_offset = offset_value + limit;
+            if ( check_offset >= total_count){
+                result_offset = sent_count;
+                status = "done";
+            }
                 else {
-                    result_offset = offset_value + sent_count;
-                    status = "running";
-                }
+                result_offset = offset_value + sent_count;
+                status = "running";
+            }
+            System.out.println("TOTAL_COUNT = " + total_count);
+            System.out.println("RESULT_OFFSET = "+ result_offset);
+            System.out.println("SENT_COUNT = "+ sent_count);
 
 //                System.out.println(sent_count);
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
 
                 jo.put("offset_value", result_offset);
-            }
+//            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
