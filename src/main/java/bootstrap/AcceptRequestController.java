@@ -675,6 +675,7 @@ public class AcceptRequestController {
 
         int check_offset = 0;
 
+
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
         int total_count = 0;
@@ -687,7 +688,9 @@ public class AcceptRequestController {
                 ResultSet rss = null;
                 rss = stmt.executeQuery(crow_query);
                 rss.next();
+                System.out.println(rss.next());
                 total_count = rss.getInt(1);
+                System.out.println(total_count);
                 table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
                 rss.close();
             }
