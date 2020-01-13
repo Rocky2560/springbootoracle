@@ -690,11 +690,11 @@ public class AcceptRequestController {
                 rss.close();
             }
 
-//            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
-////            if (offset_value >= total_count) {
-//                status = "done";
-////                conn.close();
-//            } else {
+            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
+//            if (offset_value >= total_count) {
+                status = "done";
+//                conn.close();
+            } else {
 //                status = "running";
 //                result_offset = offset_value + limit;
 //                if (limit >= total_count) {
@@ -726,22 +726,13 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-//                if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
-//                if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
-            if (offset_value >= total_count) {
+                if (limit != sent_count){
+                    result_offset = sent_count;
                     status = "done";
-//                conn.close();
-                } else {
+                }
+                else if (limit == sent_count){
                     status = "running";
-                    result_offset = offset_value + limit;
-                    if (limit >= total_count) {
-                        limit = total_count;
-                    }
-
-                    if (limit != sent_count){
-                        result_offset = sent_count;
-                        status = "done";
-                    }
+                }
 
 //                System.out.println(sent_count);
                 jo.put("count", sent_count);
