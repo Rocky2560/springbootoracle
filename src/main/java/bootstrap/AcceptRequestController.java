@@ -688,7 +688,6 @@ public class AcceptRequestController {
                 ResultSet rss = null;
                 rss = stmt.executeQuery(crow_query);
                 rss.next();
-                System.out.println(rss.next());
                 total_count = rss.getInt(1);
                 System.out.println(total_count);
                 table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
