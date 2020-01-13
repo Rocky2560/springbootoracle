@@ -666,7 +666,7 @@ public class AcceptRequestController {
     }
 
     private JSONObject fetchData(Connection conn) {
-        String crow_query = queries.fetchBillInfoCount(start_date,end_date,lpcardno, limit, offset_value);
+        String crow_query = queries.fetchBillInfoCount(start_date,end_date,lpcardno);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);

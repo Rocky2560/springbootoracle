@@ -17,7 +17,7 @@ public class Queries {
     }
 
 
-    public String fetchBillInfoCount(String start_date, String end_date, String lpcardno,int  limit, int offset_value){
+    public String fetchBillInfoCount(String start_date, String end_date, String lpcardno){
         return "select count(count(billno)) from mmpl.V_EKB_CUST_SALE where billdate >= '"+ start_date +"' and billdate < '"+ end_date +"' and lpcardno IN "+lpcardno+"";
     }
 
