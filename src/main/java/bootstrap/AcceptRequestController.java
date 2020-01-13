@@ -673,18 +673,16 @@ public class AcceptRequestController {
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
 //        System.out.println("fetch query = " + fetch_bill_info);
-
         int check_offset = 0;
-
-
+        int total_count =0;
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
         String status = "";
         try {
             Statement stmt = conn.createStatement();
-            if (table_info.containsKey("mmpl.V_EKB_CUST_SALE")) {
-//                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
-            } else {
+//            if (table_info.containsKey("mmpl.V_EKB_CUST_SALE")) {
+////                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
+//            } else {
                 ResultSet rss = null;
                 rss = stmt.executeQuery(crow_query);
                 rss.next();
@@ -693,8 +691,7 @@ public class AcceptRequestController {
                 table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
                 rss.close();
                 conn.close();
-            }
-
+//            }
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
 //                status = "done";
