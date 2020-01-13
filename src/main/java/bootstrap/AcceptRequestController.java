@@ -726,7 +726,7 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-                if (Integer.parseInt(env.getProperty("offset_value")) >= total_count){
+                if ( offset_value >= total_count){
                     result_offset = sent_count;
                     status = "done";
                 }
