@@ -726,7 +726,7 @@ public class AcceptRequestController {
                     sent_count++;
                 }
 
-                if (limit != sent_count){
+                if (limit != sent_count || limit == total_count){
                     result_offset = sent_count;
                     status = "done";
                 }
