@@ -738,6 +738,11 @@ public class AcceptRequestController {
                         limit = total_count;
                     }
 
+                    if (limit != sent_count){
+                        result_offset = sent_count;
+                        status = "done";
+                    }
+
 //                System.out.println(sent_count);
                 jo.put("count", sent_count);
                 jo.put("columns", ja);
