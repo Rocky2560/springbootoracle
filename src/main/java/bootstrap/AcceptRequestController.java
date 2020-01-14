@@ -204,7 +204,7 @@ public class AcceptRequestController {
             log.error("fetch_sale: " + e);
 //            log.error("enc_date_table: ", e);
         }
-        System.out.println(jo);
+//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
 //        return jo;
     }
