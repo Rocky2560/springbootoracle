@@ -214,7 +214,7 @@ public class AcceptRequestController {
         JSONArray main_arr = new JSONArray();
         String fetch_query = queries.fetchSale(start_date, end_date, site_code);
         Map<String, Object> main_map = new TreeMap<>();
-        Set<String> final_site_code = new HashSet<>();
+        Set<String> final_site_code = new TreeSet<>();
         JSONArray ja = new JSONArray();
 //        Map<String,Object> site_map = new HashMap<>();
         int off_count = 0;
