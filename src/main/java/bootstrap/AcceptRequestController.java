@@ -1,10 +1,8 @@
 package bootstrap;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import encryption.AES;
 import misc.Queries;
 import misc.Status;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,9 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import requestdata.*;
 
-import javax.swing.plaf.nimbus.State;
-import javax.transaction.TransactionRequiredException;
-import javax.xml.transform.Result;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -194,6 +189,7 @@ public class AcceptRequestController {
 //        System.out.println(site_code);
 //        System.out.println("123123123");
 
+//        JSONArray jo = new JSONArray();
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
