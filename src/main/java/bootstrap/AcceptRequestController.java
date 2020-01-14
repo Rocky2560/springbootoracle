@@ -241,7 +241,7 @@ public class AcceptRequestController {
                 ja.put(jo2);
                 off_count++;
             }
-            System.out.println(final_site_code);
+//            System.out.println(final_site_code);
             main_map.put("site_code", final_site_code);
             main_map.put("result", ja);
             main_arr.put(main_map);
@@ -658,7 +658,7 @@ public class AcceptRequestController {
             rss = stmt.executeQuery(crow_query);
             rss.next();
             total_count = rss.getInt(1);
-            System.out.println(total_count);
+//            System.out.println(total_count);
             table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
             rss.close();
 //            }
