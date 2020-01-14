@@ -66,7 +66,7 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("Validate: " + e);
+            log.error("Validate: " + e.getMessage());
         }
         return jo;
     }
@@ -153,14 +153,15 @@ public class AcceptRequestController {
             e.printStackTrace();
             log.error("enc_date_table: " + e);
         }
-
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"), true));
-            bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
-            bf.flush();
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (env.getProperty("debug").equals("false")) {
+            try {
+                BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_count"), true));
+                bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                bf.flush();
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 //        System.out.println(ja);
@@ -191,6 +192,7 @@ public class AcceptRequestController {
 
 //        JSONArray jo = new JSONArray();
         JSONArray jo = new JSONArray();
+        Map<String, Object> map = new HashMap<>();
 //        String jo = "";
         try {
             if (conn != null) {
@@ -200,8 +202,10 @@ public class AcceptRequestController {
                 jo = fetchSale(conn);
             }
         } catch (Exception e) {
+            map.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
+            jo.put(map);
             e.printStackTrace();
-            log.error("fetch_sale: " + e);
+            log.error("fetch_sale: " + e.getMessage());
 //            log.error("enc_date_table: ", e);
         }
 //        System.out.println(jo);
@@ -245,13 +249,15 @@ public class AcceptRequestController {
 //            site_map.put("site_exist", final_site_code);
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("fetch_sale: " + e);
+            log.error("fetch_sale: " + e.getMessage());
         }
         try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_site_count"),true));
-            bf.write("{\"start_date\": "+start_date+",\"end_date\": "+end_date+",\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-            bf.flush();
-            bf.close();
+            if (env.getProperty("debug").equals("true")) {
+                BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sale_site_count"), true));
+                bf.write("{\"start_date\": " + start_date + ",\"end_date\": " + end_date + ",\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                bf.flush();
+                bf.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -279,8 +285,8 @@ public class AcceptRequestController {
         this.end_date = fetchByDate.getEnd_date();
         this.date_column = fetchByDate.getDate_column();
 
-
         JSONArray jo = new JSONArray();
+        Map<String, Object> map = new TreeMap<>();
 //        String jo = "";
         try {
             if (conn != null) {
@@ -290,15 +296,17 @@ public class AcceptRequestController {
                 jo = fetchByDate(conn);
             }
         } catch (Exception e) {
+            map.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
+            jo.put(map);
             e.printStackTrace();
-            log.error("enc_date_table: " + e);
+            log.error("enc_date_table: " + e.getMessage());
         }
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
         return AES.encrypt(jo.toString(), key);
     }
 
-    @RequestMapping(value = "/sale_history", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/sale_h", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String salesHistory(@RequestBody FetchByDate fetchByDate) {
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
@@ -309,7 +317,7 @@ public class AcceptRequestController {
         this.limit = fetchByDate.getLimit();
 
 //        System.out.println(lpcardno);
-
+        Map<String, Object> map = new HashMap<>();
         JSONArray jo = new JSONArray();
 //        String jo = "";
         try {
@@ -320,8 +328,10 @@ public class AcceptRequestController {
                 jo = fetchSalesHistory(conn);
             }
         } catch (Exception e) {
+            map.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
+            jo.put(map);
             e.printStackTrace();
-            log.error("enc_date_table: " + e);
+            log.error("sale_h: " + e.getMessage());
         }
 //        System.out.println(jo);
 
@@ -330,7 +340,7 @@ public class AcceptRequestController {
 
     private JSONArray fetchSalesHistory(Connection conn) {
 //        log.info("INFO Fetching table: " + table_name + " " + "start_date:" + start_date + " " + "end_date:" + end_date + "\n");
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
+        String fetch_bill_info = queries.fetchBillInfo(start_date, end_date, lpcardno, limit, offset_value);
 //        System.out.println(fetch_bill_info);
         JSONArray ja = new JSONArray();
         Map<String, Object> prod_map = new TreeMap<>();
@@ -347,39 +357,20 @@ public class AcceptRequestController {
             while (rs.next()) {
                 Map<String, Object> jo2 = new TreeMap<>();
                 for (int i = 1; i <= num_col; i++) {
-//                    if (rsmd.getColumnName(i).toLowerCase().equals("items")){
-//                        items = (String) rs.getObject(i);
-//                        String [] parts = items.split(";");
-//                        for (int j = 0 ; j <parts.length; j ++){
-//                            String[] temp = parts[j].split(",");
-//                            for (int k = 0; k < temp.length; k++){
-//                                prod_map.put("prodcutname", temp[0]);
-//                                prod_map.put("icode", temp[1]);
-//                                prod_map.put("netamt", temp[2]);
-//                                prod_map.put("saleqty", temp[3]);
-//                                prod_map.put("total", temp[4]);
-//                                prod_array.put(prod_map);
-////                                System.out.println(prod_map);
-//                            }
-//                        }
-//                    }
-//                    else {
-                        jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-//                        jo2.put("items", prod_array);
-//                    }
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
                 ja.put(jo2);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("enc_date_table: " + e);
+            log.error("sales_h: " + e.getMessage());
         }
 //        System.out.println(ja);
         return ja;
     }
 
     @RequestMapping(value = "/mongo", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
-    public String test_fetch(@RequestBody FetchByDate fetchByDate){
+    public String test_fetch(@RequestBody FetchByDate fetchByDate) {
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
         this.table_name = fetchByDate.getTable_name();
@@ -404,10 +395,9 @@ public class AcceptRequestController {
         }
 //        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
-        if (!encrypt){
+        if (!encrypt) {
             return String.valueOf(jo);
-        }
-        else {
+        } else {
             return AES.encrypt(jo.toString(), key);
 
         }
@@ -465,58 +455,49 @@ public class AcceptRequestController {
                 jo = fetchTable(conn);
             }
         } catch (Exception e) {
+            jo.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
             e.printStackTrace();
-            log.error("enc_table: " + e);
+            log.error("enc_table: " + e.getMessage());
         }
         return jo;
     }
 
-
-
     private Map<String, Object> fetchTable(Connection conn) {
-        log.info("INFO Fetching table: " + table_name  + " " + "offset_value:" + offset_value + "\n");
+        log.info("INFO Fetching table: " + table_name + " " + "offset_value:" + offset_value + "\n");
         String key = env.getProperty("key");
         int off_count = 0;
         Map<String, Object> off_map = new TreeMap<>();
 //        String status = "";
         String crow_query = queries.getCountQuery(table_name);
-        String fetch_query = queries.fetchTable(table_name,offset_value);
+        String fetch_query = queries.fetchTable(table_name, offset_value);
         JSONArray ja = new JSONArray();
         int total_count = 0;
-//        try {
-//            Statement statement = conn.createStatement();
-//            ResultSet resultSet = statement.executeQuery(crow_query);
-//            resultSet.next();
-//            total_count = resultSet.getInt(1);
-////            System.out.println(total_count);
-//            if (offset_value >= total_count){
-//                off_map.put("status", "check offset");
-//            }
-//            else {
-                try {
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(fetch_query);
-                    ResultSetMetaData rsmd = null;
-                    rsmd = rs.getMetaData();
-                    int num_col = 0;
-                    num_col = rsmd.getColumnCount();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
 
-                    while (rs.next()) {
-                        Map<String, Object> jo2 = new HashMap<>();
-                        for (int i = 1; i <= num_col; i++) {
-                            jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                        }
-                        ja.put(jo2);
-                        off_count++;
-                    }
-                    off_count = off_count + offset_value;
-//                    System.out.println(off_count);
-                    off_map.put("offset_value", off_count);
-                    off_map.put("value", AES.encrypt(ja.toString(), key));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    log.error("enc_table: " + e);
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
+                ja.put(jo2);
+                off_count++;
+            }
+            off_count = off_count + offset_value;
+//                    System.out.println(off_count);
+            off_map.put("offset_value", off_count);
+            off_map.put("value", AES.encrypt(ja.toString(), key));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("enc_table: " + e.getMessage());
+        }
+        if (env.getProperty("debug").equals("false")) {
+            try {
                 if (table_name.toLowerCase().equals("mmpl.v_ekb_cust")) {
                     try {
                         BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("cust_count"), true));
@@ -526,8 +507,7 @@ public class AcceptRequestController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else if (table_name.toLowerCase().equals("mmpl.v_ekb_site")){
+                } else if (table_name.toLowerCase().equals("mmpl.v_ekb_site")) {
                     try {
                         BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("site_count"), true));
                         bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
@@ -537,13 +517,13 @@ public class AcceptRequestController {
                         e.printStackTrace();
                     }
                 }
-
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return off_map;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        return off_map;
+    }
+
 
     @RequestMapping(value = "/item", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map<String, Object> itemFetch(@RequestBody FetchItem fetchItem) {
@@ -560,23 +540,15 @@ public class AcceptRequestController {
                 jo = fetchItem(conn);
             }
         } catch (Exception e) {
+            jo.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
             e.printStackTrace();
-            log.error("Item: " + e);
+            log.error("Item: " + e.getMessage());
         }
-
-//        try {
-//            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("count_file_item"),true));
-//            bf.write("{\"count\":"+ jo.size() +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-//            bf.flush();
-//            bf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return jo;
     }
 
     private Map<String, Object> fetchItem(Connection conn) {
-        log.info("INFO Fetching table: " + table_name  + " " + "offset_value:" + offset_value + "\n");
+        log.info("INFO Fetching table: " + table_name + " " + "offset_value:" + offset_value + "\n");
         String key = env.getProperty("key");
         int off_count = 0;
         Map<String, Object> of_map = new TreeMap<>();
@@ -595,41 +567,39 @@ public class AcceptRequestController {
 //                    of_map.put("status", "check offset");
 //                }
 //                else {
-                    try {
-                        Statement stmt = conn.createStatement();
-                        ResultSet rs = stmt.executeQuery(fetch_query);
-                        ResultSetMetaData rsmd = null;
-                        rsmd = rs.getMetaData();
-                        int num_col = 0;
-                        num_col = rsmd.getColumnCount();
-
-                        while (rs.next()) {
-                            Map<String, Object> jo2 = new HashMap<>();
-                            for (int i = 1; i <= num_col; i++) {
-                                jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
-                            }
-                            ja.put(jo2);
-                            off_count++;
-                        }
-                        off_count = off_count + offset_value;
-                        of_map.put("offset_value", off_count);
-                        of_map.put("value", AES.encrypt(ja.toString(), key));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        log.error("Item: " + e);
-                    }
         try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("item_count"),true));
-            bf.write("{\"count\":"+ off_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-            bf.flush();
-            bf.close();
-        } catch (IOException e) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                }
+                ja.put(jo2);
+                off_count++;
+            }
+            off_count = off_count + offset_value;
+            of_map.put("offset_value", off_count);
+            of_map.put("value", AES.encrypt(ja.toString(), key));
+        } catch (SQLException e) {
             e.printStackTrace();
+            log.error("Item: " + e.getMessage());
         }
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
+        if (env.getProperty("debug").equals("false")) {
+            try {
+                BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("item_count"), true));
+                bf.write("{\"count\":" + off_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                bf.flush();
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return of_map;
     }
 
@@ -649,7 +619,7 @@ public class AcceptRequestController {
         this.lpcardno = fetchByDate.getLpcardno();
 
 //        Map<String, Object> jo = new HashMap<>();
-       JSONObject jo = new JSONObject();
+        JSONObject jo = new JSONObject();
         try {
             if (conn != null) {
                 jo = fetchData(conn);
@@ -659,26 +629,23 @@ public class AcceptRequestController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jo.put("status", Status.CONNECTION_EXCEPTION);
-            log.error("sales_history: " + e);
+            jo.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
+            log.error("sales_history: " + e.getMessage());
         }
-//        System.out.println(jo);
-//        return jo;
         return AES.encrypt(jo.toString(), key);
-//        return jo.toString();
     }
 
     private JSONObject fetchData(Connection conn) {
-        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" +offset_value + ";" + "limit:" + limit + "\n");
-        String crow_query = queries.fetchBillInfoCount(start_date,end_date,lpcardno);
+        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" + offset_value + ";" + "limit:" + limit + "\n");
+        String crow_query = queries.fetchBillInfoCount(start_date, end_date, lpcardno);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
-        String fetch_bill_info = queries.fetchBillInfo(start_date,end_date,lpcardno, limit, offset_value);
+        String fetch_bill_info = queries.fetchBillInfo(start_date, end_date, lpcardno, limit, offset_value);
 //        System.out.println("fetch query = " + fetch_bill_info);
         int check_offset = 0;
         int sent_count = 0;
-        int total_count =0;
+        int total_count = 0;
 //        Map<String, Object> jo = new HashMap<>();
         JSONObject jo = new JSONObject();
         String status = "";
@@ -687,13 +654,13 @@ public class AcceptRequestController {
 //            if (table_info.containsKey("mmpl.V_EKB_CUST_SALE")) {
 ////                total_count = Integer.parseInt(table_info.get("mmpl.V_EKB_CUST_SALE"));
 //            } else {
-                ResultSet rss = null;
-                rss = stmt.executeQuery(crow_query);
-                rss.next();
-                total_count = rss.getInt(1);
-                System.out.println(total_count);
-                table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
-                rss.close();
+            ResultSet rss = null;
+            rss = stmt.executeQuery(crow_query);
+            rss.next();
+            total_count = rss.getInt(1);
+            System.out.println(total_count);
+            table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
+            rss.close();
 //            }
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
@@ -706,36 +673,35 @@ public class AcceptRequestController {
 //                    limit = total_count;
 //                }
 
-                ResultSet rs = stmt.executeQuery(fetch_bill_info);
-                ResultSetMetaData rsmd = null;
-                rsmd = rs.getMetaData();
-                int num_col = 0;
-                num_col = rsmd.getColumnCount();
+            ResultSet rs = stmt.executeQuery(fetch_bill_info);
+            ResultSetMetaData rsmd = null;
+            rsmd = rs.getMetaData();
+            int num_col = 0;
+            num_col = rsmd.getColumnCount();
 
-                jo.put("table_name", "mmpl.V_EKB_CUST_SALE");
+            jo.put("table_name", "mmpl.V_EKB_CUST_SALE");
 //                ArrayList<Map<String, Object>> ja = new ArrayList<>();
-                JSONArray ja = new JSONArray();
-                while (rs.next()) {
-                    Map<String, Object> jo2 = new HashMap<>();
-                    for (int i = 1; i <= num_col; i++) {
+            JSONArray ja = new JSONArray();
+            while (rs.next()) {
+                Map<String, Object> jo2 = new HashMap<>();
+                for (int i = 1; i <= num_col; i++) {
 
 //                        Map<String, Object> m = new HashMap<>();
 //                        m.put("value", rs.getObject(i));
 //                        m.put("type", rsmd.getColumnTypeName(i));
 
 //                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-                        jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i) );
-                    }
-                    ja.put(jo2);
-                    sent_count++;
+                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                 }
+                ja.put(jo2);
+                sent_count++;
+            }
 
-                check_offset = offset_value + limit;
-            if ( check_offset >= total_count){
+            check_offset = offset_value + limit;
+            if (check_offset >= total_count) {
                 result_offset = offset_value + sent_count;
                 status = "done";
-            }
-                else {
+            } else {
                 result_offset = offset_value + sent_count;
                 status = "running";
             }
@@ -744,24 +710,26 @@ public class AcceptRequestController {
 //            System.out.println("SENT_COUNT = "+ sent_count);
 
 //                System.out.println(sent_count);
-                jo.put("count", sent_count);
-                jo.put("columns", ja);
+            jo.put("count", sent_count);
+            jo.put("columns", ja);
 
-                jo.put("offset_value", result_offset);
+            jo.put("offset_value", result_offset);
 //            }
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("sales_history: " + e);
+            log.error("sales_history: " + e.getMessage());
         }
         jo.put("status", status);
 
-        try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sales_history_count"),true));
-            bf.write("{\"start_date\": "+start_date+",\"end_date\": "+end_date+",\"offset_value:\": "+offset_value+",\"limit\": "+limit+",\"count\":"+ sent_count +",\"date\":\""+ java.time.LocalDateTime.now() +"}\n");
-            bf.flush();
-            bf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (env.getProperty("debug").equals("false")) {
+            try {
+                BufferedWriter bf = new BufferedWriter(new FileWriter(env.getProperty("sales_history_count"), true));
+                bf.write("{\"start_date\": " + start_date + ",\"end_date\": " + end_date + ",\"offset_value:\": " + offset_value + ",\"limit\": " + limit + ",\"count\":" + sent_count + ",\"date\":\"" + java.time.LocalDateTime.now() + "}\n");
+                bf.flush();
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return jo;
