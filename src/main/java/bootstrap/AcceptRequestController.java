@@ -230,14 +230,14 @@ public class AcceptRequestController {
                 for (int i = 1; i <= num_col; i++) {
                     jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
                     if (rsmd.getColumnName(i).toLowerCase().equals("admsite_code")) {
-                        final_site_code.add(rs.getObject(i).toString());
-                        System.out.println(rs.getObject(i));
+                        final_site_code.add((String) rs.getObject(i));
+//                        System.out.println(rs.getObject(i));
                     }
                 }
                 ja.put(jo2);
                 off_count++;
             }
-            System.out.println(final_site_code);
+//            System.out.println(final_site_code);
             main_map.put("site_code", final_site_code);
             main_map.put("result", ja);
             main_arr.put(main_map);
