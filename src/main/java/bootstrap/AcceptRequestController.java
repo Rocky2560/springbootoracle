@@ -177,8 +177,8 @@ public class AcceptRequestController {
     }
 
     @RequestMapping(value = "/fetch_sale", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
-//    public String aesFetchSale(@RequestBody FetchSale fetchSale) {
-    public JSONArray aesFetchSale(@RequestBody FetchSale fetchSale) {
+    public String aesFetchSale(@RequestBody FetchSale fetchSale) {
+//    public JSONArray aesFetchSale(@RequestBody FetchSale fetchSale) {
 //        log.error("CHECK ENC_DATE_TABLE");
         String key = env.getProperty("key");
         this.start_date = fetchSale.getStart_date();
@@ -204,8 +204,9 @@ public class AcceptRequestController {
             log.error("fetch_sale: " + e);
 //            log.error("enc_date_table: ", e);
         }
-//        return AES.encrypt(jo.toString(), key);
-        return jo;
+        System.out.println(jo);
+        return AES.encrypt(jo.toString(), key);
+//        return jo;
     }
 
     private JSONArray fetchSale(Connection conn) {
