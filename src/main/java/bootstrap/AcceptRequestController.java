@@ -644,9 +644,6 @@ public class AcceptRequestController {
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         String fetch_bill_info = queries.fetchBillInfo(start_date, end_date, lpcardno, limit, offset_value);
-//        System.out.println(crow_query + "..........\n");
-        System.out.println(fetch_bill_info + "..........\n");
-//        System.out.println("fetch query = " + fetch_bill_info);
         int check_offset = 0;
         int sent_count = 0;
         int total_count = 0;
