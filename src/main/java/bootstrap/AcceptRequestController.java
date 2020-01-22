@@ -644,7 +644,7 @@ public class AcceptRequestController {
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         String fetch_bill_info = queries.fetchBillInfo(start_date, end_date, lpcardno, limit, offset_value);
-        System.out.println(crow_query + "..........\n");
+//        System.out.println(crow_query + "..........\n");
         System.out.println(fetch_bill_info + "..........\n");
 //        System.out.println("fetch query = " + fetch_bill_info);
         int check_offset = 0;
@@ -702,7 +702,7 @@ public class AcceptRequestController {
             }
 
             check_offset = offset_value + limit;
-            if (check_offset >= total_count) {
+            if (check_offset >= sent_count) {
                 result_offset = offset_value + sent_count;
                 status = "done";
             } else {
