@@ -639,12 +639,13 @@ public class AcceptRequestController {
     }
 
     private JSONObject fetchData(Connection conn) {
-        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" + offset_value + ";" + "limit:" + limit + "\n");
         String crow_query = queries.fetchBillInfoCount(start_date, end_date, lpcardno);
 //        String fetch_query = queries.getFetchQuery(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchTransactionRecord(table_name, offset_value, range_count);
 //        String fetch_query = queries.fetchByDate(table_name,start_date, end_date);
         String fetch_bill_info = queries.fetchBillInfo(start_date, end_date, lpcardno, limit, offset_value);
+        System.out.println(crow_query + "..........\n");
+        System.out.println(fetch_bill_info + "..........\n");
 //        System.out.println("fetch query = " + fetch_bill_info);
         int check_offset = 0;
         int sent_count = 0;
@@ -734,6 +735,8 @@ public class AcceptRequestController {
                 e.printStackTrace();
             }
         }
+        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" + offset_value + ";" + "limit:" + limit + "\n");
+
 
         return jo;
     }
