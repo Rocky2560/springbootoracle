@@ -634,7 +634,7 @@ public class AcceptRequestController {
             jo.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
             log.error("sales_history: " + e.getMessage());
         }
-        System.out.println(jo);
+//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
     }
 
