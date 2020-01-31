@@ -635,7 +635,7 @@ public class AcceptRequestController {
             jo.put("error_msg", Status.CONNECTION_EXCEPTION_MSG);
             log.error("sales_history: " + e.getMessage());
         }
-        System.out.println(jo);
+//        System.out.println(jo);
         return AES.encrypt(jo.toString(), key);
     }
 
@@ -663,6 +663,7 @@ public class AcceptRequestController {
 //            System.out.println(total_count);
             table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
             rss.close();
+            System.out.println(total_count);
 //            }
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
