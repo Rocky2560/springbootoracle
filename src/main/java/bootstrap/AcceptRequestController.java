@@ -674,7 +674,7 @@ public class AcceptRequestController {
 //                    limit = total_count;
 //                }
 
-            System.out.println(fetch_bill_info);
+//            System.out.println(fetch_bill_info);
             ResultSet rs = stmt.executeQuery(fetch_bill_info);
             ResultSetMetaData rsmd = null;
             rsmd = rs.getMetaData();
