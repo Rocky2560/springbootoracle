@@ -663,7 +663,7 @@ public class AcceptRequestController {
 //            System.out.println(total_count);
             table_info.put("mmpl.V_EKB_CUST_SALE", String.valueOf(total_count));
             rss.close();
-            System.out.println(total_count);
+//            System.out.println(total_count);
 //            }
 //            if (offset_value >= Integer.parseInt(env.getProperty("offset_value"))) {
 //            if (offset_value >= total_count) {
@@ -704,7 +704,7 @@ public class AcceptRequestController {
                         while ((ch = r.read())!=-1) {
                             buffer.append((char) ch);
                         }
-                        System.out.println(buffer);
+//                        System.out.println(buffer);
                         jo2.put(rsmd.getColumnName(i).toLowerCase(), buffer);
                     }
                     else {
