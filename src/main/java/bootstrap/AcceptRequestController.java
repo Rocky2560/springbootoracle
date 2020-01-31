@@ -15,6 +15,7 @@ import requestdata.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.sql.*;
 import java.util.*;
 
@@ -693,7 +694,21 @@ public class AcceptRequestController {
 //                        m.put("type", rsmd.getColumnTypeName(i));
 
 //                        jo2.put(rsmd.getColumnName(i).toLowerCase(), m);
-                    jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+
+                    if( rsmd.getColumnName(i).toLowerCase().equals("items")) {
+                        Clob clob = rs.getClob(rsmd.getColumnName(i));
+                        Reader r = clob.getCharacterStream();
+                        StringBuilder buffer = new StringBuilder();
+                        int ch;
+                        while ((ch = r.read())!=-1) {
+                            buffer.append((char) ch);
+                        }
+                        System.out.println(buffer);
+                        jo2.put(rsmd.getColumnName(i).toLowerCase(), buffer);
+                    }
+                    else {
+                        jo2.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
+                    }
                 }
                 ja.put(jo2);
                 sent_count++;
@@ -717,7 +732,7 @@ public class AcceptRequestController {
 
             jo.put("offset_value", result_offset);
 //            }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
             log.error("sales_history: " + e.getMessage());
         }
