@@ -749,7 +749,7 @@ public class AcceptRequestController {
                 e.printStackTrace();
             }
         }
-        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + "start_date:" + start_date + ";" + "end_date:" + end_date + "offset_value:" + offset_value + ";" + "limit:" + limit + "\n");
+        log.info("INFO Fetching table: mmpl.V_EKB_CUST_SALE;" + " start_date:" + start_date + ";" + " end_date:" + end_date + " offset_value:" + offset_value + ";" + " limit:" + limit +  ";" + " lpcardno(" +  lpcardno + ")" + "\n");
 
 
         return jo;
