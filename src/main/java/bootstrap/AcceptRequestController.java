@@ -304,7 +304,7 @@ public class AcceptRequestController {
             e.printStackTrace();
             log.error("enc_date_table: " + e.getMessage());
         }
-//        System.out.println(jo);
+        System.out.println(jo);
 //        System.out.println(AES.encrypt(jo.toString(), key));
         return AES.encrypt(jo.toString(), key);
     }
