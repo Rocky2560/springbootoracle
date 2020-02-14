@@ -46,7 +46,7 @@ public class Queries {
     }
 
     public String fetchByDate (String table_name, String start_date, String end_date, String date_column){
-        return "select * from " + table_name +" where " + date_column + " > '" + start_date + "' and " + date_column + " < '" + end_date + "'";
+        return "select * from " + table_name +" where " + date_column + " >= '" + start_date + "' and " + date_column + " < '" + end_date + "'";
     }
 
     public String fetchForMongo (String table_name, String start_date, String end_date, String date_column, int limit){
