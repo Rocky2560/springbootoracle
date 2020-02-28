@@ -78,18 +78,20 @@ public class AcceptRequestController {
 
     private Map<String, Object> fetch_count(Connection conn) {
         Map<String, Object> jo = new TreeMap<>();
+        String fetch_query = "";
+
         if (table_key == 1){
             table_name = env.getProperty("1");
+            fetch_query = queries.QACountQuery(table_name,start_date,end_date);
         } else if (table_key == 2){
             table_name = env.getProperty("2");
+            fetch_query = queries.QACountQuery(table_name,start_date,end_date);
         } else if (table_key == 3){
             table_name = env.getProperty("3");
-        } else if (table_key == 4){
-            table_name = env.getProperty("4");
-        } else if (table_key == 5){
-            table_name = env.getProperty("5");
+            fetch_query = queries.QACountQuerySite(table_name);
+        } else {
+            jo.put("Wrong DB KEY", null);
         }
-        String fetch_query = queries.QACountQuery(table_name,start_date,end_date);
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(fetch_query);
