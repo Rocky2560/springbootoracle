@@ -90,7 +90,7 @@ public class AcceptRequestController {
             table_name = env.getProperty("3");
             fetch_query = queries.QACountQuerySite(table_name);
         } else {
-            jo.put("Status", Status.DB_MAP_NOT_FOUND);
+            jo.put("Status", Status.DB_MAP_NOT_FOUND_MSG);
         }
         try {
             Statement stmt = conn.createStatement();
