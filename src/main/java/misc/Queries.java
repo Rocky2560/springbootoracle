@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Queries {
     public String QACountQuery(String table_name, String start_date, String end_date){
-        return "select count(*) from " + table_name + " where billdate >= "+ start_date +" and billdate <" + end_date+ "";
+        return "select count(*) from " + table_name + " where billdate >= '"+ start_date +"' and billdate < '" + end_date+ "'";
     }
     public String QACountQuerySite(String table_name){
         return "select count(*) from " + table_name +"";
