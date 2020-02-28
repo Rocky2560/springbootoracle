@@ -3,6 +3,16 @@ package requestdata;
 import java.util.ArrayList;
 
 public class FetchByDate {
+    int table_key;
+
+    public int getTable_key() {
+        return table_key;
+    }
+
+    public void setTable_key(int table_key) {
+        this.table_key = table_key;
+    }
+
     String start_date;
     String end_date;
     String table_name;

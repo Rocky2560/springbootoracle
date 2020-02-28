@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 public class Queries {
+    public String QACountQuery(String table_name, String start_date, String end_date){
+        return "select count(*) from " + table_name + " where start_date = "+ start_date +" and end_date =" + end_date+ "";
+    }
 
 
     public String getCountQuery(String table_name){

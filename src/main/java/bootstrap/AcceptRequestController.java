@@ -53,6 +53,58 @@ public class AcceptRequestController {
     int offset_value = -1;
     int range_count = 1000;
     private int total_count = 0;
+    private int table_key = 0;
+
+    @RequestMapping(value = "/get_count", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
+    public ArrayList<Map<String, Object>> validate(@RequestBody FetchByDate fetchByDate) {
+        this.table_key = fetchByDate.getTable_key();
+        this.start_date = fetchByDate.getStart_date();
+        this.end_date = fetchByDate.getEnd_date();
+        ArrayList<Map<String, Object>> jo = new ArrayList<Map<String, Object>>();
+        try {
+            if (conn != null) {
+                jo.add(fetch_count(conn));
+            } else {
+                conn = DriverManager.getConnection(Objects.requireNonNull(env.getProperty("db_url")), env.getProperty("db_usr"), env.getProperty("db_password"));
+                jo.add(fetch_count(conn));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+//            log.error("Validate: " + e.getMessage());
+        }
+        System.out.println(jo);
+        return jo;
+    }
+
+    private Map<String, Object> fetch_count(Connection conn) {
+        Map<String, Object> jo = new TreeMap<>();
+        if (table_key == 1){
+            table_name = env.getProperty("1");
+        } else if (table_key == 2){
+            table_name = env.getProperty("2");
+        } else if (table_key == 3){
+            table_name = env.getProperty("3");
+        } else if (table_key == 4){
+            table_name = env.getProperty("4");
+        } else if (table_key == 5){
+            table_name = env.getProperty("5");
+        }
+        String fetch_query = queries.QACountQuery(table_name,start_date,end_date);
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(fetch_query);
+            while (rs.next()) {
+                if (rs.getObject(1) != null) {
+                    jo.put("Count", rs.getObject(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+//            log.error("Validate: " + e);
+        }
+        return jo;
+    }
+
 
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
