@@ -72,7 +72,7 @@ public class AcceptRequestController {
             e.printStackTrace();
 //            log.error("Validate: " + e.getMessage());
         }
-        System.out.println(jo);
+//        System.out.println(jo);
         return jo;
     }
 
