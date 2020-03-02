@@ -514,7 +514,7 @@ public class AcceptRequestController {
     /**
      *
      * @param requestData Gets table_name, limit and last offset.
-     * @return Records from a table such that, that table does not have date column and records are fetched on the basis of last offset.
+     * @return Records from a table such that, the table does not have date column and records are fetched on the basis of last offset.
      */
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map aesEncTable(@RequestBody RequestData requestData) {
@@ -683,7 +683,7 @@ public class AcceptRequestController {
     /**
      *
      * @param fetchByDate Requests table_name, start_data, end_date, lpcardno, offset_value and limit from user.
-     * @return Sales history of Bigmart users.
+     * @return Counts total records for lpcardno's and starts to fetch sales history of Bigmart users and returns last fetch offset. After all records are fetched for those lpcardno, status done is sent.
      */
     @RequestMapping(value = "/sales_history", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
 //    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
