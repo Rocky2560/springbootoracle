@@ -19,10 +19,10 @@ import java.io.Reader;
 import java.sql.*;
 import java.util.*;
 
-
 @RestController
 @PropertySource("file:/etc/bigmart_data_fetch/dbconfig.properties")
 @PropertySource("file:/etc/bigmart_data_fetch/application.properties")
+
 public class AcceptRequestController {
 
     @Autowired
@@ -55,6 +55,11 @@ public class AcceptRequestController {
     private int total_count = 0;
     private int table_key = 0;
 
+    /**
+     *
+     * @param fetchByDate Requests table_key, start_data and end_date from user.
+     * @return Count of table specified according to key and date.
+     */
     @RequestMapping(value = "/get_count", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList<Map<String, Object>> validate(@RequestBody FetchByDate fetchByDate) {
         this.table_key = fetchByDate.getTable_key();
@@ -107,7 +112,11 @@ public class AcceptRequestController {
         return jo;
     }
 
-
+    /**
+     *
+     * @param customerValidation Requests mobile number user
+     * @return Lpcardno of the existing user, only returns first user incase multiple users are registered with the same mobile number.
+     */
     @RequestMapping(value = "/validate", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public ArrayList validate(@RequestBody CustomerValidation customerValidation) {
         this.mobile = customerValidation.getMobile_no();
@@ -234,6 +243,7 @@ public class AcceptRequestController {
         return ja;
     }
 
+
     @RequestMapping(value = "/fetch_sale", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesFetchSale(@RequestBody FetchSale fetchSale) {
 //    public JSONArray aesFetchSale(@RequestBody FetchSale fetchSale) {
@@ -333,6 +343,11 @@ public class AcceptRequestController {
         return main_arr;
     }
 
+    /**
+     *
+     * @param fetchByDate Gets table_name, start_date and end_date from user.
+     * @return Records from a table specified based on certain date limit.
+     */
     @RequestMapping(value = "/enc_date_table", produces = "text/plain", consumes = "application/json", method = RequestMethod.POST)
     public String aesEncDateTable(@RequestBody FetchByDate fetchByDate) {
 //        log.error("CHECK ENC_DATE_TABLE");
@@ -496,6 +511,11 @@ public class AcceptRequestController {
         return ja;
     }
 
+    /**
+     *
+     * @param requestData Gets table_name, limit and last offset.
+     * @return Records from a table such that, that table does not have date column and records are fetched on the basis of last offset.
+     */
     @RequestMapping(value = "/enc_table", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
     public Map aesEncTable(@RequestBody RequestData requestData) {
         log.info("INFO ENC_TABLE");
@@ -660,6 +680,11 @@ public class AcceptRequestController {
         return of_map;
     }
 
+    /**
+     *
+     * @param fetchByDate Requests table_name, start_data, end_date, lpcardno, offset_value and limit from user.
+     * @return Sales history of Bigmart users.
+     */
     @RequestMapping(value = "/sales_history", produces = "application/json", consumes = "application/json", method = RequestMethod.POST)
 //    public Map<String, Object> db_fetch(@RequestBody FetchByDate fetchByDate) {
     public String db_fetch(@RequestBody FetchByDate fetchByDate) {

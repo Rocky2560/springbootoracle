@@ -17,9 +17,11 @@ public class FetchByDate {
     String end_date;
     String table_name;
     String date_column;
+    String lpcardno;
     int limit;
     boolean encrypt;
     int offset_value;
+
 
     public int getOffset_value() {
         return offset_value;
@@ -28,8 +30,6 @@ public class FetchByDate {
     public void setOffset_value(int offset_value) {
         this.offset_value = offset_value;
     }
-
-    String lpcardno;
 
     public String getLpcardno() {
         return lpcardno;
