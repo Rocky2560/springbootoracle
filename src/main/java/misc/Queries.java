@@ -65,7 +65,7 @@ public class Queries {
     }
 
     public String fetchItemTable (int offset_value){
-        return "select LEV1GRPNAME, LEV2GRPNAME, GRPNAME, CNAME1, CNAME2, CNAME3, CNAME4, CNAME5, CNAME6, ICODE from mmpl.V_ITEM offset " + offset_value + " rows";
+        return "select LEV1GRPNAME, LEV2GRPNAME, GRPNAME, CNAME1, CNAME2, CNAME3, CNAME4, CNAME5, CNAME6, ICODE, EXT from mmpl.V_ITEM offset " + offset_value + " rows";
     }
 
     public String fetchTable (String table_name, int offset_value){
